@@ -10,7 +10,6 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" ng-click="goVend()">Bodega Emelina VENDEDOR</a>
         </div>
         <!-- Top Menu Items -->
         <div ng-controller="UsersController">
@@ -33,29 +32,28 @@
         <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav side-nav">
-                <li class="active" ng-click="cambiar_div('inicio')">
+                <li class="active">
                     <a><i class="fa fa-fw fa-dashboard" ></i> Inicio</a>
                 </li>
                 <li>
                     <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-bar-chart-o"></i> Gráficas <i class="fa fa-fw fa-caret-down"></i></a>
                     <ul id="demo" class="collapse">
-                        <li ng-click="cambiar_div('graficas_ingreso')">
-                            <a>Ingresos</a>
+                        <li >
+                            <a>Estudiantes por Universidad</a>
                         </li>
-                        <li ng-click="cambiar_div('graficas_producto')">
-                            <a>Productos disponibles</a>
+                        <li >
+                            <a>Meow</a>
                         </li>
                     </ul>
                 </li>
-                <li ng-click="cambiar_div('productos_admin')">
-                    <a><i class="fa fa-fw fa-table"></i> Manejo de productos </a>
-                    
+                <li >
+                    <a><i class="fa fa-fw fa-table"></i> Manejo de Universidades </a>
                 </li>
-                <li ng-click="cambiar_div('productos_riesgo')">
-                    <a><i class="fa fa-fw fa-edit"></i> Productos en Riesgo</a>
+                <li >
+                    <a><i class="fa fa-fw fa-edit"></i> Manejo de maestros</a>
                 </li>
-                <li ng-click="cambiar_div('vendedor')">
-                    <a><i class="fa fa-fw fa-wrench"></i>Manejo de usuarios</a>
+                <li >
+                    <a><i class="fa fa-fw fa-wrench"></i>Manejo de estudiantes</a>
                 </li>
             </ul>
         </div>
