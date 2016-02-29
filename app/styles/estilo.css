@@ -11,6 +11,9 @@
 @import url(https://fonts.googleapis.com/css?family=Candal);
 /****** LOGIN MODAL ******/
 
+.panel-primary{
+  cursor: pointer;
+}
 
 .loginmodal-container {
   margin-top: 6%;
