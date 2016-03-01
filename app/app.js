@@ -18,16 +18,16 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
             templateUrl: '/views/estudiante.html',
             controller: 'EstudianteController'
         })
-        .state('admin', {
-            url: '/admin',
-            params: {content:undefined},
-            templateUrl: '/views/admin.html',
-            controller: 'AdminController'
-        })
         .state('docente', {
             url: '/docente',
             params: {content:undefined},
             templateUrl: '/views/docente.html',
             controller: 'DocenteController'
+        })
+        .state('signUp', {
+            url: '/signUp',
+            params: {content:undefined},
+            templateUrl: '/views/signUp.html',
+            controller: 'UsersController'
         });   
 }])

@@ -1,41 +1,49 @@
 <div class=" container loginmodal"  ng-controller="UsersController" >
-    <div class="row">
-        <div class="col-md-2"></div>
+
+
+
+  <div class="row">
+      <div class="col-md-2"></div>
         <div class="loginmodal-container center-block col-md-8  col-xs-12">
-        	<div ng-cloak ng-show="selectButton()">
-        		<button class="button-select btn btn-success" ng-click="seleccionar(1)">Docente</button>
-            	<button class="button-select btn btn-primary" ng-click="seleccionar(2)">Estudiante</button>	
-        	</div>
-           	<div ng-cloak ng-show="pressDocente()">
-           		<label>ID</label>
-           		<input type="text" placeholder="ID.." >
-       		</div>
-       		<div ng-cloak ng-show="!selectButton()">
-           		<label>Nombre</label>
-           		<input type="text" placeholder="Nombre.." >
-           		<label>Apellido</label>
-           		<input type="text" placeholder="Apellido.." >
-           		<label>Especialidad</label>
-           		<input type="text" placeholder="Especialidad.." >
-           		<label>Universidad</label>
-           		<div>
-           			<select class = "university-combobox">
-					  <option value="volvo">Opción</option>
-					</select>
-					<button class = "button-select btn btn-danger glyphicon glyphicon-plus"
-					 ng-cloak ng-show="pressDocente()"></button>
-           		</div>
-           		
-           	</div>
-           	<div ng-cloak ng-show="selectButton()">
-           		<button class="button-select btn btn-danger" ng-click="cancel_registration()">Cancelar</button>
-           	</div>          	
+      	  <div ng-cloak ng-show="selectButton()">
+      		  <button class="button-select btn btn-success" ng-click="seleccionar(1)">Docente</button>
+          	<button class="button-select btn btn-primary" ng-click="seleccionar(2)">Estudiante</button>
+      	  </div>
+         	<div ng-cloak ng-show="pressDocente()">
+         		<label>ID</label>
+         		<input ng-model = "user.id" type="text" placeholder="ID.." >
+            <label>Especialidad</label>
+         		<input ng-model = "user.especialidad"type="text" placeholder="Especialidad.." >
+     		  </div>
+     		  <div ng-cloak ng-show="!selectButton()">
+         		<label>Nombre</label>
+         		<input ng-model = "user.nombre"type="text" placeholder="Nombre.." >
+         		<label>Apellido</label>
+         		<input ng-model = "user.apellido"type="text" placeholder="Apellido.." >
 
-           	<div ng-cloak ng-show="!selectButton()">
-           		<button class="button-select btn btn-danger" ng-click= 'retroceder()'>Retroceder</button>
-           	</div>
-        </div>
-    </div>
+         		<label>Universidad</label>
+         		<div>
+         			<select ng-model = "user.universidad_cb"  class = "university-combobox">
+                <option  ng-value="volvo">volvo</option>
+                <option  ng-value="volvo2">volvo2</option>
+    					</select>
+				      <button ng-cloak ng-show = "!pressUniversidad()" ng-click= "showUniversidad()" class = "button-select btn btn-xs btn-danger glyphicon glyphicon-plus"
+				            ng-cloak ng-show="pressDocente()"></button>
+				      <button  ng-cloak ng-show = "pressUniversidad()" ng-click= "showUniversidad()" class = "button-select btn btn-xs btn-danger glyphicon glyphicon-minus"
+      				            ng-cloak ng-show="pressDocente()"></button>
+         		</div>
+         	</div>
+
+          <input ng-model = "user.universidad_txt"ng-cloak ng-show="pressUniversidad()" type="text" placeholder="Universidad.." >
+         	<div ng-cloak ng-show="selectButton()">
+         		<button class="button-select btn btn-danger" ng-click="cancel_registration()">Cancelar</button>
+         	</div>
+
+         	<div ng-cloak ng-show="!selectButton()">
+         		<button class="button-select btn btn-danger" ng-click="register()">Registrar</button>
+         		<button class="button-select btn btn-danger" ng-click= 'retroceder()'>Retroceder</button>
+         	</div>
+      </div>
+  </div>
+
 </div>
-
-
