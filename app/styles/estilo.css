@@ -25,7 +25,7 @@
   max-width: 700px;
   width: 100% !important;
   background-color: white;
-  
+
   border-radius: 6px;
   box-shadow: 0px 5px 2px rgba(0, 0, 0, 0.3);
   overflow: hidden;
@@ -90,7 +90,7 @@
   /* border: 1px solid #3079ed; */
   border: 0px;
   color: #fff;
-  text-shadow: 0 1px rgba(0,0,0,0.1); 
+  text-shadow: 0 1px rgba(0,0,0,0.1);
   background-color: #4d90fe;
   padding: 17px 0px;
   font-family: roboto;
@@ -114,7 +114,7 @@
   display: inline-block;
   opacity: 0.6;
   transition: opacity ease 0.5s;
-} 
+}
 
 .login-help{
   font-size: 12px;
@@ -381,7 +381,7 @@ ul.alert-dropdown {
 	border-top-left-radius:0px;
 }
 .cajas{
- 
+
   width: 150px !important;
   background-color: white;
 }
@@ -420,16 +420,16 @@ ul.alert-dropdown {
 
 }
 .titulo{
-  font: oblique bold 150% cursive; 
+  font: oblique bold 150% cursive;
 }
 .texto{
-  font: oblique bold 110% cursive; 
+  font: oblique bold 110% cursive;
 }
 .cajas{
     height: 30px;
     width: 200px;
     background: white;
-    
+
 }
 .color_panel{
     background-color: #DED9D9;
@@ -442,8 +442,8 @@ ul.alert-dropdown {
 }
 .div_degraficas{
   min-width: 310px;
-  max-width: 800px; 
-  height: 400px; 
+  max-width: 800px;
+  height: 400px;
   margin: 0 auto;
 }
 
@@ -500,4 +500,12 @@ td{
 
 .university-combobos{
   padding-top: 8%;
+}
+#signUp_email{
+  margin-left: 2%;
+  width: 48%;
+}
+#signUp_email_label{
+  position: relative;
+  float: left;
 }

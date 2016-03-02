@@ -87,8 +87,18 @@ angular.module('AngularScaffold.Controllers')
 
       }
       $scope.register = function() {
-        UserService.Register($scope.user).then(function(response){
-            
+        UserService.GetControl().then(function(response){
+            console.log(response);//ultimo~~~~~~
+            var params = {
+              user : $scope.user,
+              control_id : response.data
+            }
+            UserService.Register(params).then(function(response){
+                console.log(response);
+            }).catch(function(err){
+              alert('Error agregando usuario')
+            });
+
         }).catch(function(err){
           alert('Error agregando usuario')
         });

@@ -18,8 +18,15 @@
      		  <div ng-cloak ng-show="!selectButton()">
          		<label>Nombre</label>
          		<input ng-model = "user.nombre"type="text" placeholder="Nombre.." >
-         		<label>Apellido</label>
+            <label>Apellido</label>
          		<input ng-model = "user.apellido"type="text" placeholder="Apellido.." >
+            <label>Email</label>
+            <div class = "row">
+          		<input id ="signUp_email" class="col-md-6 col-xs-6" ng-model = "user.email"type="text" placeholder="Correo..." >
+              <label id ="signUp_email_label" class="col-md-6 col-xs-6">@escuela.edu</label>
+            </div>
+            <label>Contraseña</label>
+         		<input ng-model = "user.password"type="password" placeholder="Contraseña.." >
 
          		<label>Universidad</label>
          		<div>
