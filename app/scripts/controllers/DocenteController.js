@@ -1,11 +1,11 @@
 angular.module('AngularScaffold.Controllers')
 .controller('DocenteController', ['$scope','$state','DocenteService', function ($scope,$state, DocenteService) {
 
+$scope.curso = {};
+
 	$scope.cambiar_div = function(nombre){
     if (nombre==="docente_inicio") {
       $scope.template = '/views/docente_inicio.html';
-    }else if (nombre==="docente_crear_cursos") {
-      $scope.template = '/views/docente_crear_cursos.html';
     }else if (nombre==="docente_confirmacion"){
       $scope.template = '/views/docente_confirmacion.html';
     }else if (nombre==="docente_participantes") {
@@ -19,7 +19,16 @@ angular.module('AngularScaffold.Controllers')
     };
   }
 
+  $scope.crearCursos = function(){
+    DocenteService.CrearCurso($scope.curso).then(function(response){
+        console.log(response);
+    }).catch(function(err){
+      alert('Error agregando curso')
+    });
+  }
+
   $('ul li').click( function() {
     $(this).addClass('active').siblings().removeClass('active');
   });
+
 }]);

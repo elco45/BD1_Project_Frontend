@@ -5,13 +5,12 @@ angular.module('AngularScaffold.Services').factory('UserService', ['$http',
 		var baseUrl = 'http://localhost:8000/';
 		return {
 			Register: function(payload){
-						console.log(payload)
 	          return $http.post(baseUrl + "v1/register", payload);
-      },
+      		},
 			GetControl: function(){
 	          return $http.get(baseUrl + "v1/getControl");
-      },
-      GetUsers:function(){
+     		},
+      		GetUsers:function(){
 				return $http.get(baseUrl + "v1/users");
 			},
 			DelUsers: function(username,w){

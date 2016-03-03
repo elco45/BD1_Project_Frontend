@@ -14,6 +14,9 @@
         <!-- Top Menu Items -->
         <div ng-controller="UsersController">
         <ul class="nav navbar-right top-nav">
+            <li data-toggle="modal" data-target="#PopCrearCursos">
+                <a>Crear Cursos</a>
+            </li>
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{$sessionStorage.currentUser.username}} <b class="caret"></b></a>
                 <ul class="dropdown-menu">
@@ -35,10 +38,6 @@
                 <li class="active" ng-click="cambiar_div('docente_inicio')">
                     <a><i class="fa fa-fw fa-dashboard" ></i>Inicio</a>
                 </li>
-                <li ng-click="cambiar_div('docente_crear_cursos')">
-                    <a><i class="fa fa-fw fa-edit"></i>Crear Cursos</a>
-                </li>
-                <!--hide-->
                 <li ng-click="cambiar_div('docente_confirmacion')">
                     <a><i class="fa fa-fw fa-4table">Confirmación</i></a>
                 </li>
@@ -57,6 +56,35 @@
             </ul>
         </div>
     </nav>
+
+    <div class="modal" id="PopCrearCursos" role="dialog">
+            <div class="modal-dialog">
+            
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div id="CursosContainerCreate" class="modal-body row">
+                    <h4 >Crear Curso</h4>
+                    <div class ="row">
+                        <label class="col-md-4">Nombre</label>
+                        <input class="col-md-6" ng-model = "curso.nombre"type="text" placeholder="Nombre del Curso.." >
+                    </div>
+                    <div class = "row">
+                        <label class="col-md-4">Trimestre</label>
+                        <input class="col-md-6" ng-model = "curso.trimestre"type="text" placeholder="Trimestre..." >
+                    </div>
+                    <div class="row">
+                        <label class="col-md-4">Año</label>
+                        <input class="col-md-6" ng-model = "curso.year"type="text" placeholder="Año..." >
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="crearCursos()">Crear</button>
+                  <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                </div>
+              </div>
+              
+            </div>
+        </div>
     <div id="page-wrapper">
          <div class="container-fluid">
             <div class="top_marg" ng-include="template"></div>
