@@ -32,16 +32,19 @@
                 <option  ng-value="volvo">volvo</option>
                 <option  ng-value="volvo2">volvo2</option>
               </select>
-              <button ng-cloak ng-show = "!pressUniversidad()" ng-click= "showUniversidad()" class = "button-select btn btn-xs btn-danger glyphicon glyphicon-plus"
-                    ng-cloak ng-show="pressDocente()"></button>
-              <button  ng-cloak ng-show = "pressUniversidad()" ng-click= "showUniversidad()" class = "button-select btn btn-xs btn-danger glyphicon glyphicon-minus"
-                          ng-cloak ng-show="pressDocente()"></button>
+              <div ng-cloak ng-show = "pressDocente()">
+                <button ng-cloak ng-show = "!pressUniversidad()" ng-click= "showUniversidad()" class = "button-select btn btn-xs btn-danger glyphicon glyphicon-plus"
+                      ng-cloak ng-show="pressDocente()"></button>
+                <button  ng-cloak ng-show = "pressUniversidad()" ng-click= "showUniversidad()" class = "button-select btn btn-xs btn-danger glyphicon glyphicon-minus"
+                            ng-cloak ng-show="pressDocente()"></button>
+              </div>
             </div>
+            <input ng-model = "user.universidad_txt"ng-cloak ng-show="pressUniversidad()" type="text" placeholder="Universidad.." >
           </div>
          	
      		  
 
-          <input ng-model = "user.universidad_txt"ng-cloak ng-show="pressUniversidad()" type="text" placeholder="Universidad.." >
+          
          	<div ng-cloak ng-show="selectButton()">
          		<button class="button-select btn btn-danger" ng-click="cancel_registration()">Cancelar</button>
          	</div>

@@ -8,6 +8,7 @@ angular.module('AngularScaffold.Controllers')
       $scope.docente =false;
       $scope.estudiante = false;
       $scope.universidad = false;
+      $scope.signIn= {};
 
       $scope.logout = function(){
         authService.Logout().then(function(response){
@@ -18,15 +19,10 @@ angular.module('AngularScaffold.Controllers')
         })
       }
 
-      $scope.login = function(user){
-        authService.Login(user).then(function(response){
+      $scope.login = function(){
+        authService.Login($scope.signIn).then(function(response){
           $sessionStorage.currentUser = response.data;
-          $scope.user = {};
-          if ($sessionStorage.currentUser.scope[0]==="admin") {
-            $state.go('admin');
-          }else if($sessionStorage.currentUser.scope[0]==="vendedor"){
-            $state.go('vendedor');
-          }
+          console.log(response.data);
         }).catch(function(err){
           alert(err.data.error + " " + err.data.message);
         });

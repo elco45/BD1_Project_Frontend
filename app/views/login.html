@@ -3,11 +3,16 @@
         <div class="col-md-2"></div>
         <div class="loginmodal-container center-block col-md-8  col-xs-12">
             <form>
-                <label id="logo-letras">Usuario:</label>
-                <input type="text" placeholder="Usuario.." ng-model="user.username">
+                
+                <label id="logo-letras">Email:</label>
+                <div class="row">
+                    <input class = "col-md-6 col-xs-6" type="text" id="login_email" placeholder="Email.." ng-model="signIn.email">
+                    <label class = "col-md-6 col-xs-6" id="login_email_label">@escuela.edu</label>
+                </div>
                 <label>Contraseña:</label>
-                <input type="password" placeholder="Contraseña.." ng-model="user.password">
-                <input ng-click="signUp()" type="submit"  class="login loginmodal-submit" value="Login"  >
+                <input type="password" placeholder="Contraseña.." ng-model="signIn.password">
+                <input ng-click="login()" type="submit"  class="login loginmodal-submit" value="Login"  >
+                <a ng-click="signUp()">Registar</a>
             </form>
         </div>
     </div>

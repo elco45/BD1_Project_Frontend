@@ -509,3 +509,12 @@ td{
   position: relative;
   float: left;
 }
+
+#login_email{
+  margin-left: 2%;
+  width: 48%;
+}
+#login_email_label{
+  position: relative;
+  float: left;
+}
