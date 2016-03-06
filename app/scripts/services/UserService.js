@@ -10,11 +10,8 @@ angular.module('AngularScaffold.Services').factory('UserService', ['$http',
 			GetControl: function(){
 	          return $http.get(baseUrl + "v1/getControl");
      		},
-      		GetUsers:function(){
-				return $http.get(baseUrl + "v1/users");
-			},
-			DelUsers: function(username,w){
-				return $http.delete(baseUrl+"v1/deluser/"+username);
-			}
+      		GetDocentes: function(){
+      			return $http.get(baseUrl + "v1/docente");
+      		}
 	    };
 }]);

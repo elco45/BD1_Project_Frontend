@@ -3,12 +3,14 @@ angular.module('AngularScaffold.Controllers')
   	function (authService,UserService, $scope, $state, $rootScope, $sessionStorage) {
       $scope.user = {};
       $scope.$sessionStorage = $sessionStorage;
-      $scope.title = "Login"
+      $scope.title = "Login";
       $scope.presionado = true;
-      $scope.docente =false;
-      $scope.estudiante = false;
-      $scope.universidad = false;
+      $scope.docenteDivs =false;
+      $scope.estudianteDivs = false;
+      $scope.universidadDiv = false;
       $scope.signIn= {};
+      $scope.docentes={};
+      $scope.docente;
 
       $scope.logout = function(){
         authService.Logout().then(function(response){
@@ -39,22 +41,21 @@ angular.module('AngularScaffold.Controllers')
 
       $scope.pressDocente = function(){
 
-        return $scope.docente;
+        return $scope.docenteDivs;
       }
 
       $scope.showUniversidad = function(){
-        if($scope.universidad === true)
+        if($scope.universidadDiv === true)
           $scope.user.universidad_txt = "";
-        $scope.universidad = !$scope.universidad;
+        $scope.universidadDiv = !$scope.universidadDiv;
       }
 
       $scope.pressUniversidad = function(){
-
-        return $scope.universidad;
+        return $scope.universidadDiv;
       }
 
       $scope.pressEstudiante = function(){
-        return $scope.estudiante;
+        return $scope.estudianteDivs;
       }
 
       $scope.AddUniversidad = function(){
@@ -62,12 +63,17 @@ angular.module('AngularScaffold.Controllers')
       }
 
       $scope.seleccionar=function(tipo){
-        if (tipo==1) {
-          $scope.docente=true;
-          $scope.estudiante=false;
-        }else{
-          $scope.estudiante=true;
-          $scope.docente=false;
+        if (tipo==1) {//docente
+          $scope.docenteDivs=true;
+          $scope.estudianteDivs=false;
+          UserService.GetDocentes().then(function(response){
+            $scope.docentes=response.data;
+          }).catch(function(err){
+            alert('Error buscando docentes')
+          });
+        }else{//estudiante
+          $scope.estudianteDivs=true;
+          $scope.docenteDivs=false;
         }
         $scope.presionado=false;
       }
@@ -77,8 +83,8 @@ angular.module('AngularScaffold.Controllers')
         $scope.user.apellido = "";
         $scope.user.especialidad = "";
         $scope.user.unversidad_txt = "";
-        $scope.estudiante=false;
-        $scope.docente=false;
+        $scope.estudianteDivs=false;
+        $scope.docenteDivs=false;
         $scope.presionado=!$scope.presionado;
 
       }
@@ -102,4 +108,13 @@ angular.module('AngularScaffold.Controllers')
       $scope.cancel_registration = function(){
         $state.go('login');
       }
+
+      $scope.verifyOtros=function(mySelect){
+        if (mySelect==="Otro") {
+          $scope.universidadDiv=true;
+        }else{
+          console.log(mySelect)
+        }
+      }
+
   }]);
