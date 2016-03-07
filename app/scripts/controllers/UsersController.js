@@ -11,6 +11,8 @@ angular.module('AngularScaffold.Controllers')
       $scope.signIn= {};
       $scope.docentes={};
       $scope.docente;
+      $scope.registroCorrecto=false;
+      $scope.mySelect;
 
       $scope.logout = function(){
         authService.Logout().then(function(response){
@@ -81,29 +83,52 @@ angular.module('AngularScaffold.Controllers')
         $scope.user.id = "";
         $scope.user.nombre = "";
         $scope.user.apellido = "";
+        $scope.user.email="";
+        $scope.user.password="";
         $scope.user.especialidad = "";
         $scope.user.unversidad_txt = "";
         $scope.estudianteDivs=false;
         $scope.docenteDivs=false;
+        $scope.registroCorrecto=false;
         $scope.presionado=!$scope.presionado;
 
       }
       $scope.register = function() {
-        UserService.GetControl().then(function(response){
+        if ($scope.user.nombre==undefined) {
+          $scope.registroCorrecto=true;
+        }
+        if($scope.user.apellido==undefined){
+          $scope.registroCorrecto=true;
+        }
+        if($scope.user.email==undefined){
+          $scope.registroCorrecto=true;
+        }
+        if($scope.user.password==undefined){
+          $scope.registroCorrecto=true;
+        }
+        if($scope.mySelect==undefined){
+          $scope.registroCorrecto=true;
+        }
+        if($scope.registroCorrecto==false){
+          UserService.GetControl().then(function(response){
             console.log(response);//ultimo~~~~~~
             var params = {
               user : $scope.user,
               control_id : response.data
             }
             UserService.Register(params).then(function(response){
-                console.log(response);
+              console.log(response);
+              $scope.registroCorrecto=false;
             }).catch(function(err){
+              $scope.registroCorrecto=true;
               alert('Error agregando usuario')
             });
-
-        }).catch(function(err){
-          alert('Error agregando usuario')
-        });
+          }).catch(function(err){
+            $scope.registroCorrecto=true;
+            alert('Error agregando usuario')
+          });
+        }
+        
       }
       $scope.cancel_registration = function(){
         $state.go('login');
@@ -113,8 +138,12 @@ angular.module('AngularScaffold.Controllers')
         if (mySelect==="Otro") {
           $scope.universidadDiv=true;
         }else{
-          console.log(mySelect)
+          $scope.universidadDiv=false;
         }
+      }
+
+      $scope.verifyRegistro=function(){
+        return $scope.registroCorrecto;
       }
 
   }]);

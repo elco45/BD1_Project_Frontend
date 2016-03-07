@@ -6,9 +6,12 @@
   		  		<button class="button-select btn btn-success" ng-click="seleccionar(1)">Docente</button>
       			<button class="button-select btn btn-primary" ng-click="seleccionar(2)">Estudiante</button>
   	  		</div>
+	  		<div class="alert alert-danger" ng-cloak ng-show="verifyRegistro()">
+                <strong>ERROR!</strong> Vuelva a revisar los campos.
+            </div>
       		<div ng-cloak ng-show="!selectButton()">
         		<label>Nombre</label>
-	            <input ng-model = "user.nombre"type="text" placeholder="Nombre..." >
+	            <input ng-model = "user.nombre" type="text" placeholder="Nombre..." >
 	            <label>Apellido</label>
 	            <input ng-model = "user.apellido"type="text" placeholder="Apellido.." >
 	            <div ng-cloak ng-show="pressDocente()">
@@ -16,17 +19,22 @@
 	              <input ng-model = "user.especialidad"type="text" placeholder="Especialidad..." >
 	            </div>
 	            <label>Email</label>
-	            <div class = "row">
-	              <input id ="signUp_email" class="col-md-6 col-xs-6" ng-model = "user.email" type="text" placeholder="Correo..." >
-	              <label id ="signUp_email_label" class="col-md-6 col-xs-6">@escuela.edu</label>
+	            <div class = "row ">
+	            	<div class="col-md-8 ">
+	            		<input ng-model = "user.email" type="text" placeholder="Correo..." >
+	            	</div>
+	              	<div class="col-md-4 ">
+	              		<label >@escuela.edu</label>
+	              	</div>
+	              	
 	            </div>
 	            <label>Contraseña</label>
-	            <input ng-model = "user.password"type="password" placeholder="Contraseña..." >
+	            <input  ng-model = "user.password"type="password" placeholder="Contraseña..." >
 
 	            <label>Universidad</label><!--CAMBIO A UNIVERSIDAD!-->
 	            <div class="row">
-	              	<div class=" col-md-12">
-	                 	<select ng-model = "mySelect" class="form-control" ng-change="verifyOtros(mySelect)">
+	              	<div class=" col-md-12 ">
+	                 	<select ng-model = "mySelect" class="form-control " ng-change="verifyOtros(mySelect)">
 	                    	<option ng-value="Otro">Otro</option>
 	                    	<option ng-repeat="docente in docentes"
 						            ng-value="docente">
