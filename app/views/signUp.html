@@ -34,11 +34,11 @@
 	            <label>Universidad</label><!--CAMBIO A UNIVERSIDAD!-->
 	            <div class="row">
 	              	<div class=" col-md-12 ">
-	                 	<select ng-model = "mySelect" class="form-control " ng-change="verifyOtros(mySelect)">
+	                 	<select ng-model = "user.universidad_cb" class="form-control " ng-change="verifyOtros(user.universidad_cb)">
 	                    	<option ng-value="Otro">Otro</option>
-	                    	<option ng-repeat="docente in docentes"
-						            ng-value="docente">
-						      		{{docente.nombre}}
+	                    	<option ng-repeat="universidad in universidades"
+						            ng-value="universidad">
+						      		{{universidad.Nombre}}
 						    </option>
 	                  	</select>
 	              	</div>  

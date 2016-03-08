@@ -12,6 +12,12 @@ angular.module('AngularScaffold.Services').factory('UserService', ['$http',
      		},
       		GetDocentes: function(){
       			return $http.get(baseUrl + "v1/docente");
+      		},
+      		CreateUniversity: function(payload){
+      			return $http.post(baseUrl+"v1/createUniversity",payload);
+      		},
+      		GetUniversidades: function(){
+      			return $http.get(baseUrl+"v1/getUniversidades");
       		}
 	    };
 }]);
