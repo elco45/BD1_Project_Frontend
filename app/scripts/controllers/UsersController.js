@@ -78,6 +78,7 @@ angular.module('AngularScaffold.Controllers')
         }else{//estudiante
           $scope.estudianteDivs=true;
           $scope.docenteDivs=false;
+          $scope.getUniversidades();
         }
         $scope.presionado=false;
       }
