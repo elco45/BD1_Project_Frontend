@@ -1,7 +1,8 @@
 angular.module('AngularScaffold.Controllers')
-.controller('DocenteController', ['$scope','$state','DocenteService', function ($scope,$state, DocenteService) {
+.controller('DocenteController', ['$scope','$state','DocenteService','$sessionStorage', function ($scope,$state, DocenteService,$sessionStorage) {
 
 $scope.curso = {};
+$scope.$sessionStorage = $sessionStorage;
 
 	$scope.cambiar_div = function(nombre){
     if (nombre==="docente_inicio") {
@@ -20,11 +21,24 @@ $scope.curso = {};
   }
 
   $scope.crearCursos = function(){
-    DocenteService.CrearCurso($scope.curso).then(function(response){
+    console.log($scope.$sessionStorage)
+    var param = {
+      course: $scope.curso,
+      idTeacher: $scope.$sessionStorage.currentUser.IdUser
+    }
+    console.log(param)
+    DocenteService.CrearCurso(param).then(function(response){
         console.log(response);
+        $scope.clearCreateCurso();
     }).catch(function(err){
       alert('Error agregando curso')
     });
+  }
+
+  $scope.clearCreateCurso = function(){
+    $scope.curso.nombre = "";
+    $scope.curso.trimestre = "";
+    $scope.curso.year = "";
   }
 
   $('ul li').click( function() {
