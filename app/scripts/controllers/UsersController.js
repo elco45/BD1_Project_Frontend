@@ -14,6 +14,7 @@ angular.module('AngularScaffold.Controllers')
       $scope.registroCorrecto=false;
       $scope.mySelect;
       $scope.universidades=[];
+      $scope.universidad={};
 
       $scope.getUniversidades = function(){
         UserService.GetUniversidades().then(function(response){
@@ -43,7 +44,6 @@ angular.module('AngularScaffold.Controllers')
       }
 
       $scope.signUp =function(){
-        console.log('adasdas')
         $state.go("signUp")
       }
 
@@ -68,10 +68,6 @@ angular.module('AngularScaffold.Controllers')
 
       $scope.pressEstudiante = function(){
         return $scope.estudianteDivs;
-      }
-
-      $scope.AddUniversidad = function(){
-
       }
 
       $scope.seleccionar=function(tipo){
@@ -122,7 +118,8 @@ angular.module('AngularScaffold.Controllers')
               nombre:$scope.user.universidad_txt,
               user:$scope.user
             }
-            if ($scope.user.universidad_txt) {
+            
+            if ($scope.user.universidad_txt!=undefined) {
               UserService.CreateUniversity(paramU).then(function(response1){
 
               }).catch(function(err){
@@ -130,16 +127,34 @@ angular.module('AngularScaffold.Controllers')
                 alert('Error agregando usuario')
               });
 
-              UserService.Register(paramU).then(function(response){
+              UserService.Register(paramU).then(function(response2){
                 $scope.registroCorrecto=false;
               }).catch(function(err){
                 $scope.registroCorrecto=true;
                 alert('Error agregando usuario')
               });
             }else{
-
+              $scope.universidad.Nombre=$scope.user.universidad_cb;
+              UserService.GetUniversidad($scope.universidad).then(function(response3){
+                $scope.universidad=response3.data;
+                $scope.registroCorrecto=false;
+                var paramU2={
+                  control_id:response.data,
+                  universidad:$scope.universidad,
+                  user:$scope.user
+                }
+                UserService.RegisterWithU(paramU2).then(function(response4){1
+                  $scope.registroCorrecto=false;
+                }).catch(function(err){
+                  $scope.registroCorrecto=true;
+                  alert('Error agregando usuario')
+                });
+              }).catch(function(err){
+                $scope.registroCorrecto=true;
+                alert('Error agregando usuario')
+              });
+              
             }
-            
           }).catch(function(err){
             $scope.registroCorrecto=true;
             alert('Error agregando usuario')
@@ -155,6 +170,7 @@ angular.module('AngularScaffold.Controllers')
           $scope.universidadDiv=true;
         }else{
           $scope.universidadDiv=false;
+          $scope.user.universidad_cb=mySelect;
         }
       }
 
@@ -163,14 +179,3 @@ angular.module('AngularScaffold.Controllers')
       }
 
   }]);
-/* console.log("meoooow")
-                $scope.registroCorrecto=false;
-                console.log(paramU)
-                UserService.Register(paramU).then(function(response){
-                 
-                  $scope.registroCorrecto=false;
-                }).catch(function(err){
-                  $scope.registroCorrecto=true;
-                  alert('Error agregando usuario')
-                });
-*/
