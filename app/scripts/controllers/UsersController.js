@@ -37,7 +37,6 @@ angular.module('AngularScaffold.Controllers')
       $scope.login = function(){
         authService.Login($scope.signIn).then(function(response){
           $sessionStorage.currentUser = response.data;
-          console.log(response.data)
           if($sessionStorage.currentUser.IdUser <= 99999 && $sessionStorage.currentUser.IdUser >= 10000){
             $state.go("docente");
           }else if($sessionStorage.currentUser.IdUser >= 10000000){

@@ -2,6 +2,8 @@ angular.module('AngularScaffold.Controllers')
 .controller('DocenteController', ['$scope','$state','DocenteService','$sessionStorage', function ($scope,$state, DocenteService,$sessionStorage) {
 
 $scope.curso = {};
+$scope.displayCursos = [];
+$scope.AllCourse = [];
 $scope.$sessionStorage = $sessionStorage;
 
 	$scope.cambiar_div = function(nombre){
@@ -20,16 +22,39 @@ $scope.$sessionStorage = $sessionStorage;
     };
   }
 
+  $scope.visualizarCursos =  function(){
+    var param ={
+      id: $scope.$sessionStorage.currentUser.IdUser
+    }
+    DocenteService.GetCursos(param).then(function(response){
+      $scope.displayCursos = response.data.cursos;
+      for(var i=0;i<$scope.displayCursos.length;i++){
+        $scope.WatchCourse($scope.displayCursos[i]);
+      }
+    })//fin DocenteService.GetCursos
+  }//fin $scope
+
+  $scope.WatchCourse = function(param){
+    var params = {
+      id : param
+    }
+    DocenteService.VisualizarCourse(params).then(function(response1){
+        console.log(response1.data)
+      })//fin DocenteService.VisualizarCourse
+  }
+
   $scope.crearCursos = function(){
-    console.log($scope.$sessionStorage)
     var param = {
       course: $scope.curso,
       idTeacher: $scope.$sessionStorage.currentUser.IdUser
     }
-    console.log(param)
     DocenteService.CrearCurso(param).then(function(response){
-        console.log(response);
-        $scope.clearCreateCurso();
+        $scope.curso = response.data;
+        DocenteService.UpdateTeacherCourse($scope.curso).then(function(response){
+            $scope.clearCreateCurso();
+        }).catch(function(err){
+          alert('Error agregando curso')
+        });
     }).catch(function(err){
       alert('Error agregando curso')
     });
