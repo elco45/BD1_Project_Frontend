@@ -5,6 +5,7 @@ $scope.curso = {};
 $scope.displayCursos = [];
 $scope.AllCourse = [];
 $scope.$sessionStorage = $sessionStorage;
+$scope.NameDocente = {};
 
 	$scope.cambiar_div = function(nombre){
     if (nombre==="docente_inicio") {
@@ -39,8 +40,18 @@ $scope.$sessionStorage = $sessionStorage;
       id : param
     }
     DocenteService.VisualizarCourse(params).then(function(response1){
-        console.log(response1.data)
-      })//fin DocenteService.VisualizarCourse
+
+				$scope.AllCourse.push( response1.data)
+				var paramsDocente = {
+					idDocente : response1.data.docente
+				}
+				DocenteService.BuscarDocente(paramsDocente).then(function(response2){
+						$scope.NameDocente = response2.data.nombre
+
+				})//fin DocenteService.BuscarDocente
+
+
+    })//fin DocenteService.VisualizarCourse
   }
 
   $scope.crearCursos = function(){

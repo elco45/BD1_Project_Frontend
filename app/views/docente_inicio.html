@@ -1,13 +1,12 @@
 <div ng-controller="DocenteController" ng-init="visualizarCursos()">
-	<ul ng-repeat = "n in displayCursos | orderBy:'+'">
+	<ul ng-repeat = "n in AllCourse | orderBy:'+'">
 		<div class="panel panel-primary">
 	        <div class="panel-heading">
-	            <h3 class="panel-title">{{n}}</h3>
+	            <h3 class="panel-title">{{n.nombre}}</h3>
 	        </div>
-	        <div class="panel-body">
-	            {{n}}
+	        <div class="panel-body">Docente: 
+	            {{NameDocente}}
 	        </div>
 	    </div>
     </ul>
 </div>
-
