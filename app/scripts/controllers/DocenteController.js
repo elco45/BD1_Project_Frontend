@@ -5,11 +5,14 @@ $scope.curso = {};
 $scope.displayCursos = [];
 $scope.AllCourse = [];
 $scope.$sessionStorage = $sessionStorage;
+$scope.$sessionStorage.CurrentCurso="0";
 $scope.NameDocente = {};
+$scope.entroCurso=false;
 
 	$scope.cambiar_div = function(nombre){
     if (nombre==="docente_inicio") {
       $scope.template = '/views/docente_inicio.html';
+      
     }else if (nombre==="docente_confirmacion"){
       $scope.template = '/views/docente_confirmacion.html';
     }else if (nombre==="docente_participantes") {
@@ -21,7 +24,7 @@ $scope.NameDocente = {};
     }else if (nombre==="docente_notas") {
       $scope.template = '/views/docente_notas.html';
     };
-  }
+  } 
 
   $scope.visualizarCursos =  function(){
     var param ={
@@ -40,7 +43,6 @@ $scope.NameDocente = {};
       id : param
     }
     DocenteService.VisualizarCourse(params).then(function(response1){
-
 				$scope.AllCourse.push( response1.data)
 				var paramsDocente = {
 					idDocente : response1.data.docente
@@ -49,8 +51,6 @@ $scope.NameDocente = {};
 						$scope.NameDocente = response2.data.nombre
 
 				})//fin DocenteService.BuscarDocente
-
-
     })//fin DocenteService.VisualizarCourse
   }
 
@@ -76,6 +76,13 @@ $scope.NameDocente = {};
     $scope.curso.trimestre = "";
     $scope.curso.year = "";
   }
+
+  $scope.selectCurso=function(curso,nombre_docente){
+    $scope.$sessionStorage.CurrentCurso=curso._id;
+
+  }
+
+  
 
   $('ul li').click( function() {
     $(this).addClass('active').siblings().removeClass('active');

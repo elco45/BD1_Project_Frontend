@@ -38,19 +38,19 @@
                 <li class="active" ng-click="cambiar_div('docente_inicio')">
                     <a><i class="fa fa-fw fa-dashboard" ></i>Inicio</a>
                 </li>
-                <li ng-click="cambiar_div('docente_confirmacion')">
+                <li ng-click="cambiar_div('docente_confirmacion')" ng-cloak ng-hide="$sessionStorage.CurrentCurso=='0'">
                     <a><i class="fa fa-fw fa-4table">Confirmación</i></a>
                 </li>
-                <li ng-click="cambiar_div('docente_participantes')">
+                <li ng-click="cambiar_div('docente_participantes')" ng-cloak ng-hide="$sessionStorage.CurrentCurso=='0'">
                     <a><i class="fa fa-fw fa-wrench">Participantes</i></a>
                 </li>
-                <li ng-click="cambiar_div('docente_tareas')">
+                <li ng-click="cambiar_div('docente_tareas')" ng-cloak ng-hide="$sessionStorage.CurrentCurso=='0'">
                     <a><i class="fa fa-fw fa-wrench">Tareas</i></a>
                 </li>
-                <li ng-click="cambiar_div('docente_anuncios')">
+                <li ng-click="cambiar_div('docente_anuncios')" ng-cloak ng-hide="$sessionStorage.CurrentCurso=='0'">
                     <a><i class="fa fa-fw fa-wrench">Anuncios</i></a>
                 </li>
-                <li ng-click="cambiar_div('docente_notas')">
+                <li ng-click="cambiar_div('docente_notas')" ng-cloak ng-hide="$sessionStorage.CurrentCurso=='0'">
                     <a><i class="fa fa-fw fa-wrench">Notas</i></a>
                 </li>
             </ul>

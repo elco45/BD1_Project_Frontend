@@ -1,13 +1,16 @@
 <div ng-controller="EstudianteController" ng-init="visualizarCursos()">
 	
 	<ul ng-repeat = "n in AllCourseData | orderBy:'+'">
-		<div class="panel panel-primary">
-	        <div class="panel-heading">
-	            <h3 class="panel-title">{{n.course.nombre}}</h3>
-	        </div>
-	        <div class="panel-body">Docente:
-	            {{n.docente}}
-	        </div>
-	    </div>
+		<li class="animate-repeat" ng-click="selectCurso(n.course,n.docente)">
+			<div class="panel panel-primary">
+		        <div class="panel-heading">
+		            <h3 class="panel-title">{{n.course.nombre}}</h3>
+		        </div>
+		        <div class="panel-body" >
+		            {{n.docente.nombre}}
+		        </div>
+		    </div>
+	    </li>
     </ul>
 </div>
+ 
