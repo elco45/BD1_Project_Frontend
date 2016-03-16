@@ -19,7 +19,6 @@ angular.module('AngularScaffold.Controllers')
       $scope.getUniversidades = function(){
         UserService.GetUniversidades().then(function(response){
           $scope.universidades=response.data;
-          
         }).catch(function(err){
           alert(err.data.error + " " + err.data.message);
         })
@@ -140,7 +139,7 @@ angular.module('AngularScaffold.Controllers')
               });
             }else{
               $scope.universidad.Nombre=$scope.user.universidad_cb;
-              UserService.GetUniversidad($scope.universidad).then(function(response3){
+              UserService.GetUniversidadByName($scope.universidad).then(function(response3){
                 $scope.universidad=response3.data;
                 $scope.registroCorrecto=false;
                 var paramU2={

@@ -5,14 +5,14 @@ $scope.curso = {};
 $scope.displayCursos = [];
 $scope.AllCourse = [];
 $scope.$sessionStorage = $sessionStorage;
-$scope.$sessionStorage.CurrentCurso="0";
 $scope.NameDocente = {};
 $scope.entroCurso=false;
+$scope.AllConfirmacion=[];
 
 	$scope.cambiar_div = function(nombre){
     if (nombre==="docente_inicio") {
       $scope.template = '/views/docente_inicio.html';
-      
+      $scope.$sessionStorage.CurrentCurso="0";
     }else if (nombre==="docente_confirmacion"){
       $scope.template = '/views/docente_confirmacion.html';
     }else if (nombre==="docente_participantes") {
@@ -82,7 +82,18 @@ $scope.entroCurso=false;
 
   }
 
-  
+  $scope.getAllConfirmacion=function(){
+    var param={
+      Id_curso:$scope.$sessionStorage.CurrentCurso
+    }
+    console.log(param)
+    DocenteService.GetConfirmacionById(param).then(function(response){
+      var confirmaciones=reponse.data.confirmacion_alum;
+      for (var i = 0; i < confirmaciones.length; i++) {
+        
+      }
+    })
+  }
 
   $('ul li').click( function() {
     $(this).addClass('active').siblings().removeClass('active');

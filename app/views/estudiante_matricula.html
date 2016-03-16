@@ -1,0 +1,33 @@
+<div ng-controller="EstudianteController" ng-init="getCursosByUniversidad()">
+	<div>
+		<h2>Matrícula</h2>
+	</div>
+	<div >
+        <h2>Cursos disponibles</h2>
+        <div class="table-responsive">
+            <table class="table table-hover table-striped" >
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Año</th>
+                        <th>Trimestre</th>
+                        <th>Maestro</th>
+                    </tr>
+                </thead>
+                <tbody><!--falta ng-repeat pero no esta BD-->
+                    <tr ng-repeat="curso in CursosByU">
+                        <td>{{curso.course.nombre}}</td>
+                        <td>{{curso.course.year}}</td>
+                        <td>{{curso.course.trimestre}}</td>
+                        <td>{{curso.docente.nombre}}</td>
+                        <td>
+                            <button type="button" class="btn btn-danger" ng-click="matricular(curso.course._id)">
+                                Matricular
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+	</div>
+</div>

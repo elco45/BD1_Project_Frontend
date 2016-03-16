@@ -39,14 +39,14 @@
                 <li ng-click="cambiar_div('estudiante_secciones_presenciales')">
                     <a><i class="fa fa-fw fa-table"></i>Matrícula</a>
                 </li>
+                <li ng-click="cambiar_div('estudiante_anuncios')" ng-cloak ng-hide="$sessionStorage.CurrentCurso=='0'">
+                    <a><i class="fa fa-fw fa-wrench"></i>Anuncios</a>
+                </li>
                 <li ng-click="cambiar_div('estudiante_participantes')" ng-cloak ng-hide="$sessionStorage.CurrentCurso=='0'">
                     <a><i class="fa fa-fw fa-table"></i>Participantes</a>
                 </li>
                 <li ng-click="cambiar_div('estudiante_tareas')" ng-cloak ng-hide="$sessionStorage.CurrentCurso=='0'">
                     <a><i class="fa fa-fw fa-edit"></i>Tareas</a>
-                </li>
-                <li ng-click="cambiar_div('estudiante_anuncios')" ng-cloak ng-hide="$sessionStorage.CurrentCurso=='0'">
-                    <a><i class="fa fa-fw fa-wrench"></i>Anuncios</a>
                 </li>
                 <li ng-click="cambiar_div('estudiante_calificacion')" ng-cloak ng-hide="$sessionStorage.CurrentCurso=='0'">
                     <a><i class="fa fa-fw fa-wrench"></i>Calificacion</a>
