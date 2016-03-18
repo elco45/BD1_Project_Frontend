@@ -20,6 +20,15 @@ angular.module('AngularScaffold.Services').factory('DocenteService', ['$http',
       		},
                   GetConfirmacionById: function(payload){
                         return $http.post(baseUrl + "v1/getConfirmacionById", payload);
+                  },
+                  GetEstudianteById: function(payload){
+                        return $http.post(baseUrl + "v1/getEstudianteById", payload); 
+                  },
+                  AceptarConfirmacion:function(payload){
+                        return $http.post(baseUrl + "v1/aceptarConfirmacion", payload);     
+                  },
+                  RechazarConfirmacion:function(payload){
+                        return $http.post(baseUrl + "v1/rechazarConfirmacion", payload);     
                   }
                   
 	    };

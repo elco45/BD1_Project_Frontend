@@ -1,7 +1,7 @@
 {
   "name": "angular-sacffold",
   "authors": [
-    "Viktor Zavala <viktor@acklenavenue.com>"
+    "MyLittlePony"
   ],
   "description": "AngularJS scaffold app with Hapi server serving it",
   "main": "index.html",

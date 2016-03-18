@@ -1,5 +1,5 @@
 angular.module('AngularScaffold.Controllers')
-.controller('DocenteController', ['$scope','$state','DocenteService','$sessionStorage', function ($scope,$state, DocenteService,$sessionStorage) {
+.controller('DocenteController', ['$scope','$state','$route','DocenteService','$sessionStorage', function ($scope,$state,$route, DocenteService,$sessionStorage) {
 
 $scope.curso = {};
 $scope.displayCursos = [];
@@ -86,13 +86,41 @@ $scope.AllConfirmacion=[];
     var param={
       Id_curso:$scope.$sessionStorage.CurrentCurso
     }
-    console.log(param)
     DocenteService.GetConfirmacionById(param).then(function(response){
-      var confirmaciones=reponse.data.confirmacion_alum;
+      var confirmaciones=response.data.confirmacion_alum;
       for (var i = 0; i < confirmaciones.length; i++) {
-        
+        var paramEst={
+          Id_estudiante:confirmaciones[i]
+        }
+        DocenteService.GetEstudianteById(paramEst).then(function(response1){
+          $scope.AllConfirmacion.push(response1.data);
+        })
       }
     })
+  }
+
+  $scope.confirmar=function(idEstudiante){
+    var param={
+      Id_estudiante:idEstudiante,
+      Id_curso:$scope.$sessionStorage.CurrentCurso
+    }
+    console.log(param)
+    DocenteService.AceptarConfirmacion(param).then(function(response){
+
+    })
+  }
+
+  $scope.rechazar=function(idEstudiante){
+    var param={
+      Id_estudiante:idEstudiante,
+      Id_curso:$scope.$sessionStorage.CurrentCurso
+    }
+    DocenteService.RechazarConfirmacion(param).then(function(response){
+      var currentPageTemplate = $route.current.templateUrl;
+$templateCache.remove(currentPageTemplate);
+$route.reload();
+    })
+
   }
 
   $('ul li').click( function() {

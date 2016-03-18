@@ -11,13 +11,13 @@
             </thead>
             <tbody><!--falta ng-repeat pero no esta BD-->
                 <tr ng-repeat="confirmacion in AllConfirmacion">
-                    <td>{{}}</td>
-                    <td>{{}}</td>
+                    <td>{{confirmacion.nombre}}</td>
+                    <td>{{confirmacion.Id_estudiante}}</td>
                     <td>
-                       <button type="button" class="btn btn-success">Aceptar</button>
+                       <button type="button" class="btn btn-success" ng-click="confirmar(confirmacion.Id_estudiante)">Aceptar</button>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-danger">Rechazar</button>
+                        <button type="button" class="btn btn-danger" ng-click="rechazar(confirmacion.Id_estudiante)">Rechazar</button>
                     </td>
                 </tr>
             </tbody>
