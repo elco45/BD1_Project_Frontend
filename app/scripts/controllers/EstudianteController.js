@@ -1,5 +1,9 @@
 angular.module('AngularScaffold.Controllers')
 .controller('EstudianteController', ['$scope','$state','EstudianteService','UserService','$sessionStorage', function ($scope,$state, EstudianteService,UserService,$sessionStorage) {
+	//temporary node
+
+
+
 	$scope.displayCursos = [];
 	$scope.AllCourse = [];
 	$scope.AllCourseDocente = [];
@@ -10,7 +14,19 @@ angular.module('AngularScaffold.Controllers')
 	$scope.CursosByU=[];
 	$scope.courses=[];
 	$scope.docentes=[];
-
+	$scope.treeData = {
+		 name: "Root",
+		 children: [{
+			 name: "First Child",
+			 children: [{
+				 name: "First Grandchild"
+			 },{
+				 name: "Second Grandchild"
+			 }]
+		 },{
+			 name: "Second Child"
+		 }]
+	 };
 	$scope.cambiar_div = function(nombre){
       if (nombre==="estudiante_inicio") {
         $scope.template = '/views/estudiante_inicio.html';
@@ -28,6 +44,7 @@ angular.module('AngularScaffold.Controllers')
       };
     }
 
+
 	$scope.visualizarCursos =  function(){
 		var param ={
 			id: $scope.$sessionStorage.currentUser.IdUser
@@ -38,7 +55,7 @@ angular.module('AngularScaffold.Controllers')
 				$scope.WatchCourse($scope.displayCursos[i]);
 			}
 		})//fin DocenteService.GetCursos
-		
+
 	}//fin $scope
 
 	$scope.repeat = function(){
@@ -67,7 +84,7 @@ angular.module('AngularScaffold.Controllers')
 					}
 					$scope.AllCourseData.push(dataCurso)
 				})//fin DocenteService.BuscarDocente*/
-			}	
+			}
 		})//fin DocenteService.VisualizarCourse
 
 	}
@@ -97,7 +114,7 @@ angular.module('AngularScaffold.Controllers')
 								course:response.data,
 								docente:response2.data
 							}
-							
+
 							var params ={
 								id: $scope.$sessionStorage.currentUser.IdUser
 							}
@@ -111,10 +128,10 @@ angular.module('AngularScaffold.Controllers')
 								}
 								var today = new Date();
 								if (!existe && dataCurso.course.year==today.getFullYear() && dataCurso.course.trimestre==Math.floor((today.getMonth()/3)+1)) {
-									$scope.CursosByU.push(dataCurso);	
+									$scope.CursosByU.push(dataCurso);
 								}
 							})
-							
+
 						})
 					})
 
@@ -159,8 +176,52 @@ angular.module('AngularScaffold.Controllers')
 		})
 	}
 
-	
+
     $('ul li').click( function() {
       $(this).addClass('active').siblings().removeClass('active');
     });
+
+
+
+		$scope.newSubItem = function (scope) {
+			var nodeData = scope.$modelValue;
+			nodeData.nodes.push({
+				id: nodeData.id * 10 + nodeData.nodes.length,
+				title: nodeData.title + '.' + (nodeData.nodes.length + 1),
+				nodes: []
+			});
+		};
+
+
+		$scope.delete = function(data) {
+		        data.nodes = [];
+		    };
+
+    $scope.addFirst = function() {
+        var post = 1;
+        var newName =	document.getElementById("first_txtcomment").value;
+				console.log( $scope.tree)
+        $scope.tree[0].nodes.push({name: newName,nodes: []});
+    };
+    $scope.add = function(data) {
+        var post = data.nodes.length + 1;
+        var newName =	document.getElementById("txtcomment").value;
+				data.showReply = false;
+        data.nodes.push({name: newName,nodes: []});
+    };
+		$scope.isFirst = function(data){
+			return $scope.tree.indexOf(data)
+		}
+		$scope.enableReply = function(data){
+			 data.showReply = true;
+		}
+		$scope.showReply = function(){
+			return $scope.reply
+		}
+    $scope.tree = [{name: "",showReply: false, nodes: []}];
+
+
+
+
+
 }]);

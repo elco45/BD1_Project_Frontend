@@ -27,6 +27,8 @@
     "angular-ui-router": "latest",
     "gulp": "latest",
     "bootstrap-css": "latest",
-    "ngstorage": "latest"
+    "ngstorage": "latest",
+    "angular-ui-tree": "latest",
+    "angular.treeview": "latest"
   }
 }
