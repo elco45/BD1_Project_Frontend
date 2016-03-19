@@ -23,6 +23,9 @@ angular.module('AngularScaffold.Services').factory('EstudianteService', ['$http'
 			},
 			AddConfirmacion:function(payload){
 				return $http.post(baseUrl + "v1/addConfirmacion", payload);		
+			},
+			GetEstudianteById:function(payload){
+				return $http.post(baseUrl + "v1/getEstudianteById", payload);		
 			}
 		};
 }]);

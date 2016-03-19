@@ -136,9 +136,7 @@ $scope.AllEstudiantes=[];
         var paramEst={
           Id_estudiante:cursoo.estudiantes[i]
         }
-        console.log(cursoo.estudiantes[i])
         DocenteService.GetEstudianteById(paramEst).then(function(response1){
-          console.log(response1.data)
           $scope.AllEstudiantes.push(response1.data);
         })
       }

@@ -10,6 +10,7 @@ angular.module('AngularScaffold.Controllers')
 	$scope.CursosByU=[];
 	$scope.courses=[];
 	$scope.docentes=[];
+	$scope.AllEstudiantes=[];
 
 	$scope.cambiar_div = function(nombre){
       if (nombre==="estudiante_inicio") {
@@ -158,6 +159,23 @@ angular.module('AngularScaffold.Controllers')
 			}
 		})
 	}
+
+	$scope.visualizarEstudiantes=function(){
+	    var param={
+	      id:$scope.$sessionStorage.CurrentCurso
+	    }
+	    EstudianteService.VisualizarCourse(param).then(function(response){
+	      var cursoo=response.data;
+	      for (var i = 0; i < cursoo.estudiantes.length; i++) {
+	        var paramEst={
+	          Id_estudiante:cursoo.estudiantes[i]
+	        }
+	        EstudianteService.GetEstudianteById(paramEst).then(function(response1){
+	          $scope.AllEstudiantes.push(response1.data);
+	        })
+	      }
+	    })
+	  }
 
 	
     $('ul li').click( function() {
