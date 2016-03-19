@@ -8,6 +8,7 @@ $scope.$sessionStorage = $sessionStorage;
 $scope.NameDocente = {};
 $scope.entroCurso=false;
 $scope.AllConfirmacion=[];
+$scope.AllEstudiantes=[];
 
 	$scope.cambiar_div = function(nombre){
     if (nombre==="docente_inicio") {
@@ -122,6 +123,25 @@ $scope.AllConfirmacion=[];
     }
     DocenteService.RechazarConfirmacion(param).then(function(response){
       $scope.AllConfirmacion.splice(index,1)
+    })
+  }
+
+  $scope.visualizarEstudiantes=function(){
+    var param={
+      id:$scope.$sessionStorage.CurrentCurso
+    }
+    DocenteService.VisualizarCourse(param).then(function(response){
+      var cursoo=response.data;
+      for (var i = 0; i < cursoo.estudiantes.length; i++) {
+        var paramEst={
+          Id_estudiante:cursoo.estudiantes[i]
+        }
+        console.log(cursoo.estudiantes[i])
+        DocenteService.GetEstudianteById(paramEst).then(function(response1){
+          console.log(response1.data)
+          $scope.AllEstudiantes.push(response1.data);
+        })
+      }
     })
   }
 
