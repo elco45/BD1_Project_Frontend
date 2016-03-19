@@ -14,10 +14,10 @@
                     <td>{{confirmacion.nombre}}</td>
                     <td>{{confirmacion.Id_estudiante}}</td>
                     <td>
-                       <button type="button" class="btn btn-success" ng-click="confirmar(confirmacion.Id_estudiante)">Aceptar</button>
+                       <button type="button" class="btn btn-success" ng-click="confirmar(confirmacion.Id_estudiante,$index)">Aceptar</button>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-danger" ng-click="rechazar(confirmacion.Id_estudiante)">Rechazar</button>
+                        <button type="button" class="btn btn-danger" ng-click="rechazar(confirmacion.Id_estudiante,$index)">Rechazar</button>
                     </td>
                 </tr>
             </tbody>

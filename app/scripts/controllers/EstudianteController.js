@@ -53,19 +53,21 @@ angular.module('AngularScaffold.Controllers')
 			id : param
 		}
 		EstudianteService.VisualizarCourse(params).then(function(response1){
-			$scope.AllCourse.push(response1.data)
-			var paramsDocente = {
-				idDocente : response1.data.docente
-			}
-			EstudianteService.BuscarDocente(paramsDocente).then(function(response2){
-				$scope.AllCourseDocente.push(response2.data)
-				var dataCurso={
-					course:response1.data,
-					docente:response2.data
+			var today = new Date();
+			if (response1.data.year==today.getFullYear() && response1.data.trimestre==Math.floor((today.getMonth()/3)+1)) {
+				$scope.AllCourse.push(response1.data)
+				var paramsDocente = {
+					idDocente : response1.data.docente
 				}
-				$scope.AllCourseData.push(dataCurso)
-			})//fin DocenteService.BuscarDocente*/
-				
+				EstudianteService.BuscarDocente(paramsDocente).then(function(response2){
+					$scope.AllCourseDocente.push(response2.data)
+					var dataCurso={
+						course:response1.data,
+						docente:response2.data
+					}
+					$scope.AllCourseData.push(dataCurso)
+				})//fin DocenteService.BuscarDocente*/
+			}	
 		})//fin DocenteService.VisualizarCourse
 
 	}
@@ -107,7 +109,8 @@ angular.module('AngularScaffold.Controllers')
 										existe=true;
 									}
 								}
-								if (!existe) {
+								var today = new Date();
+								if (!existe && dataCurso.course.year==today.getFullYear() && dataCurso.course.trimestre==Math.floor((today.getMonth()/3)+1)) {
 									$scope.CursosByU.push(dataCurso);	
 								}
 							})

@@ -1,5 +1,5 @@
 <div ng-controller="DocenteController" ng-init="visualizarCursos()">
-	<ul ng-repeat = "n in AllCourse | orderBy:'+'">
+	<ul ng-repeat = "n in AllCourse track by n._id">
 		<li class="animate-repeat" ng-click="selectCurso(n,NameDocente)">
 			<div class="panel panel-primary">
 		        <div class="panel-heading">

@@ -14,7 +14,7 @@
         <!-- Top Menu Items -->
         <div ng-controller="UsersController">
         <ul class="nav navbar-right top-nav">
-            <li data-toggle="modal" data-target="#PopCrearCursos">
+            <li data-toggle="modal" data-target="#PopCrearCursos" ng-click="actualDate()">
                 <a>Crear Cursos</a>
             </li>
             <li class="dropdown">
@@ -59,23 +59,25 @@
 
     <div class="modal" id="PopCrearCursos" role="dialog">
             <div class="modal-dialog">
-            
               <!-- Modal content-->
               <div class="modal-content">
                 <div id="CursosContainerCreate" class="modal-body row">
-                    <h4 >Crear Curso</h4>
-                    <div class ="row">
+                    <h4 class="Centrar">Crear Curso</h4>
+                    <div class ="row Centrar">
                         <label class="col-md-4">Nombre</label>
-                        <input class="col-md-6" ng-model = "curso.nombre"type="text" placeholder="Nombre del Curso.." >
+                        <input class="col-md-6 Centrar" ng-model = "curso.nombre"type="text" placeholder="Nombre del Curso..">
                     </div>
-                    <div class = "row">
-                        <label class="col-md-4">Trimestre</label>
-                        <input class="col-md-6" ng-model = "curso.trimestre"type="text" placeholder="Trimestre..." >
-                    </div>
-                    <div class="row">
+                    </br>
+                    <div class="row Centrar">
                         <label class="col-md-4">Año</label>
-                        <input class="col-md-6" ng-model = "curso.year"type="text" placeholder="Año..." >
+                        <input class="col-md-6 Centrar" ng-model = "curso.year"type="text" disabled="disabled">
                     </div>
+                    </br>
+                    <div class = "row Centrar">
+                        <label class="col-md-4">Trimestre</label>
+                        <input class="col-md-6 Centrar" ng-model = "curso.trimestre"type="text" disabled="disabled">
+                    </div>
+                    </br>
                 </div>
                 <div class="modal-footer">
                   <button type="button"  class="btn btn-primary" data-dismiss="modal" ng-click="crearCursos()">Crear</button>

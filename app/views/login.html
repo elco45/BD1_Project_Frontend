@@ -2,8 +2,10 @@
     <div class="row">
         <div class="col-md-2"></div>
         <div class="loginmodal-container center-block col-md-8  col-xs-12">
+            <div class="alert alert-success" ng-cloak ng-show="verifySignUp()">
+                <strong>Se ha registrado exitosamente!</strong>
+            </div>
             <form>
-                
                 <label id="logo-letras">Email:</label>
                 <div class="row">
                     <input class = "col-md-6 col-xs-6" type="text" id="login_email" placeholder="Email.." ng-model="signIn.email">

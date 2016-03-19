@@ -1,5 +1,5 @@
 angular.module('AngularScaffold.Controllers')
-.controller('DocenteController', ['$scope','$state','$route','DocenteService','$sessionStorage', function ($scope,$state,$route, DocenteService,$sessionStorage) {
+.controller('DocenteController', ['$scope','$state','DocenteService','$sessionStorage', function ($scope,$state, DocenteService,$sessionStorage) {
 
 $scope.curso = {};
 $scope.displayCursos = [];
@@ -43,15 +43,24 @@ $scope.AllConfirmacion=[];
       id : param
     }
     DocenteService.VisualizarCourse(params).then(function(response1){
-				$scope.AllCourse.push( response1.data)
-				var paramsDocente = {
-					idDocente : response1.data.docente
-				}
-				DocenteService.BuscarDocente(paramsDocente).then(function(response2){
-						$scope.NameDocente = response2.data.nombre
+        var today = new Date();
+        if (response1.data.year==today.getFullYear() && response1.data.trimestre==Math.floor((today.getMonth()/3)+1)) {
+  				$scope.AllCourse.push( response1.data)
+  				var paramsDocente = {
+  					idDocente : response1.data.docente
+  				}
+  				DocenteService.BuscarDocente(paramsDocente).then(function(response2){
+  						$scope.NameDocente = response2.data.nombre
 
-				})//fin DocenteService.BuscarDocente
+  				})//fin DocenteService.BuscarDocente
+        }
     })//fin DocenteService.VisualizarCourse
+  }
+
+  $scope.actualDate=function(){
+    var today = new Date();
+    $scope.curso.trimestre = Math.floor((today.getMonth()/3)+1); //January is 0!
+    $scope.curso.year = today.getFullYear();
   }
 
   $scope.crearCursos = function(){
@@ -60,12 +69,8 @@ $scope.AllConfirmacion=[];
       idTeacher: $scope.$sessionStorage.currentUser.IdUser
     }
     DocenteService.CrearCurso(param).then(function(response){
-        $scope.curso = response.data;
-        DocenteService.UpdateTeacherCourse($scope.curso).then(function(response){
-            $scope.clearCreateCurso();
-        }).catch(function(err){
-          alert('Error agregando curso')
-        });
+      $scope.clearCreateCurso();
+      window.location.reload();
     }).catch(function(err){
       alert('Error agregando curso')
     });
@@ -79,10 +84,11 @@ $scope.AllConfirmacion=[];
 
   $scope.selectCurso=function(curso,nombre_docente){
     $scope.$sessionStorage.CurrentCurso=curso._id;
-
+    $scope.cambiar_div('docente_anuncios');
   }
 
   $scope.getAllConfirmacion=function(){
+    $scope.AllConfirmacion=[];
     var param={
       Id_curso:$scope.$sessionStorage.CurrentCurso
     }
@@ -99,28 +105,24 @@ $scope.AllConfirmacion=[];
     })
   }
 
-  $scope.confirmar=function(idEstudiante){
+  $scope.confirmar=function(idEstudiante,index){
     var param={
       Id_estudiante:idEstudiante,
       Id_curso:$scope.$sessionStorage.CurrentCurso
     }
-    console.log(param)
     DocenteService.AceptarConfirmacion(param).then(function(response){
-
+      $scope.AllConfirmacion.splice(index,1)
     })
   }
 
-  $scope.rechazar=function(idEstudiante){
+  $scope.rechazar=function(idEstudiante,index){
     var param={
       Id_estudiante:idEstudiante,
       Id_curso:$scope.$sessionStorage.CurrentCurso
     }
     DocenteService.RechazarConfirmacion(param).then(function(response){
-      var currentPageTemplate = $route.current.templateUrl;
-$templateCache.remove(currentPageTemplate);
-$route.reload();
+      $scope.AllConfirmacion.splice(index,1)
     })
-
   }
 
   $('ul li').click( function() {

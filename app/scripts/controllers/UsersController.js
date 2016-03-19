@@ -12,6 +12,7 @@ angular.module('AngularScaffold.Controllers')
       $scope.docentes={};
       $scope.docente;
       $scope.registroCorrecto=false;
+      $scope.signUpCorrecto=false;
       $scope.mySelect;
       $scope.universidades=[];
       $scope.universidad={};
@@ -128,15 +129,28 @@ angular.module('AngularScaffold.Controllers')
 
               }).catch(function(err){
                 $scope.registroCorrecto=true;
-                alert('Error agregando usuario')
+                
               });
 
               UserService.Register(paramU).then(function(response2){
                 $scope.registroCorrecto=false;
+                $scope.user.id = "";
+                $scope.user.nombre = "";
+                $scope.user.apellido = "";
+                $scope.user.email="";
+                $scope.user.password="";
+                $scope.user.especialidad = "";
+                $scope.user.unversidad_txt = "";
+                $scope.estudianteDivs=false;
+                $scope.docenteDivs=false;
+                $scope.registroCorrecto=false;
+                $scope.signUpCorrecto=true;
               }).catch(function(err){
                 $scope.registroCorrecto=true;
-                alert('Error agregando usuario')
+                
               });
+              
+              $state.go("login")
             }else{
               $scope.universidad.Nombre=$scope.user.universidad_cb;
               UserService.GetUniversidadByName($scope.universidad).then(function(response3){
@@ -149,16 +163,28 @@ angular.module('AngularScaffold.Controllers')
                 }
                 UserService.RegisterWithU(paramU2).then(function(response4){1
                   $scope.registroCorrecto=false;
+                  $scope.user.id = "";
+                  $scope.user.nombre = "";
+                  $scope.user.apellido = "";
+                  $scope.user.email="";
+                  $scope.user.password="";
+                  $scope.user.especialidad = "";
+                  $scope.user.unversidad_txt = "";
+                  $scope.estudianteDivs=false;
+                  $scope.docenteDivs=false;
+                  $scope.registroCorrecto=false;
+                  $scope.signUpCorrecto=true;
                 }).catch(function(err){
                   $scope.registroCorrecto=true;
-                  alert('Error agregando usuario')
+                  
                 });
               }).catch(function(err){
                 $scope.registroCorrecto=true;
-                alert('Error agregando usuario')
+                
               });
-              
             }
+            
+            $state.go("login")
           }).catch(function(err){
             $scope.registroCorrecto=true;
             alert('Error agregando usuario')
@@ -180,6 +206,10 @@ angular.module('AngularScaffold.Controllers')
 
       $scope.verifyRegistro=function(){
         return $scope.registroCorrecto;
+      }
+
+      $scope.verifySignUp=function(){
+        return $scope.signUpCorrecto;
       }
 
   }]);
