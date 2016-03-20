@@ -29,5 +29,17 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
             params: {content:undefined},
             templateUrl: '/views/signUp.html',
             controller: 'UsersController'
+        })
+        .state('estudiante_main', {
+            url: '/estudiante_main',
+            params: {content:undefined},
+            templateUrl: '/views/estudiante_main.html',
+            controller: 'EstudianteController'
+        })
+        .state('docente_main', {
+            url: '/docente_main',
+            params: {content:undefined},
+            templateUrl: '/views/docente_main.html',
+            controller: 'DocenteController'
         });   
 }])

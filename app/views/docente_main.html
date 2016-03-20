@@ -1,4 +1,4 @@
-<div id="wrapper" ng-controller="DocenteController" ng-init="cambiar_div('docente_anuncios')">
+<div id="wrapper" ng-controller="DocenteController" ng-init="cambiar_div('docente_inicio')">
 
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -35,23 +35,8 @@
         <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav side-nav">
-                <li ng-click="goMain()">
+                <li class="active" ng-click="cambiar_div('docente_inicio')">
                     <a><i class="fa fa-fw fa-dashboard" ></i>Inicio</a>
-                </li>
-                <li class="active" ng-click="cambiar_div('docente_anuncios')" >
-                    <a><i class="fa fa-fw fa-wrench">Anuncios</i></a>
-                </li>
-                <li ng-click="cambiar_div('docente_confirmacion')" >
-                    <a><i class="fa fa-fw fa-4table">Confirmación</i></a>
-                </li>
-                <li ng-click="cambiar_div('docente_participantes')" >
-                    <a><i class="fa fa-fw fa-wrench">Participantes</i></a>
-                </li>
-                <li ng-click="cambiar_div('docente_tareas')" >
-                    <a><i class="fa fa-fw fa-wrench">Tareas</i></a>
-                </li>
-                <li ng-click="cambiar_div('docente_notas')" >
-                    <a><i class="fa fa-fw fa-wrench">Notas</i></a>
                 </li>
             </ul>
         </div>

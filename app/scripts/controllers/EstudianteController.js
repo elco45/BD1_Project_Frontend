@@ -12,6 +12,10 @@ angular.module('AngularScaffold.Controllers')
 	$scope.docentes=[];
 	$scope.AllEstudiantes=[];
 
+	$scope.goMain=function(){
+	  $state.go('estudiante_main');
+	}
+
 	$scope.cambiar_div = function(nombre){
       if (nombre==="estudiante_inicio") {
         $scope.template = '/views/estudiante_inicio.html';
@@ -75,6 +79,7 @@ angular.module('AngularScaffold.Controllers')
 
 	$scope.selectCurso=function(curso,docente){
 	    $scope.$sessionStorage.CurrentCurso=curso._id;
+	    $state.go('estudiante');
 	}
 
 

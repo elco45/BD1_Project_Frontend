@@ -10,6 +10,10 @@ $scope.entroCurso=false;
 $scope.AllConfirmacion=[];
 $scope.AllEstudiantes=[];
 
+  $scope.goMain=function(){
+    $state.go('docente_main');
+  }
+
 	$scope.cambiar_div = function(nombre){
     if (nombre==="docente_inicio") {
       $scope.template = '/views/docente_inicio.html';
@@ -71,7 +75,7 @@ $scope.AllEstudiantes=[];
     }
     DocenteService.CrearCurso(param).then(function(response){
       $scope.clearCreateCurso();
-      window.location.reload();
+      $state.reload();
     }).catch(function(err){
       alert('Error agregando curso')
     });
@@ -85,7 +89,7 @@ $scope.AllEstudiantes=[];
 
   $scope.selectCurso=function(curso,nombre_docente){
     $scope.$sessionStorage.CurrentCurso=curso._id;
-    $scope.cambiar_div('docente_anuncios');
+    $state.go('docente');
   }
 
   $scope.getAllConfirmacion=function(){
