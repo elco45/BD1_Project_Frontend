@@ -6,10 +6,16 @@ angular.module('AngularScaffold.Services', []);
 app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 	$urlRouterProvider.otherwise('login');
 	$stateProvider
+    .state('home', {
+            url: '/home',
+            params: {content:undefined},
+            templateUrl: '/views/login.html',
+            controller: 'LoginController'
+        })
 		.state('login', {
             url: '/login',
             params: {content:undefined},
-            templateUrl: '/views/login.html',
+            templateUrl: '/views/home.html',
             controller: 'LoginController'
         })
         .state('estudiante', {

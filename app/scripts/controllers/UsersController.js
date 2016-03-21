@@ -236,4 +236,12 @@ angular.module('AngularScaffold.Controllers')
         return $scope.signUpCorrecto;
       }
 
+
+   $scope.iniciar = function(algo){
+    if (algo==="inicia_se") {
+      $state.go('home');
+    }else{
+       $state.go('signUp');
+    }
+   }
   }]);
