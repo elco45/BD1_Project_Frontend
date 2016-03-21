@@ -156,10 +156,22 @@ angular.module('AngularScaffold.Controllers')
 		EstudianteService.EstaEnCurso(param).then(function(response){
 			existe= response.data.esta;
 			if (existe) {
-				alert("Su solicitud de matrícula aún no ha sido confirmada");
+				 BootstrapDialog.alert({
+	              title: 'ALERTA',
+	              message: 'Su solicitud de matrícula aún no ha sido confirmada',
+	              type: BootstrapDialog.TYPE_WARNING, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+	              closable: true, // <-- Default value is false
+	              buttonLabel: 'Cerrar', // <-- Default value is 'OK',
+	            });
 			}else{
 				EstudianteService.AddConfirmacion(param).then(function(response1){
-					alert("Su solicitud se ha enviado exitosamente");
+					 BootstrapDialog.alert({
+		              title: 'EXITO',
+		              message: 'Su solicitud ha sido enviado exitosamente!',
+		              type: BootstrapDialog.TYPE_SUCCESS, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+		              closable: true, // <-- Default value is false
+		              buttonLabel: 'Cerrar', // <-- Default value is 'OK',
+		            });
 				})
 			}
 		})
