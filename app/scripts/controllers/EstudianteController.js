@@ -14,19 +14,7 @@ angular.module('AngularScaffold.Controllers')
 	$scope.CursosByU=[];
 	$scope.courses=[];
 	$scope.docentes=[];
-	$scope.treeData = {
-		 name: "Root",
-		 children: [{
-			 name: "First Child",
-			 children: [{
-				 name: "First Grandchild"
-			 },{
-				 name: "Second Grandchild"
-			 }]
-		 },{
-			 name: "Second Child"
-		 }]
-	 };
+
 	$scope.cambiar_div = function(nombre){
       if (nombre==="estudiante_inicio") {
         $scope.template = '/views/estudiante_inicio.html';
@@ -199,16 +187,71 @@ angular.module('AngularScaffold.Controllers')
 
     $scope.addFirst = function() {
         var post = 1;
-        var newName =	document.getElementById("first_txtcomment").value;
-				console.log( $scope.tree)
-        $scope.tree[0].nodes.push({name: newName,nodes: []});
+        var text =	document.getElementById("first_txtcomment").value;
+        $scope.tree[0].nodes.push({id:-55,name: text,nodes: []});
+				UserService.GetControl().then(function(response1){
+						var params = {
+							 Id_comentario: response1.data.Id_comentario,
+							 text: text,
+							 nodes: [],
+							 scope: $scope.$sessionStorage
+						}
+						console.log(params)
+						UserService.AddFirstParentComment(params).then(function(response2){
+								for (var i = 0; i < $scope.tree[0].nodes.length; i++) {
+									if($scope.tree[0].nodes[i].id === -55){
+											$scope.tree[0].nodes[i].id = response2.data.id
+											break;
+									}
+								}
+
+								console.log($scope.tree)
+						});
+				})
+
     };
     $scope.add = function(data) {
         var post = data.nodes.length + 1;
-        var newName =	document.getElementById("txtcomment").value;
+        var text =	document.getElementById("txtcomment").value;
 				data.showReply = false;
-        data.nodes.push({name: newName,nodes: []});
+         // -55 será el id temporal para identificar el nodo que acaba de ser insertado.
+
+				UserService.GetControl().then(function(response1){
+
+					data.nodes.push({id: response1.data.Id_comentario,name: text,nodes: []});
+					//console.log(params)
+					/*
+				 $scope.tree = $scope.agregarId(response1.data.Id_comentario, $scope.tree)*/
+				 console.log($scope.tree)
+				 var params = {
+						Id_parentComment: data.id,
+						Id_comentario: response1.data.Id_comentario,
+						text: text,
+						nodes: [],
+						scope: $scope.$sessionStorage
+				 }
+				 console.log(params)
+
+					UserService.AddComment(params).then(function(response2){
+							console.log(response2)
+					});
+				})
     };
+
+		$scope.agregarId = function(id, arreglo){
+			for (var i = 0; i < arreglo.length; i++) {
+				if(arreglo[i].id = -55){
+						arreglo[i].id = id
+						return arreglo
+					}
+				else
+					if(arreglo[i].nodes.lenght >0 ){
+						arreglo[i].nodes =  $scope.agregarId(id, arreglo[i].nodes)
+					}
+			}
+			return arreglo
+		}
+		$scope.selectedComment = -1;
 		$scope.isFirst = function(data){
 			return $scope.tree.indexOf(data)
 		}
@@ -218,7 +261,7 @@ angular.module('AngularScaffold.Controllers')
 		$scope.showReply = function(){
 			return $scope.reply
 		}
-    $scope.tree = [{name: "",showReply: false, nodes: []}];
+    $scope.tree = [{id:-1, text: "",showReply: false, nodes: []}];
 
 
 

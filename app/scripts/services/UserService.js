@@ -10,7 +10,7 @@ angular.module('AngularScaffold.Services').factory('UserService', ['$http',
       		RegisterWithU:function(payload){
 	          return $http.post(baseUrl + "v1/registerWithU", payload);
       		},
-			GetControl: function(){
+					GetControl: function(){
       	          return $http.get(baseUrl + "v1/getControl");
            		},
       		GetDocentes: function(){
@@ -25,8 +25,14 @@ angular.module('AngularScaffold.Services').factory('UserService', ['$http',
       		GetUniversidadByName: function(payload){
       			return $http.post(baseUrl+"v1/getUniversityByName",payload);
       		},
-                  GetUniversidadById: function(payload){
-                        return $http.post(baseUrl+"v1/getUniversityById",payload);
-                  },
+          GetUniversidadById: function(payload){
+                return $http.post(baseUrl+"v1/getUniversityById",payload);
+          },
+					AddFirstParentComment:function(payload){
+						return $http.post(baseUrl + "v1/addParentComment", payload);
+					},
+					AddComment:function(payload){
+						return $http.post(baseUrl + "v1/addComment", payload);
+					}
 	    };
 }]);
