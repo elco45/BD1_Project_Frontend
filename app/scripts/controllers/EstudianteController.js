@@ -15,6 +15,17 @@ angular.module('AngularScaffold.Controllers')
 	$scope.TareaSubido = [];
 	$scope.selected = {value: 0};
 	$scope.divSubir = false;
+	$scope.solucionDisponible = {};
+
+	$scope.indice = {};
+	$scope.tarea = {};
+	$scope.usuario = {};
+
+	if($state.params.content){
+    $scope.indice = $state.params.content.indice;
+    $scope.tarea = $state.params.content.tarea;
+    $scope.usuario = $state.params.content.usuario;
+  }
 
 	$scope.goMain=function(){
 	  $state.go('estudiante_main');
@@ -38,14 +49,13 @@ angular.module('AngularScaffold.Controllers')
         $scope.template = '/views/estudiante_solucion.html';
       };
     }
-	$scope.goMainSolucion = function(numero){
+	$scope.goMainSolucion = function(indice,tarea,usuario){
     	$state.go('solucion', {content:
 	      {
-	      	indice: $scope.selected.value,
-	      	tarea:$scope.llenadoTarea[$scope.selected.value],
-	      	Id_user:$scope.$sessionStorage.currentUser
+	      	indice: indice,
+	      	tarea:tarea,
+	      	usuario:usuario
 	      }
-
    		});
 	}
 
@@ -53,7 +63,7 @@ angular.module('AngularScaffold.Controllers')
 	 		$scope.divSubir = !$scope.divSubir;
 	}//divSubirSolucion
 
-	$scope.uploadAnswer = function(){
+	$scope.uploadAnswer = function(indice){
     	/*console.log($scope.$sessionStorage.currentUser)
     	console.log($scope.llenadoTarea[$scope.selected.value])*/
       var file = document.querySelector('input[type=file]').files[0];
@@ -63,16 +73,16 @@ angular.module('AngularScaffold.Controllers')
 	      var param = {
 	          archivo: reader.result,
 	          nameArchivo: file.name,
-	          tarea: $scope.llenadoTarea[$scope.selected.value],
-	          Id_estudiante: $scope.$sessionStorage.currentUser
+	          tarea: $scope.tarea,
+	          Id_estudiante: $scope.usuario
 	        }
 	        EstudianteService.SubirTarea(param).then(function(response){
 	          var param2 = {
-	            idTarea: response.data._id,
-	            cursoActual: $scope.$sessionStorage.CurrentCurso
+	            answer:response.data,
+	            cursoActual: $scope.usuario.CurrentCurso
 	          }
-	          EstudianteService.TareaEnCurso(param2).then(function(response1){
-	          	$scope.TareaSubido = response1.data;
+	          EstudianteService.UpdateTareaSolucion(param2).then(function(response1){
+
 	          })
 	        }).catch(function(err){
 	          alert('Error agregando tarea')
@@ -85,14 +95,33 @@ angular.module('AngularScaffold.Controllers')
    	}//fin uploadAnswer
 
 
-   	$scope.tieneSolucion = function(){
-   		/*EstudianteService.
-   		if(){
-   			return true;
-   		}else{
-   			return false;
-   		}*/
+   	$scope.tieneSolucion = function(idTarea,idEstudiante){
+			var param = {
+				id_tarea: idTarea,
+				Id_estudiante: idEstudiante
+			}
+			EstudianteService.VerificarSiTieneSolucion(param).then(function(response){
+				$scope.solucionDisponible = response.data;
+			})
    	}
+
+		$scope.decode = function(file,fileName){
+	    var byteString;
+	    if (file.split(',')[0].indexOf('base64') >= 0){
+	        byteString = atob(file.split(',')[1]);
+	    }else{
+	        byteString = unescape(file.split(',')[1]);
+	    }
+	    var mimeString = file.split(',')[0].split(':')[1].split(';')[0];
+
+	    var element = document.createElement('a');
+	    element.setAttribute('href', 'data:' + mimeString + ';base64,' + btoa(byteString));
+	    element.setAttribute('download', fileName);
+	    element.style.display = 'none';
+	    document.body.appendChild(element);
+	    element.click();
+	    document.body.removeChild(element);
+	  }//fin decode
 
    	$scope.llenarTarea = function(){
 	    var param ={

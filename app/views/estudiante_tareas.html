@@ -2,7 +2,7 @@
 	<ul ng-repeat= "n in llenadoTarea track by n._id">
 		<li class="animate-repeat">
 			<div class="panel panel-primary">
-		        <div ng-click="goMainSolucion(selected.value=$index)" class="panel-heading">
+		        <div ng-click="goMainSolucion(selected.value=$index,n,$sessionStorage.currentUser)" class="panel-heading">
 		            <h3  class="Centrar panel-title">Tarea {{$index+1}}</h3>
 		        </div>
 		    </div>

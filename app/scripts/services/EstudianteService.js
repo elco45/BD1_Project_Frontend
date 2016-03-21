@@ -32,6 +32,12 @@ angular.module('AngularScaffold.Services').factory('EstudianteService', ['$http'
 			},
 			GetTarea: function(payload){
           return $http.post(baseUrl + "v1/getTarea",payload);
+    	},
+			UpdateTareaSolucion: function(payload){
+          return $http.post(baseUrl + "v1/updateTarea",payload);
+    	},
+			VerificarSiTieneSolucion: function(payload){
+          return $http.post(baseUrl + "v1/verifySolution",payload);
     	}
 		};
 }]);
