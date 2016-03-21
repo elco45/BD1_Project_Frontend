@@ -11,7 +11,7 @@ angular.module('AngularScaffold.Controllers')
 	$scope.courses=[];
 	$scope.docentes=[];
 	$scope.AllEstudiantes=[];
-
+	$scope.todoLosAnuncios=[];
 	$scope.goMain=function(){
 	  $state.go('estudiante_main');
 	}
@@ -193,6 +193,20 @@ angular.module('AngularScaffold.Controllers')
 	      }
 	    })
 	  }
+
+	  	
+    $scope.get_Anuncio_by_id = function(){
+     var parametros = {
+        Id_curso: $scope.$sessionStorage.CurrentCurso,
+     
+    }
+      EstudianteService.GetAnuncio_id_Estudiante(parametros).then(function(response){
+        $scope.todoLosAnuncios= response.data
+        
+       });
+       console.log($scope.todoLosAnuncios);
+    }
+
 
 	
     $('ul li').click( function() {

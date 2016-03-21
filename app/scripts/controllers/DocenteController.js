@@ -195,9 +195,7 @@ $scope.texto_boton_anuncio="Crear anuncios"
     }else{
       $scope.banderaAnuncios1=true;
       $scope.texto_boton_anuncio="Cancelar Anuncio"
-     
-      
-     
+
     }
      
   }

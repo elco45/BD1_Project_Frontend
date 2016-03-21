@@ -26,6 +26,10 @@ angular.module('AngularScaffold.Services').factory('EstudianteService', ['$http'
 			},
 			GetEstudianteById:function(payload){
 				return $http.post(baseUrl + "v1/getEstudianteById", payload);		
-			}
+			},
+			GetAnuncio_id_Estudiante: function(payload){
+				console.log(payload.Id_curso);
+                        return $http.post(baseUrl + "v1/getAnuncios_Estudiantes",payload);
+            },
 		};
 }]);
