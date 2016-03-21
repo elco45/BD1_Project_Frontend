@@ -1,14 +1,75 @@
-<div ng-controller="DocenteController">
-	<ul>
-		<div class="panel panel-info">
-	        <div class="panel-heading">
-	            <h3 class="panel-title">Panel title</h3>
-	        </div>
-	        <div class="panel-body">
-	            Panel content
-	        </div>
-	    </div>
-    </ul>
+<div ng-controller="DocenteController" ng-init="get_Anuncio_by_id()">
+  <button ng-click="showAnuncio()" class="btn btn-info">{{texto_boton_anuncio}}</button>
+   <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Formulario de Anuncio</h3>
+                    </div>
+                    <div class="panel-body">
+                        <center>
+                               <h1><center>Control de Anuncios</center></h1>
+                               <p>Titulo</p>
+                               <input type= "text" ng-model="anuncios.titulo">
+                              
+                                <br>
+                                <p>Descripcion</p>
+                                <TEXTAREA cols=70 rows=10 Name="Texto" ng-model="anuncios.des"></TEXTAREA>
+                                <h1></h1>
+                                <button class="button-select btn btn-primary" ng-click="crear_anuncio()">Guardar anuncio</button>
+                          </center>
+                         <hr size="10px" color="black" />
+                    </div>
+                </div>
+    <div>
+        
+        <div class="check-element animate-show" ng-show="banderaAnuncios1">
+            
+              <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Formulario de Anuncio</h3>
+                    </div>
+                    <div class="panel-body">
+                        <center>
+                               <h1><center>Control de Anuncios</center></h1>
+                               <p>Titulo</p>
+                               <input type= "text" ng-model="anuncios.titulo">
+                              
+                                <br>
+                                <p>Descripcion</p>
+                                <TEXTAREA cols=70 rows=10 Name="Texto" ng-model="anuncios.des"></TEXTAREA>
+                                <h1></h1>
+                                <button class="button-select btn btn-primary" ng-click="crear_anuncio()">Guardar anuncio</button>
+                          </center>
+                         <hr size="10px" color="black" />
+                    </div>
+                </div>
+            
+        </div>
+    </div>
+
+   
+        <div class="panel panel-info" ng-repeat="u in todoLosAnuncios.slice().reverse()">
+            <div class="panel-heading">
+                  <h3 class="panel-title"><h4>Titulo: {{u.titulo}}</h4></h3>
+                 
+            </div>
+             
+            <div class="row panel-body">
+              <textarea style="background-color:#FFFFFF"  rows=10 class="col-xs-12" Name="Texto" disabled>{{u.descripcion}}</textarea>
+            </div>
+                    
+            
+
+          </div>
+      
+    
+   
 </div>
+
+
+
+
+
+
+
 
 

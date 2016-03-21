@@ -29,7 +29,14 @@ angular.module('AngularScaffold.Services').factory('DocenteService', ['$http',
                   },
                   RechazarConfirmacion:function(payload){
                         return $http.post(baseUrl + "v1/rechazarConfirmacion", payload);     
-                  }
+                  },
+                     Register_anuncio: function(payload){
+                        return $http.post(baseUrl+"v1/crearAnuncios", payload);
+                  },
+                  GetAnuncio_id: function(payload){
+                        
+                        return $http.post(baseUrl + "v1/getAnuncios",payload);
+                  },
                   
 	    };
 }]);

@@ -9,7 +9,7 @@ $scope.NameDocente = {};
 $scope.entroCurso=false;
 $scope.AllConfirmacion=[];
 $scope.AllEstudiantes=[];
-
+$scope.texto_boton_anuncio="Crear anuncios"
   $scope.goMain=function(){
     $state.go('docente_main');
   }
@@ -145,6 +145,61 @@ $scope.AllEstudiantes=[];
         })
       }
     })
+  }
+
+ $scope.get_Anuncio_by_id = function(){
+     var parametros = {
+        Id_curso: $scope.$sessionStorage.CurrentCurso,
+       
+    }
+     
+       DocenteService.GetAnuncio_id(parametros).then(function(response){
+        $scope.todoLosAnuncios= response.data
+        
+       });
+       
+    }
+
+ $scope.crear_anuncio = function(){
+
+  $scope.anuncios.idCurso=$scope.$sessionStorage.CurrentCurso;
+ console.log($scope.anuncios.idCurso);
+      DocenteService.Register_anuncio($scope.anuncios).then(function(response){
+
+      $scope.anuncios.idCurso=" ";
+      $scope.anuncios.titulo=" ";
+      $scope.anuncios.des=" ";
+     
+    });
+    $scope.refrescando_repeat();
+     
+ }
+ $scope.refrescando_repeat=function(){
+  var parametros = {
+        Id_curso: $scope.$sessionStorage.CurrentCurso,
+       
+    }
+      
+       DocenteService.GetAnuncio_id(parametros).then(function(response){
+        $scope.todoLosAnuncios= response.data
+        
+       });
+}
+
+ $scope.showAnuncio= function(){
+    if($scope.banderaAnuncios1===true){
+      $scope.banderaAnuncios1=false;
+      $scope.texto_boton_anuncio="Crear Anuncios"
+     
+
+    }else{
+      $scope.banderaAnuncios1=true;
+      $scope.texto_boton_anuncio="Cancelar Anuncio"
+     
+      
+     
+    }
+     
   }
 
   $('ul li').click( function() {
