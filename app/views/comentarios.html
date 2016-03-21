@@ -1,0 +1,35 @@
+<div ng-controller="UsersController" ng-init="getCourseComments()">
+
+	<div>
+
+<!-- prueba de comentarios-->
+
+<!--<button  ng-cloak  ng-click="delete(data)" ng-show="data.nodes.length > 0 && isFirst(data)">Delete nodes</button>*/-->
+  <script type="text/ng-template"  id="tree_item_renderer.html">
+  	{{data.name}}
+  	<div>
+  		<h5>{{data.text}}</h5>
+  		<button ng-cloak ng-show="isFirst(data)"ng-click="enableReply(data)">reply</button>
+  	</div>
+  	<div>
+  	<textarea ng-cloak ng-if="data.showReply" id="txtcomment" placeholder="Your Comment" ></textarea></div>
+
+  	<button ng-cloak ng-if="data.showReply" ng-click="addComment(data)">Agregar Comentario</button>
+  	</div>
+  	<ul>
+  			<li ng-repeat="data in data.nodes" ng-include="'tree_item_renderer.html'">
+  			</li>
+  	</ul>
+
+  </script>
+  <h2>Comentarios</h2>
+
+  	<textarea id="first_txtcomment" placeholder="Your Comment" ></textarea>
+  	<button ng-click="addFirstComment()">Agregar Comentario</button>
+  <ul>
+  	<div ng-repeat="data in tree" ng-include="'tree_item_renderer.html'">
+  	</div>
+</ul>
+
+	</div>
+</div>

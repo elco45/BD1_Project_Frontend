@@ -23,8 +23,10 @@ $scope.AllConfirmacion=[];
       $scope.template = '/views/docente_anuncios.html';
     }else if (nombre==="docente_notas") {
       $scope.template = '/views/docente_notas.html';
-    };
-  } 
+    }else if (nombre==="comentarios") {
+			$scope.template = '/views/comentarios.html';
+		};
+  }
 
   $scope.visualizarCursos =  function(){
     var param ={

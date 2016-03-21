@@ -14,6 +14,7 @@ angular.module('AngularScaffold.Controllers')
 	$scope.CursosByU=[];
 	$scope.courses=[];
 	$scope.docentes=[];
+	$scope.tree = [{id:-1, text: "",showReply: false, nodes: []}];
 
 	$scope.cambiar_div = function(nombre){
       if (nombre==="estudiante_inicio") {
@@ -29,6 +30,8 @@ angular.module('AngularScaffold.Controllers')
         $scope.template = '/views/estudiante_matricula.html';
       }else if (nombre==="estudiante_tareas") {
         $scope.template = '/views/estudiante_tareas.html';
+      }else if (nombre==="comentarios") {
+        $scope.template = '/views/comentarios.html';
       };
     }
 
@@ -125,6 +128,7 @@ angular.module('AngularScaffold.Controllers')
 
 				}
 			}
+			$scope.getCourseComments();
 		})
 	}
 
@@ -171,32 +175,24 @@ angular.module('AngularScaffold.Controllers')
 
 
 
-		$scope.newSubItem = function (scope) {
-			var nodeData = scope.$modelValue;
-			nodeData.nodes.push({
-				id: nodeData.id * 10 + nodeData.nodes.length,
-				title: nodeData.title + '.' + (nodeData.nodes.length + 1),
-				nodes: []
-			});
-		};
 
 
-		$scope.delete = function(data) {
+		/*$scope.delete = function(data) {
 		        data.nodes = [];
-		    };
-
-    $scope.addFirst = function() {
+		};
+*/
+	//Inicio comentarios
+    $scope.addFirstComment = function() {
         var post = 1;
-        var text =	document.getElementById("first_txtcomment").value;
-        $scope.tree[0].nodes.push({id:-55,name: text,nodes: []});
+        var txt =	document.getElementById("first_txtcomment").value;
+        $scope.tree[0].nodes.push({id:-55,text: txt,nodes: []});
 				UserService.GetControl().then(function(response1){
 						var params = {
 							 Id_comentario: response1.data.Id_comentario,
-							 text: text,
+							 text: txt,
 							 nodes: [],
 							 scope: $scope.$sessionStorage
 						}
-						console.log(params)
 						UserService.AddFirstParentComment(params).then(function(response2){
 								for (var i = 0; i < $scope.tree[0].nodes.length; i++) {
 									if($scope.tree[0].nodes[i].id === -55){
@@ -210,15 +206,15 @@ angular.module('AngularScaffold.Controllers')
 				})
 
     };
-    $scope.add = function(data) {
+    $scope.addComment = function(data) {
         var post = data.nodes.length + 1;
-        var text =	document.getElementById("txtcomment").value;
+        var txt =	document.getElementById("txtcomment").value;
 				data.showReply = false;
          // -55 será el id temporal para identificar el nodo que acaba de ser insertado.
 
 				UserService.GetControl().then(function(response1){
 
-					data.nodes.push({id: response1.data.Id_comentario,name: text,nodes: []});
+					data.nodes.push({id: response1.data.Id_comentario,text: txt,nodes: []});
 					//console.log(params)
 					/*
 				 $scope.tree = $scope.agregarId(response1.data.Id_comentario, $scope.tree)*/
@@ -226,7 +222,7 @@ angular.module('AngularScaffold.Controllers')
 				 var params = {
 						Id_parentComment: data.id,
 						Id_comentario: response1.data.Id_comentario,
-						text: text,
+						text: txt,
 						nodes: [],
 						scope: $scope.$sessionStorage
 				 }
@@ -251,7 +247,6 @@ angular.module('AngularScaffold.Controllers')
 			}
 			return arreglo
 		}
-		$scope.selectedComment = -1;
 		$scope.isFirst = function(data){
 			return $scope.tree.indexOf(data)
 		}
@@ -261,9 +256,39 @@ angular.module('AngularScaffold.Controllers')
 		$scope.showReply = function(){
 			return $scope.reply
 		}
-    $scope.tree = [{id:-1, text: "",showReply: false, nodes: []}];
+		$scope.getCourseComments = function(){
+			console.log($scope.$sessionStorage.CurrentCurso)
+			UserService.getCourseComments({Id_curso: $scope.$sessionStorage.CurrentCurso}).then(function(response){
+					var commentArray = response.data;
+					var cont = 0;
+					for (var i = 0; i < commentArray.length; i++) {
+						if(commentArray[i].Id_comentario_padre === -1){
+								$scope.tree[0].nodes.push({id:commentArray[i].Id_comentario,text: commentArray[i].descripción,nodes: []})	//SE AÑADEN LOS NODOS PADRES
+								$scope.tree[0].nodes[cont].nodes=$scope.fillChildrenNodes(commentArray,commentArray[i].Id_comentario)
+								cont = cont +1;
+						}
+					}
+					console.log($scope.tree)
+			})
+		}
 
-
+		$scope.fillChildrenNodes = function(array, parentId){
+				var newArray = [];
+				var cont = 0;
+				for (var i = 0; i < array.length; i++) {
+					if(array[i].Id_comentario_padre === parentId){
+							newArray.push({id:array[i].Id_comentario,text: array[i].descripción,nodes: []})
+							console.log(newArray)
+							var children = $scope.fillChildrenNodes(array, array[i].Id_comentario)
+							if(children.length > 0 ){
+								newArray[cont].nodes.push(children)
+								cont= cont +1;
+							}
+					}
+				}
+				return newArray;
+		}
+//fin comentarios
 
 
 
