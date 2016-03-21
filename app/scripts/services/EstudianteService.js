@@ -38,6 +38,10 @@ angular.module('AngularScaffold.Services').factory('EstudianteService', ['$http'
     	},
 			VerificarSiTieneSolucion: function(payload){
           return $http.post(baseUrl + "v1/verifySolution",payload);
+    	},
+			ModificaSolucion:function(payload){
+					console.log(payload)
+          return $http.post(baseUrl + "v1/modificaSolution",payload);
     	}
 		};
 }]);

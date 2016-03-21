@@ -76,17 +76,30 @@ angular.module('AngularScaffold.Controllers')
 	          tarea: $scope.tarea,
 	          Id_estudiante: $scope.usuario
 	        }
-	        EstudianteService.SubirTarea(param).then(function(response){
-	          var param2 = {
-	            answer:response.data,
-	            cursoActual: $scope.usuario.CurrentCurso
-	          }
-	          EstudianteService.UpdateTareaSolucion(param2).then(function(response1){
+					if($scope.solucionDisponible){//modifica la solucion anterior
+						var parametros = {
+							busqueda:$scope.solucionDisponible._id,
+							newData: param
+						}
+						EstudianteService.ModificaSolucion(parametros).then(function(response){
+							
+		        }).catch(function(err){
+		          alert('Error agregando tarea')
+		        });//fin EstudianteService.SubirTarea
+					}else{//crea una nueva solucion
+						EstudianteService.SubirTarea(param).then(function(response){
+		          var param2 = {
+		            answer:response.data,
+		            cursoActual: $scope.usuario.CurrentCurso
+		          }
+		          EstudianteService.UpdateTareaSolucion(param2).then(function(response1){
 
-	          })
-	        }).catch(function(err){
-	          alert('Error agregando tarea')
-	        });//fin DocenteService.PostTarea
+		          })
+		        }).catch(function(err){
+		          alert('Error agregando solucion')
+		        });//fin EstudianteService.SubirTarea
+					}
+
 	    }, false);
 
 	    if (file) {
@@ -103,6 +116,7 @@ angular.module('AngularScaffold.Controllers')
 			EstudianteService.VerificarSiTieneSolucion(param).then(function(response){
 				$scope.solucionDisponible = response.data;
 			})
+
    	}
 
 		$scope.decode = function(file,fileName){
