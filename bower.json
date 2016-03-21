@@ -27,6 +27,7 @@
     "angular-ui-router": "latest",
     "gulp": "latest",
     "bootstrap-css": "latest",
-    "ngstorage": "latest"
+    "ngstorage": "latest",
+    "bootstrap3-dialog": "latest"
   }
 }
