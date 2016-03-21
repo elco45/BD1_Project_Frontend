@@ -19,13 +19,19 @@ angular.module('AngularScaffold.Services').factory('EstudianteService', ['$http'
 				return $http.post(baseUrl + "v1/getCourseByIdDocente", payload);
 			},
 			EstaEnCurso:function(payload){
-				return $http.post(baseUrl + "v1/estaEnCurso", payload);	
+				return $http.post(baseUrl + "v1/estaEnCurso", payload);
 			},
 			AddConfirmacion:function(payload){
-				return $http.post(baseUrl + "v1/addConfirmacion", payload);		
+				return $http.post(baseUrl + "v1/addConfirmacion", payload);
 			},
 			GetEstudianteById:function(payload){
-				return $http.post(baseUrl + "v1/getEstudianteById", payload);		
-			}
+				return $http.post(baseUrl + "v1/getEstudianteById", payload);
+			},
+			SubirTarea:function(payload){
+				return $http.post(baseUrl + "v1/uploadTarea", payload);
+			},
+			GetTarea: function(payload){
+          return $http.post(baseUrl + "v1/getTarea",payload);
+    	}
 		};
 }]);

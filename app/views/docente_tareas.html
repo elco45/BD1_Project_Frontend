@@ -1,15 +1,51 @@
-<div ng-controller="DocenteController">
+<div ng-controller="DocenteController" ng-init="llenarTarea()">
 	<ul>
+		<button data-toggle="modal" data-target="#PopCrearTarea">
+	        <span class="glyphicon glyphicon-plus"></span>
+	    </button>
+	</ul>
+	<ul ng-repeat= "n in llenadoTarea track by n._id">
 		<div class="panel panel-primary">
 	        <div class="panel-heading">
-	            <h3 class="panel-title">Tarea #</h3>
+	            <h3 class="panel-title">Tarea {{n.Id_tarea}} {{$index+1}}</h3>
 	        </div>
 	        <div class="panel-body">
-	            Descripción
+	            <a ng-click="decode(n.archivo,n.nombre)">{{n.nombre}}</a>
 	        </div>
 	    </div>
     </ul>
+    <div class="modal" id="PopCrearTarea" role="dialog">
+            <div class="modal-dialog">
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div id="CursosContainerCreate" class="modal-body row">
+                    <h4 class="Centrar">Agregar Nueva Tarea</h4>
+                    <br></br>
+                    <div class ="row Centrar">
+                    	<form >
+	                    	<label class="col-md-4">Archivo</label>
+	                        <input class="col-md-6" ng-model= "tarea.archivo" type="file" id="TareaTeacher"></input>
+	                    </form>
+                    </div>
+                    </br>
+                    <div class="row Centrar">
+                        <label class="col-md-4">Fecha Entrega</label>
+                        <input class="col-md-6" type="date" id="fechaEntrega" name="input" ng-model="tarea.fecha"
+       							placeholder="yyyy-MM-dd" min="2015-01-01" required />
+                    </div>
+                    </br>
+                    <div class = "row Centrar">
+                        <label class="col-md-4">Parcial</label>
+                        <input class="col-md-6 Centrar" ng-model = "tarea.parcial"type="text" disabled="disabled">
+                    </div>
+                    </br>
+                </div>
+                <div class="modal-footer">
+                  <button type="button"  class="btn btn-primary" data-dismiss="modal" ng-click="crearTarea()">Crear</button>
+                  <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                </div>
+              </div>
+
+            </div>
+        </div>
 </div>
-
-
-

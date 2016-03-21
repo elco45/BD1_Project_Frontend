@@ -18,18 +18,27 @@ angular.module('AngularScaffold.Services').factory('DocenteService', ['$http',
       		BuscarDocente: function(payload){
       			return $http.post(baseUrl + "v1/docenteid", payload);
       		},
-                  GetConfirmacionById: function(payload){
-                        return $http.post(baseUrl + "v1/getConfirmacionById", payload);
-                  },
-                  GetEstudianteById: function(payload){
-                        return $http.post(baseUrl + "v1/getEstudianteById", payload); 
-                  },
-                  AceptarConfirmacion:function(payload){
-                        return $http.post(baseUrl + "v1/aceptarConfirmacion", payload);     
-                  },
-                  RechazarConfirmacion:function(payload){
-                        return $http.post(baseUrl + "v1/rechazarConfirmacion", payload);     
-                  }
-                  
+          GetConfirmacionById: function(payload){
+                return $http.post(baseUrl + "v1/getConfirmacionById", payload);
+          },
+          GetEstudianteById: function(payload){
+                return $http.post(baseUrl + "v1/getEstudianteById", payload);
+          },
+          AceptarConfirmacion:function(payload){
+                return $http.post(baseUrl + "v1/aceptarConfirmacion", payload);
+          },
+          RechazarConfirmacion:function(payload){
+                return $http.post(baseUrl + "v1/rechazarConfirmacion", payload);
+          },
+					PostTarea:function(payload){
+                return $http.post(baseUrl + "v1/crearTarea", payload);
+          },
+          TareaEnCurso:function(payload){
+                return $http.post(baseUrl + "v1/llenarCursoConTarea", payload);
+          },
+          GetTarea: function(payload){
+                return $http.post(baseUrl + "v1/getTarea",payload);
+          }
+
 	    };
 }]);
