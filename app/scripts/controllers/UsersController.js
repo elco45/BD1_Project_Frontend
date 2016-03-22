@@ -147,13 +147,13 @@ angular.module('AngularScaffold.Controllers')
               nombre:$scope.user.universidad_txt,
               user:$scope.user
             }
-            
+
             if ($scope.user.universidad_txt!=undefined) {
               UserService.CreateUniversity(paramU).then(function(response1){
 
               }).catch(function(err){
                 $scope.registroCorrecto=true;
-                
+
               });
 
               UserService.Register(paramU).then(function(response2){
@@ -171,9 +171,9 @@ angular.module('AngularScaffold.Controllers')
                 $scope.signUpCorrecto=true;
               }).catch(function(err){
                 $scope.registroCorrecto=true;
-                
+
               });
-              
+
               $state.go("login")
             }else{
               $scope.universidad.Nombre=$scope.user.universidad_cb;
@@ -185,7 +185,7 @@ angular.module('AngularScaffold.Controllers')
                   universidad:$scope.universidad,
                   user:$scope.user
                 }
-                UserService.RegisterWithU(paramU2).then(function(response4){1
+                UserService.RegisterWithU(paramU2).then(function(response4){
                   $scope.registroCorrecto=false;
                   $scope.user.id = "";
                   $scope.user.nombre = "";
@@ -200,14 +200,14 @@ angular.module('AngularScaffold.Controllers')
                   $scope.signUpCorrecto=true;
                 }).catch(function(err){
                   $scope.registroCorrecto=true;
-                  
+
                 });
               }).catch(function(err){
                 $scope.registroCorrecto=true;
-                
+
               });
             }
-            
+
             $state.go("login")
           }).catch(function(err){
             $scope.registroCorrecto=true;
