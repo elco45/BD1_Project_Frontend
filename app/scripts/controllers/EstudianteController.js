@@ -16,6 +16,7 @@ angular.module('AngularScaffold.Controllers')
 	$scope.selected = {value: 0};
 	$scope.divSubir = false;
 	$scope.solucionDisponible = {};
+	$scope.llenadoNota = [];
 
 	$scope.indice = {};
 	$scope.tarea = {};
@@ -38,7 +39,7 @@ angular.module('AngularScaffold.Controllers')
       }else if (nombre==="estudiante_anuncios") {
         $scope.template = '/views/estudiante_anuncios.html';
       }else if (nombre==="estudiante_calificacion"){
-        $scope.template = '/views/estudiante_calificacion.html';
+        $scope.template = '/views/estudiante_nota.html';
       }else if (nombre==="estudiante_participantes") {
         $scope.template = '/views/estudiante_participantes.html';
       }else if (nombre==="estudiante_secciones_presenciales") {
@@ -58,6 +59,29 @@ angular.module('AngularScaffold.Controllers')
 	      }
    		});
 	}
+	$scope.llenarNota = function(){
+		var param = {
+			cursoActual: $scope.$sessionStorage.CurrentCurso
+		}
+		EstudianteService.GetTareaDeCurso(param).then(function(response){
+			for(var i = 0;i < response.data.tareas.length;i++){
+				var param2 = {
+					idTarea: response.data.tareas[i]
+				}
+				EstudianteService.GetSoluciones(param2).then(function(response1){
+					for(var i=0;i<response1.data.solucion.length;i++){
+						var param3 = {
+							idSolucion: response1.data.solucion[i],
+							idEstudiante: $scope.$sessionStorage.currentUser
+						}
+						EstudianteService.GetNotaEstudiante(param3).then(function(response2){
+							$scope.llenadoNota.push(response2.data.nota);
+						})//fin GetNotaEstudiante
+					}//fin for 2
+				})//fin GetSoluciones --> agarra va a entrar a cada tarea para agarrar sus soluciones
+			}//fin for 1
+		})//fin GetTareaDeCurso
+	}//fin llenarNota
 
 	$scope.divSubirSolucion = function(){
 	 		$scope.divSubir = !$scope.divSubir;
@@ -82,7 +106,7 @@ angular.module('AngularScaffold.Controllers')
 							newData: param
 						}
 						EstudianteService.ModificaSolucion(parametros).then(function(response){
-							
+
 		        }).catch(function(err){
 		          alert('Error agregando tarea')
 		        });//fin EstudianteService.SubirTarea

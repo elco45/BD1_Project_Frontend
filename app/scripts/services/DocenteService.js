@@ -38,6 +38,15 @@ angular.module('AngularScaffold.Services').factory('DocenteService', ['$http',
           },
           GetTarea: function(payload){
                 return $http.post(baseUrl + "v1/getTarea",payload);
+          },
+					GetSolucion: function(payload){
+                return $http.post(baseUrl + "v1/getSolucion",payload);
+          },
+					getEstudianteName: function(payload){
+                return $http.post(baseUrl + "v1/getEstudianteNombre",payload);
+          },
+					CambiarNota: function(payload){
+                return $http.post(baseUrl + "v1/updateGrade",payload);
           }
 
 	    };

@@ -40,8 +40,16 @@ angular.module('AngularScaffold.Services').factory('EstudianteService', ['$http'
           return $http.post(baseUrl + "v1/verifySolution",payload);
     	},
 			ModificaSolucion:function(payload){
-					console.log(payload)
           return $http.post(baseUrl + "v1/modificaSolution",payload);
+    	},
+			GetTareaDeCurso: function(payload){
+          return $http.post(baseUrl + "v1/gettareadecurso",payload);
+    	},
+			GetSoluciones: function(payload){
+          return $http.post(baseUrl + "v1/getsolucionesdetarea",payload);
+    	},
+			GetNotaEstudiante: function(payload){
+          return $http.post(baseUrl + "v1/getnotasolucion",payload);
     	}
 		};
 }]);
