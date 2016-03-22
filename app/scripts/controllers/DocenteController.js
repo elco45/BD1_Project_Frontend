@@ -18,6 +18,7 @@ $scope.tarea = {};
 $scope.usuario = {};
 
 $scope.notaNumero = {};
+$scope.unico = {}
 
 if($state.params.content){
   $scope.indice = $state.params.content.indice;
@@ -60,25 +61,16 @@ if($state.params.content){
 
   }//fin llenarNota
 
-  $scope.LowerGrade = function(NotaTarea){
-      if (NotaTarea.Solucion.nota != 0) {
-        NotaTarea.Solucion.nota -= 1;
-      };
-  };
-  $scope.IncreaseGrade = function(NotaTarea){
-      if (NotaTarea.Solucion.nota  < 100) {
-        NotaTarea.Solucion.nota += 1;
-      }
-  };
-
-  $scope.updateNota = function(TareaPorEvaluar,notaCambio){
+  $scope.updateNota = function(TareaPorEvaluar,nuevaNota,$index){
 
       var param = {
         cambio: TareaPorEvaluar.Solucion,
-        newNota: notaCambio
+        newNota: nuevaNota
       }
-      DocenteService.CambiarNota(param).then(function(response){
 
+      DocenteService.CambiarNota(param).then(function(response){
+        document.getElementById($index).innerHTML='<b>Nota Guardada!!!</b>'; 
+        setTimeout(function() {document.getElementById($index).innerHTML='';},5000);
       })//fin CambiarNota
   }
 

@@ -13,18 +13,16 @@
                 <tr ng-repeat="n in llenadoNota">
                     <td>{{n.Nombre}}</td>
                     <td><a ng-click="decode(n.Solucion.respuesta,n.Solucion.nombreArchivo)">{{n.Solucion.nombreArchivo}}</a></td>
-                    <td>
-                      <button ng-click="LowerGrade(n)" class="botonesFactura btn glyphicon glyphicon-menu-down"></button>
-                      <input readonly="" type="text" value={{n.Solucion.nota}} ng-pattern="/0-9/"></input>
-                      <button ng-click="IncreaseGrade(n)" class="botonesFactura btn glyphicon glyphicon-menu-up"></button>
+                    <td class="row">
+                        <input class="col-md-3" type="number" min="0" max="100" ng-model="n.Solucion.nota" ng-change="updateNota(n,n.Solucion.nota,$index)" ></input>
+                        <div class="col-md-4" id='{{$index}}' style="fontWeight = 'bold'"></div>
+                        
                     </td>
-                    <td>
-                      <button class="btn btn-danger" ng-click="updateNota(n,n.Solucion.nota)">Modificar</button>
-                    </td>
+
                 </tr>
             </tbody>
         </table>
     </div>
-
+    
 
 </div>

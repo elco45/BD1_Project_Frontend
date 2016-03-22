@@ -41,7 +41,7 @@ angular.module('AngularScaffold.Controllers')
       }
 
       $scope.login = function(){
-        if ($scope.signIn.email || $scope.signIn.password) {
+        if ($scope.signIn.email != null && $scope.signIn.password != null) {
           authService.Login($scope.signIn).then(function(response){
             if (response.data=='error') {
               BootstrapDialog.alert({
