@@ -10,7 +10,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
             url: '/login',
             params: {content:undefined},
             templateUrl: '/views/login.html',
-            controller: 'LoginController'
+            controller: 'UsersController'
         })
         .state('estudiante', {
             url: '/estudiante',
