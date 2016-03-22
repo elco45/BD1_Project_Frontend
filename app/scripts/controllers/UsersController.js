@@ -185,7 +185,7 @@ angular.module('AngularScaffold.Controllers')
                   universidad:$scope.universidad,
                   user:$scope.user
                 }
-                UserService.RegisterWithU(paramU2).then(function(response4){1
+                UserService.RegisterWithU(paramU2).then(function(response4){
                   $scope.registroCorrecto=false;
                   $scope.user.id = "";
                   $scope.user.nombre = "";
