@@ -9,9 +9,77 @@ $scope.NameDocente = {};
 $scope.entroCurso=false;
 $scope.AllConfirmacion=[];
 $scope.AllEstudiantes=[];
+$scope.tarea = {};
+$scope.llenadoTarea = [];
+$scope.llenadoNota = [];
+
+$scope.indice = {};
+$scope.tarea = {};
+$scope.usuario = {};
+
+$scope.notaNumero = {};
+
+if($state.params.content){
+  $scope.indice = $state.params.content.indice;
+  $scope.tarea = $state.params.content.tarea;
+  $scope.usuario = $state.params.content.usuario;
+}
 
   $scope.goMain=function(){
     $state.go('docente_main');
+  }
+
+  $scope.goMainNota= function(indice,tarea,usuario){
+    	$state.go('nota', {content:
+	      {
+	      	indice: indice,
+	      	tarea:tarea,
+	      	usuario:usuario
+	      }
+   		});
+  }//goMainNota
+
+  $scope.llenarNota = function(tarea){
+    for(var i=0;i<tarea.solucion.length;i++){
+      var param = {
+        hw: tarea.solucion[i]
+      }
+      DocenteService.GetSolucion(param).then(function(response){
+        var param2 = {
+          idEstudiante: response.data.Id_estudiante
+        }
+        DocenteService.getEstudianteName(param2).then(function(response1){
+          var NotaIndividuales = {
+            Nombre:response1.data.nombre,
+            Solucion: response.data
+          }
+          $scope.llenadoNota.push(NotaIndividuales);
+        })//fin get EstudianteName
+      })//fin GetSolucion
+    }
+
+  }//fin llenarNota
+
+  $scope.LowerGrade = function(NotaTarea){
+      if (NotaTarea.Solucion.nota != 0) {
+        NotaTarea.Solucion.nota -= 1;
+      };
+  };
+  $scope.IncreaseGrade = function(NotaTarea){
+      if (NotaTarea.Solucion.nota  < 100) {
+        NotaTarea.Solucion.nota += 1;
+      }
+  };
+
+  $scope.updateNota = function(TareaPorEvaluar,notaCambio){
+
+      var param = {
+        cambio: TareaPorEvaluar.Solucion,
+        newNota: notaCambio
+      }
+      DocenteService.CambiarNota(param).then(function(response){
+
+      })//fin CambiarNota
   }
 
 	$scope.cambiar_div = function(nombre){
@@ -28,8 +96,77 @@ $scope.AllEstudiantes=[];
       $scope.template = '/views/docente_anuncios.html';
     }else if (nombre==="docente_notas") {
       $scope.template = '/views/docente_notas.html';
+    }else if(nombre === "docente_main_notas"){
+      $scope.template = '/views/docente_notaIndividual.html'
     };
-  } 
+  }
+
+  $scope.decode = function(file,fileName){
+    var byteString;
+    if (file.split(',')[0].indexOf('base64') >= 0){
+        byteString = atob(file.split(',')[1]);
+    }else{
+        byteString = unescape(file.split(',')[1]);
+    }
+    var mimeString = file.split(',')[0].split(':')[1].split(';')[0];
+
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:' + mimeString + ';base64,' + btoa(byteString));
+    element.setAttribute('download', fileName);
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  }//fin decode
+
+
+  $scope.crearTarea = function(){
+    var file = document.querySelector('input[type=file]').files[0];
+    var reader  = new FileReader();
+
+    reader.addEventListener("load", function () {
+      var param = {
+          archivo: reader.result,
+          nameArchivo: file.name,
+          tarea: $scope.tarea
+        }
+        DocenteService.PostTarea(param).then(function(response){
+          var param2 = {
+            idTarea: response.data._id,
+            cursoActual: $scope.$sessionStorage.CurrentCurso
+          }
+          DocenteService.TareaEnCurso(param2).then(function(response1){
+
+          })
+        }).catch(function(err){
+          alert('Error agregando tarea')
+        });//fin DocenteService.PostTarea
+    }, false);
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+
+
+  }//fin $scope.crearTarea
+
+  $scope.llenarTarea = function(){
+    var param ={
+      id: $scope.$sessionStorage.CurrentCurso
+    }
+    DocenteService.VisualizarCourse(param).then(function(response){
+      $scope.curso = response.data;
+      for(var i = 0; i < $scope.curso.tareas.length;i++){
+        var params = {
+          id:$scope.curso.tareas[i]
+        }
+        DocenteService.GetTarea(params).then(function(response1){
+          $scope.llenadoTarea.push(response1.data)
+        });//fin GetTarea
+      }//fin for
+    });//fin Visualizar
+
+  }//fin llenarTarea
 
   $scope.visualizarCursos =  function(){
     var param ={

@@ -1,0 +1,21 @@
+<div ng-controller="EstudianteController" ng-init="llenarNota()">
+    <h2>Notas</h2>
+    <div class="table-responsive">
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Tarea</th>
+                    <th>Nota</th>
+                    <th>Maximo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="n in llenadoNota">
+                    <td>Tarea {{$index+1}}</td>
+                    <td>{{n}}</td>
+                    <td>100%</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

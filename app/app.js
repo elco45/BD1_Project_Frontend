@@ -41,5 +41,17 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
             params: {content:undefined},
             templateUrl: '/views/docente_main.html',
             controller: 'DocenteController'
-        });   
+        })
+				.state('solucion', {
+            url: '/solucion',
+            params: {content:undefined},
+            templateUrl: '/views/estudiante_solucion_main.html',
+            controller: 'EstudianteController'
+        })
+				.state('nota', {
+            url: '/nota',
+            params: {content:undefined},
+            templateUrl: '/views/docente_nota_main.html',
+            controller: 'DocenteController'
+        });
 }])

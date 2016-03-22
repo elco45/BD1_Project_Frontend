@@ -11,6 +11,22 @@ angular.module('AngularScaffold.Controllers')
 	$scope.courses=[];
 	$scope.docentes=[];
 	$scope.AllEstudiantes=[];
+	$scope.llenadoTarea=[];
+	$scope.TareaSubido = [];
+	$scope.selected = {value: 0};
+	$scope.divSubir = false;
+	$scope.solucionDisponible = {};
+	$scope.llenadoNota = [];
+
+	$scope.indice = {};
+	$scope.tarea = {};
+	$scope.usuario = {};
+
+	if($state.params.content){
+    $scope.indice = $state.params.content.indice;
+    $scope.tarea = $state.params.content.tarea;
+    $scope.usuario = $state.params.content.usuario;
+  }
 
 	$scope.goMain=function(){
 	  $state.go('estudiante_main');
@@ -23,15 +39,145 @@ angular.module('AngularScaffold.Controllers')
       }else if (nombre==="estudiante_anuncios") {
         $scope.template = '/views/estudiante_anuncios.html';
       }else if (nombre==="estudiante_calificacion"){
-        $scope.template = '/views/estudiante_calificacion.html';
+        $scope.template = '/views/estudiante_nota.html';
       }else if (nombre==="estudiante_participantes") {
         $scope.template = '/views/estudiante_participantes.html';
       }else if (nombre==="estudiante_secciones_presenciales") {
         $scope.template = '/views/estudiante_matricula.html';
       }else if (nombre==="estudiante_tareas") {
         $scope.template = '/views/estudiante_tareas.html';
+      }else if (nombre==="estudiante_solucion") {
+        $scope.template = '/views/estudiante_solucion.html';
       };
     }
+	$scope.goMainSolucion = function(indice,tarea,usuario){
+    	$state.go('solucion', {content:
+	      {
+	      	indice: indice,
+	      	tarea:tarea,
+	      	usuario:usuario
+	      }
+   		});
+	}
+	$scope.llenarNota = function(){
+		var param = {
+			cursoActual: $scope.$sessionStorage.CurrentCurso
+		}
+		EstudianteService.GetTareaDeCurso(param).then(function(response){
+			for(var i = 0;i < response.data.tareas.length;i++){
+				var param2 = {
+					idTarea: response.data.tareas[i]
+				}
+				EstudianteService.GetSoluciones(param2).then(function(response1){
+					for(var i=0;i<response1.data.solucion.length;i++){
+						var param3 = {
+							idSolucion: response1.data.solucion[i],
+							idEstudiante: $scope.$sessionStorage.currentUser
+						}
+						EstudianteService.GetNotaEstudiante(param3).then(function(response2){
+							$scope.llenadoNota.push(response2.data.nota);
+						})//fin GetNotaEstudiante
+					}//fin for 2
+				})//fin GetSoluciones --> agarra va a entrar a cada tarea para agarrar sus soluciones
+			}//fin for 1
+		})//fin GetTareaDeCurso
+	}//fin llenarNota
+
+	$scope.divSubirSolucion = function(){
+	 		$scope.divSubir = !$scope.divSubir;
+	}//divSubirSolucion
+
+	$scope.uploadAnswer = function(indice){
+    	/*console.log($scope.$sessionStorage.currentUser)
+    	console.log($scope.llenadoTarea[$scope.selected.value])*/
+      var file = document.querySelector('input[type=file]').files[0];
+	    var reader  = new FileReader();
+
+	    reader.addEventListener("load", function () {
+	      var param = {
+	          archivo: reader.result,
+	          nameArchivo: file.name,
+	          tarea: $scope.tarea,
+	          Id_estudiante: $scope.usuario
+	        }
+					if($scope.solucionDisponible){//modifica la solucion anterior
+						var parametros = {
+							busqueda:$scope.solucionDisponible._id,
+							newData: param
+						}
+						EstudianteService.ModificaSolucion(parametros).then(function(response){
+
+		        }).catch(function(err){
+		          alert('Error agregando tarea')
+		        });//fin EstudianteService.SubirTarea
+					}else{//crea una nueva solucion
+						EstudianteService.SubirTarea(param).then(function(response){
+		          var param2 = {
+		            answer:response.data,
+		            cursoActual: $scope.usuario.CurrentCurso
+		          }
+		          EstudianteService.UpdateTareaSolucion(param2).then(function(response1){
+
+		          })
+		        }).catch(function(err){
+		          alert('Error agregando solucion')
+		        });//fin EstudianteService.SubirTarea
+					}
+
+	    }, false);
+
+	    if (file) {
+	      reader.readAsDataURL(file);
+	    }
+   	}//fin uploadAnswer
+
+
+   	$scope.tieneSolucion = function(idTarea,idEstudiante){
+			var param = {
+				id_tarea: idTarea,
+				Id_estudiante: idEstudiante
+			}
+			EstudianteService.VerificarSiTieneSolucion(param).then(function(response){
+				$scope.solucionDisponible = response.data;
+			})
+
+   	}
+
+		$scope.decode = function(file,fileName){
+	    var byteString;
+	    if (file.split(',')[0].indexOf('base64') >= 0){
+	        byteString = atob(file.split(',')[1]);
+	    }else{
+	        byteString = unescape(file.split(',')[1]);
+	    }
+	    var mimeString = file.split(',')[0].split(':')[1].split(';')[0];
+
+	    var element = document.createElement('a');
+	    element.setAttribute('href', 'data:' + mimeString + ';base64,' + btoa(byteString));
+	    element.setAttribute('download', fileName);
+	    element.style.display = 'none';
+	    document.body.appendChild(element);
+	    element.click();
+	    document.body.removeChild(element);
+	  }//fin decode
+
+   	$scope.llenarTarea = function(){
+	    var param ={
+	      id: $scope.$sessionStorage.CurrentCurso
+	    }
+	    EstudianteService.VisualizarCourse(param).then(function(response){
+	      $scope.curso = response.data;
+	      for(var i = 0; i < $scope.curso.tareas.length;i++){
+	        var params = {
+	          id:$scope.curso.tareas[i]
+	        }
+	        EstudianteService.GetTarea(params).then(function(response1){
+	          $scope.llenadoTarea.push(response1.data)
+	        });//fin GetTarea
+	      }//fin for
+	    });//fin Visualizar
+
+	}//fin llenarTarea
 
 	$scope.visualizarCursos =  function(){
 		var param ={
@@ -43,7 +189,7 @@ angular.module('AngularScaffold.Controllers')
 				$scope.WatchCourse($scope.displayCursos[i]);
 			}
 		})//fin DocenteService.GetCursos
-		
+
 	}//fin $scope
 
 	$scope.repeat = function(){
@@ -72,7 +218,7 @@ angular.module('AngularScaffold.Controllers')
 					}
 					$scope.AllCourseData.push(dataCurso)
 				})//fin DocenteService.BuscarDocente*/
-			}	
+			}
 		})//fin DocenteService.VisualizarCourse
 
 	}
@@ -103,7 +249,7 @@ angular.module('AngularScaffold.Controllers')
 								course:response.data,
 								docente:response2.data
 							}
-							
+
 							var params ={
 								id: $scope.$sessionStorage.currentUser.IdUser
 							}
@@ -117,10 +263,10 @@ angular.module('AngularScaffold.Controllers')
 								}
 								var today = new Date();
 								if (!existe && dataCurso.course.year==today.getFullYear() && dataCurso.course.trimestre==Math.floor((today.getMonth()/3)+1)) {
-									$scope.CursosByU.push(dataCurso);	
+									$scope.CursosByU.push(dataCurso);
 								}
 							})
-							
+
 						})
 					})
 
@@ -194,7 +340,7 @@ angular.module('AngularScaffold.Controllers')
 	    })
 	  }
 
-	
+
     $('ul li').click( function() {
       $(this).addClass('active').siblings().removeClass('active');
     });

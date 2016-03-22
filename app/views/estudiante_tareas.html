@@ -1,12 +1,11 @@
-<div ng-controller="EstudianteController">
-	<ul><!--falta el ng-repeat pero ocupamos base de dato-->
-		<div class= "panel panel-primary">
-			<div class="panel-heading">
-				<h3 class="panel-title">Tarea #n</h3>
-			</div>
-			<div class="panel-body">
-
-			</div>
-		</div>
-	</ul>
+<div ng-controller="EstudianteController" ng-init="llenarTarea()">
+	<ul ng-repeat= "n in llenadoTarea track by n._id">
+		<li class="animate-repeat">
+			<div class="panel panel-primary">
+		        <div ng-click="goMainSolucion(selected.value=$index,n,$sessionStorage.currentUser)" class="panel-heading">
+		            <h3  class="Centrar panel-title">Tarea {{$index+1}}</h3>
+		        </div>
+		    </div>
+	    </li>
+    </ul>
 </div>
