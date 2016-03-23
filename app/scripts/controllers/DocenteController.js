@@ -285,13 +285,13 @@ if($state.params.content){
      var parametros = {
         Id_curso: $scope.$sessionStorage.CurrentCurso,
 
+       
     }
-
+     
        DocenteService.GetAnuncio_id(parametros).then(function(response){
         $scope.todoLosAnuncios= response.data
-
+        
        });
-
     }
 
  $scope.crear_anuncio = function(){
@@ -306,17 +306,16 @@ if($state.params.content){
 
     });
     $scope.refrescando_repeat();
-
  }
  $scope.refrescando_repeat=function(){
   var parametros = {
         Id_curso: $scope.$sessionStorage.CurrentCurso,
-
+       
     }
-
+      
        DocenteService.GetAnuncio_id(parametros).then(function(response){
         $scope.todoLosAnuncios= response.data
-
+        
        });
 }
 
@@ -331,7 +330,6 @@ if($state.params.content){
       $scope.texto_boton_anuncio="Cancelar Anuncio"
 
     }
-
   }
 
 

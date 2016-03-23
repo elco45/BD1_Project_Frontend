@@ -51,9 +51,13 @@ angular.module('AngularScaffold.Controllers')
         $scope.template = '/views/estudiante_tareas.html';
       }else if (nombre==="estudiante_solucion") {
         $scope.template = '/views/estudiante_solucion.html';
+<<<<<<< HEAD
       }else if (nombre==="comentarios") {
 				$scope.template = '/views/comentarios.html';
 			};
+=======
+      };
+>>>>>>> 6b99ff468086c7b4465cc38a34dd49e05acbc6ab
     }
 	$scope.goMainSolucion = function(indice,tarea,usuario){
     	$state.go('solucion', {content:
@@ -350,11 +354,19 @@ angular.module('AngularScaffold.Controllers')
 	 $scope.get_Anuncio_by_id = function(){
 	     var parametros = {
 	        Id_curso: $scope.$sessionStorage.CurrentCurso,
+<<<<<<< HEAD
 
 	    }
 	      EstudianteService.GetAnuncio_id_Estudiante(parametros).then(function(response){
 	        $scope.todoLosAnuncios= response.data
 
+=======
+	     
+	    }
+	      EstudianteService.GetAnuncio_id_Estudiante(parametros).then(function(response){
+	        $scope.todoLosAnuncios= response.data
+	        
+>>>>>>> 6b99ff468086c7b4465cc38a34dd49e05acbc6ab
 	       });
 	       console.log($scope.todoLosAnuncios);
     }
