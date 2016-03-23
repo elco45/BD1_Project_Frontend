@@ -20,6 +20,8 @@ $scope.usuario = {};
 $scope.notaNumero = {};
 $scope.unico = {}
 
+$scope.texto_boton_anuncio="Crear anuncios"
+ $scope.todoLosAnuncios=[];
 if($state.params.content){
   $scope.indice = $state.params.content.indice;
   $scope.tarea = $state.params.content.tarea;
@@ -276,8 +278,69 @@ if($state.params.content){
     })
   }
 
+
+ $scope.get_Anuncio_by_id = function(){
+     var parametros = {
+        Id_curso: $scope.$sessionStorage.CurrentCurso,
+       
+    }
+     
+       DocenteService.GetAnuncio_id(parametros).then(function(response){
+        $scope.todoLosAnuncios= response.data
+        
+       });
+       
+    }
+
+ $scope.crear_anuncio = function(){
+
+  $scope.anuncios.idCurso=$scope.$sessionStorage.CurrentCurso;
+ console.log($scope.anuncios.idCurso);
+      DocenteService.Register_anuncio($scope.anuncios).then(function(response){
+
+      $scope.anuncios.idCurso=" ";
+      $scope.anuncios.titulo=" ";
+      $scope.anuncios.des=" ";
+     
+    });
+    $scope.refrescando_repeat();
+     
+ }
+ $scope.refrescando_repeat=function(){
+  var parametros = {
+        Id_curso: $scope.$sessionStorage.CurrentCurso,
+       
+    }
+      
+       DocenteService.GetAnuncio_id(parametros).then(function(response){
+        $scope.todoLosAnuncios= response.data
+        
+       });
+}
+
+ $scope.showAnuncio= function(){
+    if($scope.banderaAnuncios1===true){
+      $scope.banderaAnuncios1=false;
+      $scope.texto_boton_anuncio="Crear Anuncios"
+     
+
+    }else{
+      $scope.banderaAnuncios1=true;
+      $scope.texto_boton_anuncio="Cancelar Anuncio"
+
+    }
+     
+  }
+
+
+
+
+
   $('ul li').click( function() {
     $(this).addClass('active').siblings().removeClass('active');
   });
+
+
+
 
 }]);
