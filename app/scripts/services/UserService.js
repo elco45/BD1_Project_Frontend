@@ -10,7 +10,7 @@ angular.module('AngularScaffold.Services').factory('UserService', ['$http',
       		RegisterWithU:function(payload){
 	          return $http.post(baseUrl + "v1/registerWithU", payload);
       		},
-					GetControl: function(){
+			GetControl: function(){
       	          return $http.get(baseUrl + "v1/getControl");
            		},
       		GetDocentes: function(){

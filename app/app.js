@@ -10,7 +10,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
             url: '/login',
             params: {content:undefined},
             templateUrl: '/views/login.html',
-            controller: 'LoginController'
+            controller: 'UsersController'
         })
         .state('estudiante', {
             url: '/estudiante',
@@ -29,5 +29,29 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
             params: {content:undefined},
             templateUrl: '/views/signUp.html',
             controller: 'UsersController'
-        });   
+        })
+        .state('estudiante_main', {
+            url: '/estudiante_main',
+            params: {content:undefined},
+            templateUrl: '/views/estudiante_main.html',
+            controller: 'EstudianteController'
+        })
+        .state('docente_main', {
+            url: '/docente_main',
+            params: {content:undefined},
+            templateUrl: '/views/docente_main.html',
+            controller: 'DocenteController'
+        })
+				.state('solucion', {
+            url: '/solucion',
+            params: {content:undefined},
+            templateUrl: '/views/estudiante_solucion_main.html',
+            controller: 'EstudianteController'
+        })
+				.state('nota', {
+            url: '/nota',
+            params: {content:undefined},
+            templateUrl: '/views/docente_nota_main.html',
+            controller: 'DocenteController'
+        });
 }])

@@ -23,6 +23,36 @@ angular.module('AngularScaffold.Services').factory('EstudianteService', ['$http'
 			},
 			AddConfirmacion:function(payload){
 				return $http.post(baseUrl + "v1/addConfirmacion", payload);
-			}
+			},
+			GetEstudianteById:function(payload){
+				return $http.post(baseUrl + "v1/getEstudianteById", payload);
+			},
+			SubirTarea:function(payload){
+				return $http.post(baseUrl + "v1/uploadTarea", payload);
+			},
+			GetTarea: function(payload){
+          return $http.post(baseUrl + "v1/getTarea",payload);
+    	},
+			UpdateTareaSolucion: function(payload){
+          return $http.post(baseUrl + "v1/updateTarea",payload);
+    	},
+			VerificarSiTieneSolucion: function(payload){
+          return $http.post(baseUrl + "v1/verifySolution",payload);
+    	},
+			ModificaSolucion:function(payload){
+          return $http.post(baseUrl + "v1/modificaSolution",payload);
+    	},
+			GetTareaDeCurso: function(payload){
+          return $http.post(baseUrl + "v1/gettareadecurso",payload);
+    	},
+			GetSoluciones: function(payload){
+          return $http.post(baseUrl + "v1/getsolucionesdetarea",payload);
+    	},
+			GetNotaEstudiante: function(payload){
+          return $http.post(baseUrl + "v1/getnotasolucion",payload);
+    	},
+    	GetAnuncio_id_Estudiante: function(payload){
+			   return $http.post(baseUrl + "v1/getAnuncios_Estudiantes",payload);
+          }
 		};
 }]);

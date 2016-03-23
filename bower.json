@@ -28,7 +28,6 @@
     "gulp": "latest",
     "bootstrap-css": "latest",
     "ngstorage": "latest",
-    "angular-ui-tree": "latest",
-    "angular.treeview": "latest"
+    "bootstrap3-dialog": "latest"
   }
 }

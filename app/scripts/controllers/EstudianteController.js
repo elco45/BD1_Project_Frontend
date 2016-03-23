@@ -1,9 +1,5 @@
 angular.module('AngularScaffold.Controllers')
 .controller('EstudianteController', ['$scope','$state','EstudianteService','UserService','$sessionStorage', function ($scope,$state, EstudianteService,UserService,$sessionStorage) {
-	//temporary node
-
-
-
 	$scope.displayCursos = [];
 	$scope.AllCourse = [];
 	$scope.AllCourseDocente = [];
@@ -14,7 +10,30 @@ angular.module('AngularScaffold.Controllers')
 	$scope.CursosByU=[];
 	$scope.courses=[];
 	$scope.docentes=[];
-	$scope.tree = [{id:-1, text: "",showReply: false, nodes: []}];
+	$scope.AllEstudiantes=[];
+	$scope.llenadoTarea=[];
+	$scope.TareaSubido = [];
+	$scope.selected = {value: 0};
+	$scope.divSubir = false;
+	$scope.solucionDisponible = {};
+	$scope.llenadoNota = [];
+
+	$scope.indice = {};
+	$scope.tarea = {};
+	$scope.usuario = {};
+
+
+	$scope.todoLosAnuncios=[];
+
+	if($state.params.content){
+    $scope.indice = $state.params.content.indice;
+    $scope.tarea = $state.params.content.tarea;
+    $scope.usuario = $state.params.content.usuario;
+  }
+
+	$scope.goMain=function(){
+	  $state.go('estudiante_main');
+	}
 
 	$scope.cambiar_div = function(nombre){
       if (nombre==="estudiante_inicio") {
@@ -23,18 +42,147 @@ angular.module('AngularScaffold.Controllers')
       }else if (nombre==="estudiante_anuncios") {
         $scope.template = '/views/estudiante_anuncios.html';
       }else if (nombre==="estudiante_calificacion"){
-        $scope.template = '/views/estudiante_calificacion.html';
+        $scope.template = '/views/estudiante_nota.html';
       }else if (nombre==="estudiante_participantes") {
         $scope.template = '/views/estudiante_participantes.html';
       }else if (nombre==="estudiante_secciones_presenciales") {
         $scope.template = '/views/estudiante_matricula.html';
       }else if (nombre==="estudiante_tareas") {
         $scope.template = '/views/estudiante_tareas.html';
+      }else if (nombre==="estudiante_solucion") {
+        $scope.template = '/views/estudiante_solucion.html';
       }else if (nombre==="comentarios") {
-        $scope.template = '/views/comentarios.html';
-      };
+				$scope.template = '/views/comentarios.html';
+			};
     }
+	$scope.goMainSolucion = function(indice,tarea,usuario){
+    	$state.go('solucion', {content:
+	      {
+	      	indice: indice,
+	      	tarea:tarea,
+	      	usuario:usuario
+	      }
+   		});
+	}
+	$scope.llenarNota = function(){
+		var param = {
+			cursoActual: $scope.$sessionStorage.CurrentCurso
+		}
+		EstudianteService.GetTareaDeCurso(param).then(function(response){
+			for(var i = 0;i < response.data.tareas.length;i++){
+				var param2 = {
+					idTarea: response.data.tareas[i]
+				}
+				EstudianteService.GetSoluciones(param2).then(function(response1){
+					for(var i=0;i<response1.data.solucion.length;i++){
+						var param3 = {
+							idSolucion: response1.data.solucion[i],
+							idEstudiante: $scope.$sessionStorage.currentUser
+						}
+						EstudianteService.GetNotaEstudiante(param3).then(function(response2){
+							$scope.llenadoNota.push(response2.data.nota);
+						})//fin GetNotaEstudiante
+					}//fin for 2
+				})//fin GetSoluciones --> agarra va a entrar a cada tarea para agarrar sus soluciones
+			}//fin for 1
+		})//fin GetTareaDeCurso
+	}//fin llenarNota
 
+	$scope.divSubirSolucion = function(){
+	 		$scope.divSubir = !$scope.divSubir;
+	}//divSubirSolucion
+
+	$scope.uploadAnswer = function(indice){
+    	/*console.log($scope.$sessionStorage.currentUser)
+    	console.log($scope.llenadoTarea[$scope.selected.value])*/
+      var file = document.querySelector('input[type=file]').files[0];
+	    var reader  = new FileReader();
+
+	    reader.addEventListener("load", function () {
+	      var param = {
+	          archivo: reader.result,
+	          nameArchivo: file.name,
+	          tarea: $scope.tarea,
+	          Id_estudiante: $scope.usuario
+	        }
+					if($scope.solucionDisponible){//modifica la solucion anterior
+						var parametros = {
+							busqueda:$scope.solucionDisponible._id,
+							newData: param
+						}
+						EstudianteService.ModificaSolucion(parametros).then(function(response){
+
+		        }).catch(function(err){
+		          alert('Error agregando tarea')
+		        });//fin EstudianteService.SubirTarea
+					}else{//crea una nueva solucion
+						EstudianteService.SubirTarea(param).then(function(response){
+		          var param2 = {
+		            answer:response.data,
+		            cursoActual: $scope.usuario.CurrentCurso
+		          }
+		          EstudianteService.UpdateTareaSolucion(param2).then(function(response1){
+
+		          })
+		        }).catch(function(err){
+		          alert('Error agregando solucion')
+		        });//fin EstudianteService.SubirTarea
+					}
+
+	    }, false);
+
+	    if (file) {
+	      reader.readAsDataURL(file);
+	    }
+   	}//fin uploadAnswer
+
+
+   	$scope.tieneSolucion = function(idTarea,idEstudiante){
+			var param = {
+				id_tarea: idTarea,
+				Id_estudiante: idEstudiante
+			}
+			EstudianteService.VerificarSiTieneSolucion(param).then(function(response){
+				$scope.solucionDisponible = response.data;
+			})
+
+   	}
+
+		$scope.decode = function(file,fileName){
+	    var byteString;
+	    if (file.split(',')[0].indexOf('base64') >= 0){
+	        byteString = atob(file.split(',')[1]);
+	    }else{
+	        byteString = unescape(file.split(',')[1]);
+	    }
+	    var mimeString = file.split(',')[0].split(':')[1].split(';')[0];
+
+	    var element = document.createElement('a');
+	    element.setAttribute('href', 'data:' + mimeString + ';base64,' + btoa(byteString));
+	    element.setAttribute('download', fileName);
+	    element.style.display = 'none';
+	    document.body.appendChild(element);
+	    element.click();
+	    document.body.removeChild(element);
+	  }//fin decode
+
+   	$scope.llenarTarea = function(){
+	    var param ={
+	      id: $scope.$sessionStorage.CurrentCurso
+	    }
+	    EstudianteService.VisualizarCourse(param).then(function(response){
+	      $scope.curso = response.data;
+	      for(var i = 0; i < $scope.curso.tareas.length;i++){
+	        var params = {
+	          id:$scope.curso.tareas[i]
+	        }
+	        EstudianteService.GetTarea(params).then(function(response1){
+	          $scope.llenadoTarea.push(response1.data)
+	        });//fin GetTarea
+	      }//fin for
+	    });//fin Visualizar
+
+	}//fin llenarTarea
 
 	$scope.visualizarCursos =  function(){
 		var param ={
@@ -82,6 +230,7 @@ angular.module('AngularScaffold.Controllers')
 
 	$scope.selectCurso=function(curso,docente){
 	    $scope.$sessionStorage.CurrentCurso=curso._id;
+	    $state.go('estudiante');
 	}
 
 
@@ -128,7 +277,6 @@ angular.module('AngularScaffold.Controllers')
 
 				}
 			}
-			$scope.getCourseComments();
 		})
 	}
 
@@ -159,137 +307,60 @@ angular.module('AngularScaffold.Controllers')
 		EstudianteService.EstaEnCurso(param).then(function(response){
 			existe= response.data.esta;
 			if (existe) {
-				alert("Su solicitud de matrícula aún no ha sido confirmada");
+				 BootstrapDialog.alert({
+	              title: 'ALERTA',
+	              message: 'Su solicitud de matrícula aún no ha sido confirmada',
+	              type: BootstrapDialog.TYPE_WARNING, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+	              closable: true, // <-- Default value is false
+	              buttonLabel: 'Cerrar', // <-- Default value is 'OK',
+	            });
 			}else{
 				EstudianteService.AddConfirmacion(param).then(function(response1){
-					alert("Su solicitud se ha enviado exitosamente");
+					 BootstrapDialog.alert({
+		              title: 'EXITO',
+		              message: 'Su solicitud ha sido enviado exitosamente!',
+		              type: BootstrapDialog.TYPE_SUCCESS, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+		              closable: true, // <-- Default value is false
+		              buttonLabel: 'Cerrar', // <-- Default value is 'OK',
+		            });
 				})
 			}
 		})
 	}
 
+	$scope.visualizarEstudiantes=function(){
+	    var param={
+	      id:$scope.$sessionStorage.CurrentCurso
+	    }
+	    EstudianteService.VisualizarCourse(param).then(function(response){
+	      var cursoo=response.data;
+	      for (var i = 0; i < cursoo.estudiantes.length; i++) {
+	        var paramEst={
+	          Id_estudiante:cursoo.estudiantes[i]
+	        }
+	        EstudianteService.GetEstudianteById(paramEst).then(function(response1){
+	          $scope.AllEstudiantes.push(response1.data);
+	        })
+	      }
+	    })
+	  }
+
+
+
+	 $scope.get_Anuncio_by_id = function(){
+	     var parametros = {
+	        Id_curso: $scope.$sessionStorage.CurrentCurso,
+
+	    }
+	      EstudianteService.GetAnuncio_id_Estudiante(parametros).then(function(response){
+	        $scope.todoLosAnuncios= response.data
+
+	       });
+	       console.log($scope.todoLosAnuncios);
+    }
+
 
     $('ul li').click( function() {
       $(this).addClass('active').siblings().removeClass('active');
     });
-
-
-
-
-
-		/*$scope.delete = function(data) {
-		        data.nodes = [];
-		};
-*/
-	//Inicio comentarios
-    $scope.addFirstComment = function() {
-        var post = 1;
-        var txt =	document.getElementById("first_txtcomment").value;
-        $scope.tree[0].nodes.push({id:-55,text: txt,nodes: []});
-				UserService.GetControl().then(function(response1){
-						var params = {
-							 Id_comentario: response1.data.Id_comentario,
-							 text: txt,
-							 nodes: [],
-							 scope: $scope.$sessionStorage
-						}
-						UserService.AddFirstParentComment(params).then(function(response2){
-								for (var i = 0; i < $scope.tree[0].nodes.length; i++) {
-									if($scope.tree[0].nodes[i].id === -55){
-											$scope.tree[0].nodes[i].id = response2.data.id
-											break;
-									}
-								}
-
-								console.log($scope.tree)
-						});
-				})
-
-    };
-    $scope.addComment = function(data) {
-        var post = data.nodes.length + 1;
-        var txt =	document.getElementById("txtcomment").value;
-				data.showReply = false;
-         // -55 será el id temporal para identificar el nodo que acaba de ser insertado.
-
-				UserService.GetControl().then(function(response1){
-
-					data.nodes.push({id: response1.data.Id_comentario,text: txt,nodes: []});
-					//console.log(params)
-					/*
-				 $scope.tree = $scope.agregarId(response1.data.Id_comentario, $scope.tree)*/
-				 console.log($scope.tree)
-				 var params = {
-						Id_parentComment: data.id,
-						Id_comentario: response1.data.Id_comentario,
-						text: txt,
-						nodes: [],
-						scope: $scope.$sessionStorage
-				 }
-				 console.log(params)
-
-					UserService.AddComment(params).then(function(response2){
-							console.log(response2)
-					});
-				})
-    };
-
-		$scope.agregarId = function(id, arreglo){
-			for (var i = 0; i < arreglo.length; i++) {
-				if(arreglo[i].id = -55){
-						arreglo[i].id = id
-						return arreglo
-					}
-				else
-					if(arreglo[i].nodes.lenght >0 ){
-						arreglo[i].nodes =  $scope.agregarId(id, arreglo[i].nodes)
-					}
-			}
-			return arreglo
-		}
-		$scope.isFirst = function(data){
-			return $scope.tree.indexOf(data)
-		}
-		$scope.enableReply = function(data){
-			 data.showReply = true;
-		}
-		$scope.showReply = function(){
-			return $scope.reply
-		}
-		$scope.getCourseComments = function(){
-			console.log($scope.$sessionStorage.CurrentCurso)
-			UserService.getCourseComments({Id_curso: $scope.$sessionStorage.CurrentCurso}).then(function(response){
-					var commentArray = response.data;
-					var cont = 0;
-					for (var i = 0; i < commentArray.length; i++) {
-						if(commentArray[i].Id_comentario_padre === -1){
-								$scope.tree[0].nodes.push({id:commentArray[i].Id_comentario,text: commentArray[i].descripción,nodes: []})	//SE AÑADEN LOS NODOS PADRES
-								$scope.tree[0].nodes[cont].nodes=$scope.fillChildrenNodes(commentArray,commentArray[i].Id_comentario)
-								cont = cont +1;
-						}
-					}
-					console.log($scope.tree)
-			})
-		}
-
-		$scope.fillChildrenNodes = function(array, parentId){
-				var newArray = [];
-				var cont = 0;
-				for (var i = 0; i < array.length; i++) {
-					if(array[i].Id_comentario_padre === parentId){
-							newArray.push({id:array[i].Id_comentario,text: array[i].descripción,nodes: []})
-							console.log(newArray)
-							var children = $scope.fillChildrenNodes(array, array[i].Id_comentario)
-							if(children.length > 0 ){
-								newArray[cont].nodes.push(children)
-								cont= cont +1;
-							}
-					}
-				}
-				return newArray;
-		}
-//fin comentarios
-
-
-
 }]);

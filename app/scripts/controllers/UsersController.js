@@ -16,8 +16,8 @@ angular.module('AngularScaffold.Controllers')
       $scope.mySelect;
       $scope.universidades=[];
       $scope.universidad={};
+
     	$scope.tree = [{id:-1, text: "",showReply: false, nodes: []}];
-      
       $scope.getUniversidades = function(){
         UserService.GetUniversidades().then(function(response){
           $scope.universidades=response.data;
@@ -31,21 +31,45 @@ angular.module('AngularScaffold.Controllers')
           $sessionStorage.$reset();
           $state.go("login");
         }).catch(function(err){
-          alert(err.data.error + " " + err.data.message);
+          BootstrapDialog.alert({
+              title: 'ERROR',
+              message: 'Sesión expirado, vuelva a conectarse',
+              type: BootstrapDialog.TYPE_WARNING, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+              closable: true, // <-- Default value is false
+              buttonLabel: 'Cerrar', // <-- Default value is 'OK',
+          });
         })
       }
 
       $scope.login = function(){
-        authService.Login($scope.signIn).then(function(response){
-          $sessionStorage.currentUser = response.data;
-          if($sessionStorage.currentUser.IdUser <= 99999 && $sessionStorage.currentUser.IdUser >= 10000){
-            $state.go("docente");
-          }else if($sessionStorage.currentUser.IdUser >= 10000000){
-            $state.go("estudiante");
-          }
-        }).catch(function(err){
-          alert(err.data.error + " " + err.data.message);
-        });
+        if ($scope.signIn.email != null && $scope.signIn.password != null) {
+          authService.Login($scope.signIn).then(function(response){
+            if (response.data=='error') {
+              BootstrapDialog.alert({
+                title: 'ERROR',
+                message: 'El usuario o contraseña que usted ingreso es incorrecto!',
+                type: BootstrapDialog.TYPE_DANGER, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+                closable: true, // <-- Default value is false
+                buttonLabel: 'Cerrar', // <-- Default value is 'OK',
+              });
+            }else{
+              $sessionStorage.currentUser = response.data;
+              if($sessionStorage.currentUser.IdUser <= 99999 && $sessionStorage.currentUser.IdUser >= 10000){
+                $state.go('docente_main');
+              }else if($sessionStorage.currentUser.IdUser >= 10000000){
+                $state.go('estudiante_main');
+              }
+            }
+          })
+        }else{
+          BootstrapDialog.alert({
+            title: 'ERROR',
+            message: 'Porfavor ingrese un usuario y contraseña valido.',
+            type: BootstrapDialog.TYPE_DANGER, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+            closable: true, // <-- Default value is false
+            buttonLabel: 'Cerrar', // <-- Default value is 'OK',
+          });
+        }
       }
 
       $scope.signUp =function(){
@@ -162,7 +186,7 @@ angular.module('AngularScaffold.Controllers')
                   universidad:$scope.universidad,
                   user:$scope.user
                 }
-                UserService.RegisterWithU(paramU2).then(function(response4){1
+                UserService.RegisterWithU(paramU2).then(function(response4){
                   $scope.registroCorrecto=false;
                   $scope.user.id = "";
                   $scope.user.nombre = "";
@@ -214,6 +238,7 @@ angular.module('AngularScaffold.Controllers')
       }
 
 
+
       //Inicio comentarios
         $scope.addFirstComment = function() {
             var post = 1;
@@ -262,7 +287,7 @@ angular.module('AngularScaffold.Controllers')
              console.log(params)
 
               UserService.AddComment(params).then(function(response2){
-                  console.log(response2)
+                  alert("Comentario agregado exitosamente")
               });
             })
         };
@@ -314,7 +339,7 @@ angular.module('AngularScaffold.Controllers')
                   console.log(newArray)
                   var children = $scope.fillChildrenNodes(array, array[i].Id_comentario)
                   if(children.length > 0 ){
-                    newArray[cont].nodes.push(children)
+                    newArray[cont].nodes=children
                     cont= cont +1;
                   }
               }
@@ -322,5 +347,6 @@ angular.module('AngularScaffold.Controllers')
             return newArray;
         }
     //fin comentarios
+
 
   }]);
