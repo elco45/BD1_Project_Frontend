@@ -1,0 +1,11 @@
+<div ng-controller="DocenteController" ng-init="llenarTarea()">
+	<ul ng-repeat= "n in llenadoTarea track by n._id">
+		<li class="animate-repeat">
+			<div class="panel panel-primary">
+		        <div ng-click="goMainNota(selected.value=$index,n,$sessionStorage.currentUser)" class="panel-heading">
+		            <h3  class="Centrar panel-title">Tarea {{$index+1}}</h3>
+		        </div>
+		    </div>
+	    </li>
+    </ul>
+</div>

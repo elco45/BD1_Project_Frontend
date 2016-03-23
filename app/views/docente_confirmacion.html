@@ -1,0 +1,28 @@
+<div ng-controller="DocenteController" ng-init="getAllConfirmacion()">
+    <div class="table-responsive">
+        <table class="table table-hover table-striped" >
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Cuenta</th>
+                    <th>Aceptar</th>
+                    <th>Rechazar</th>
+                </tr>
+            </thead>
+            <tbody><!--falta ng-repeat pero no esta BD-->
+                <tr ng-repeat="confirmacion in AllConfirmacion">
+                    <td>{{confirmacion.nombre}}</td>
+                    <td>{{confirmacion.Id_estudiante}}</td>
+                    <td>
+                       <button type="button" class="btn btn-success" ng-click="confirmar(confirmacion.Id_estudiante,$index)">Aceptar</button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger" ng-click="rechazar(confirmacion.Id_estudiante,$index)">Rechazar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

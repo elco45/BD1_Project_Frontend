@@ -1,0 +1,14 @@
+<div ng-controller="DocenteController" ng-init="visualizarCursos()">
+	<ul ng-repeat = "n in AllCourse track by n._id">
+		<li class="animate-repeat" ng-click="selectCurso(n,NameDocente)">
+			<div class="panel panel-primary">
+		        <div class="panel-heading">
+		            <h3 class="panel-title">{{n.nombre}}</h3>
+		        </div>
+		        <div class="panel-body"> 
+		            {{NameDocente}}
+		        </div>
+		    </div>
+	    </li>
+    </ul>
+</div>

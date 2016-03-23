@@ -1,0 +1,23 @@
+<div ng-controller="DocenteController" ng-init="visualizarEstudiantes()">
+    <h2>Participantes</h2>
+    <div class="table-responsive">
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre Completo</th>
+                    <th>Correo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="estudiante in AllEstudiantes">
+                    <td>{{estudiante.Id_estudiante}}</td>
+                    <td>{{estudiante.nombre}} {{estudiante.apellido}} </td>
+                    <td>{{estudiante.email}}@escuela.com </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
