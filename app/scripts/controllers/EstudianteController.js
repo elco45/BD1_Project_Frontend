@@ -22,6 +22,9 @@ angular.module('AngularScaffold.Controllers')
 	$scope.tarea = {};
 	$scope.usuario = {};
 
+
+	$scope.todoLosAnuncios=[];
+
 	if($state.params.content){
     $scope.indice = $state.params.content.indice;
     $scope.tarea = $state.params.content.tarea;
@@ -339,6 +342,20 @@ angular.module('AngularScaffold.Controllers')
 	      }
 	    })
 	  }
+
+
+
+	 $scope.get_Anuncio_by_id = function(){
+	     var parametros = {
+	        Id_curso: $scope.$sessionStorage.CurrentCurso,
+	     
+	    }
+	      EstudianteService.GetAnuncio_id_Estudiante(parametros).then(function(response){
+	        $scope.todoLosAnuncios= response.data
+	        
+	       });
+	       console.log($scope.todoLosAnuncios);
+    }
 
 
     $('ul li').click( function() {

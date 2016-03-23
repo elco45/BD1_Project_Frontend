@@ -1,12 +1,14 @@
-<div ng-controller="EstudianteController">
-	<ul><!--falta el ng-repeat pero ocupamos base de dato-->
-		<div class= "panel panel-info">
-			<div class="panel-heading">
-				<h3 class="panel-title">Anuncio #n</h3><!--Aqui es donde se comenta, foro?-->
-			</div>
-			<div class="panel-body">
+<div ng-controller="EstudianteController" ng-init="get_Anuncio_by_id()">
 
-			</div>
-		</div>
-	</ul>
+ <div class="panel panel-info" ng-repeat="u in todoLosAnuncios.slice().reverse()">
+            <div class="panel-heading">
+                  <h3 class="panel-title"><h4>Titulo: {{u.titulo}}</h4></h3>
+                 
+            </div>
+             
+            <div class="row panel-body">
+              <textarea style="background-color:#FFFFFF"  rows=10 class="col-xs-12" Name="Texto" disabled>{{u.descripcion}}</textarea>
+            </div>
+    </div>
+
 </div>

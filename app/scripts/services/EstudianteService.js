@@ -50,6 +50,9 @@ angular.module('AngularScaffold.Services').factory('EstudianteService', ['$http'
     	},
 			GetNotaEstudiante: function(payload){
           return $http.post(baseUrl + "v1/getnotasolucion",payload);
-    	}
+    	},
+    	GetAnuncio_id_Estudiante: function(payload){
+			   return $http.post(baseUrl + "v1/getAnuncios_Estudiantes",payload);
+          }
 		};
 }]);
