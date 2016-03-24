@@ -129,6 +129,7 @@ angular.module('AngularScaffold.Controllers')
 
       }
       $scope.register = function() {
+        $scope.registroCorrecto=false;
         if ($scope.user.nombre==undefined) {
           $scope.registroCorrecto=true;
         }
@@ -185,7 +186,6 @@ angular.module('AngularScaffold.Controllers')
               }).catch(function(err){
                 $scope.universidadTomado=true;
               });
-              
             }else{
               var para={
                 Nombre:$scope.user.universidad_cb.trim()
