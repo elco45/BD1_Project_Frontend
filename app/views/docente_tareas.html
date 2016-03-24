@@ -1,7 +1,8 @@
 <div ng-controller="DocenteController" ng-init="llenarTarea()">
+  <h2>Tareas</h2>
 	<ul>
-		<button data-toggle="modal" data-target="#PopCrearTarea">
-	        <span class="glyphicon glyphicon-plus"></span>
+		<button data-toggle="modal" data-target="#PopCrearTarea" class="btn btn-danger">
+	        <span class="glyphicon glyphicon-plus"></span>  Agregar Tarea
 	    </button>
 	</ul>
 	<ul ng-repeat= "n in llenadoTarea track by n._id">
@@ -9,8 +10,9 @@
 	        <div class="panel-heading">
 	            <h3 class="panel-title">Tarea {{n.Id_tarea}} {{$index+1}}</h3>
 	        </div>
-	        <div class="panel-body">
-	            <a ng-click="decode(n.archivo,n.nombre)">{{n.nombre}}</a>
+	        <div class="row panel-body">
+            <label class="col-md-2">Instrucciones: </label>
+	         <a class="col-md-10" ng-click="decode(n.archivo,n.nombre)">{{n.nombre}}</a>
 	        </div>
 	    </div>
     </ul>

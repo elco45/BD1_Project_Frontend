@@ -93,8 +93,6 @@ angular.module('AngularScaffold.Controllers')
 	}//divSubirSolucion
 
 	$scope.uploadAnswer = function(indice){
-    	/*console.log($scope.$sessionStorage.currentUser)
-    	console.log($scope.llenadoTarea[$scope.selected.value])*/
       var file = document.querySelector('input[type=file]').files[0];
 	    var reader  = new FileReader();
 
@@ -283,16 +281,13 @@ angular.module('AngularScaffold.Controllers')
 	$scope.buscarCursos=function(idDocente){
 		EstudianteService.GetCourseByIdDocente(idDocente).then(function(response2){
 			var cursos=response2.data;
-			console.log(response2.data)
 			for (var j = 0; j < cursos.length; j++) {
 				$scope.courses.push(cursos[j]);
 				var paramsDocente = {
 					idDocente : cursos[j].Id_docente
 				}
 				EstudianteService.BuscarDocente(paramsDocente).then(function(response3){
-					console.log(response3.data)
 					$scope.docentes.push(response3.data);
-					console.log(response3.data)
 				})
 			}
 		})

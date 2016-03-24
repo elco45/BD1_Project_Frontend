@@ -258,8 +258,6 @@ angular.module('AngularScaffold.Controllers')
                           break;
                       }
                     }
-
-                    console.log($scope.tree)
                 });
             })
 
@@ -273,10 +271,8 @@ angular.module('AngularScaffold.Controllers')
             UserService.GetControl().then(function(response1){
 
               data.nodes.push({id: response1.data.Id_comentario,text: txt,nodes: []});
-              //console.log(params)
               /*
              $scope.tree = $scope.agregarId(response1.data.Id_comentario, $scope.tree)*/
-             console.log($scope.tree)
              var params = {
                 Id_parentComment: data.id,
                 Id_comentario: response1.data.Id_comentario,
@@ -284,8 +280,6 @@ angular.module('AngularScaffold.Controllers')
                 nodes: [],
                 scope: $scope.$sessionStorage
              }
-             console.log(params)
-
               UserService.AddComment(params).then(function(response2){
                   alert("Comentario agregado exitosamente")
               });
@@ -315,7 +309,6 @@ angular.module('AngularScaffold.Controllers')
           return $scope.reply
         }
         $scope.getCourseComments = function(){
-          console.log($scope.$sessionStorage.CurrentCurso)
           UserService.getCourseComments({Id_curso: $scope.$sessionStorage.CurrentCurso}).then(function(response){
               var commentArray = response.data;
               var cont = 0;
@@ -326,7 +319,6 @@ angular.module('AngularScaffold.Controllers')
                     cont = cont +1;
                 }
               }
-              console.log($scope.tree)
           })
         }
 
@@ -336,7 +328,6 @@ angular.module('AngularScaffold.Controllers')
             for (var i = 0; i < array.length; i++) {
               if(array[i].Id_comentario_padre === parentId){
                   newArray.push({id:array[i].Id_comentario,text: array[i].descripción,nodes: []})
-                  console.log(newArray)
                   var children = $scope.fillChildrenNodes(array, array[i].Id_comentario)
                   if(children.length > 0 ){
                     newArray[cont].nodes=children

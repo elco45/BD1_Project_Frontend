@@ -1,35 +1,57 @@
 <div ng-controller="UsersController" ng-init="getCourseComments()">
-
 	<div>
-
 <!-- prueba de comentarios-->
-
 <!--<button  ng-cloak  ng-click="delete(data)" ng-show="data.nodes.length > 0 && isFirst(data)">Delete nodes</button>*/-->
-  <script type="text/ng-template"  id="tree_item_renderer.html">
-  	{{data.name}}
-  	<div>
-  		<h5>{{data.text}}</h5>
-  		<button ng-cloak ng-show="isFirst(data)"ng-click="enableReply(data)">reply</button>
-  	</div>
-  	<div>
-  	<textarea ng-cloak ng-if="data.showReply" id="txtcomment" placeholder="Your Comment" ></textarea></div>
+    <script type="text/ng-template"  id="tree_item_renderer.html">
+    	{{data.name}}
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title">~~~~~~~:</h3>
+        </div>
+      	<div class="row panel-body">
+      		<h5 class="col-xs-12">{{data.text}}</h5>
+      		<button ng-cloak ng-show="isFirst(data)" ng-click="enableReply(data)" class="btn btn-warning col-xs-offset-9 col-xs-2">reply</button>
+      	</div>
+      </div>
 
-  	<button ng-cloak ng-if="data.showReply" ng-click="addComment(data)">Agregar Comentario</button>
-  	</div>
-  	<ul>
-  			<li ng-repeat="data in data.nodes" ng-include="'tree_item_renderer.html'">
-  			</li>
-  	</ul>
+    	<div class="panel panel-danger" ng-cloak ng-if="data.showReply">
+        <div class="panel-heading">
+          <h3 class="panel-title">Reply</h3>
+        </div>
+        <div class="row panel-body">
+        	<textarea id="txtcomment" rows=3 placeholder="Your Comment..." class="col-xs-offset-1 col-xs-10" ></textarea></div>
+          <div class="row">
+            <button class="btn btn-success col-xs-offset-4 col-xs-2" ng-click="addComment(data)">Reply</button>
+            <button class="btn btn-danger col-xs-offset-1 col-xs-2">Cancelar</button>
+          </div>
+        </div>
+    	</div>
 
-  </script>
-  <h2>Comentarios</h2>
+    	<ul>
+    		<li ng-repeat="data in data.nodes" ng-include="'tree_item_renderer.html'">
+    		</li>
+    	</ul>
+    </script>
 
-  	<textarea id="first_txtcomment" placeholder="Your Comment" ></textarea>
-  	<button ng-click="addFirstComment()">Agregar Comentario</button>
-  <ul>
-  	<div ng-repeat="data in tree" ng-include="'tree_item_renderer.html'">
-  	</div>
-</ul>
+    <h2>Foro</h2>
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title"><h4>Agregar nuevo comentario</h4></h3>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <textarea id="first_txtcomment" rows=3 class="col-xs-offset-1 col-xs-10" placeholder="Your Comment" ></textarea>
+        </div>
+        <div class="row">
+          <button ng-click="addFirstComment()" class="btn btn-danger col-xs-offset-9 col-xs-2">Agregar Comentario</button>
+        </div>
+      </div>
+    </div>
+  	
+    <ul>
+    	<div ng-repeat="data in tree" ng-include="'tree_item_renderer.html'">
+    	</div>
+    </ul>
 
 	</div>
 </div>

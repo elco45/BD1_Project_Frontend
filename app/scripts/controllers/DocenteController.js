@@ -295,9 +295,7 @@ if($state.params.content){
     }
 
  $scope.crear_anuncio = function(){
-
   $scope.anuncios.idCurso=$scope.$sessionStorage.CurrentCurso;
- console.log($scope.anuncios.idCurso);
       DocenteService.Register_anuncio($scope.anuncios).then(function(response){
 
       $scope.anuncios.idCurso=" ";
