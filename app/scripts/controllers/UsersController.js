@@ -130,6 +130,8 @@ angular.module('AngularScaffold.Controllers')
       }
       $scope.register = function() {
         $scope.registroCorrecto=false;
+        $scope.universidadTomado=false;                  
+        $scope.emailTomado=false;
         if ($scope.user.nombre==undefined) {
           $scope.registroCorrecto=true;
         }
@@ -152,13 +154,9 @@ angular.module('AngularScaffold.Controllers')
               nombre:$scope.user.universidad_txt,
               user:$scope.user
             }
-            console.log(paramU)
             if ($scope.user.universidad_txt!=undefined) {
-              console.log("entro")
               UserService.CreateUniversity(paramU).then(function(response1){
-                console.log(response1.data)
-                UserService.Register(paramU).then(function(response2){//<-------NO ENTRA!!!
-                  console.log(response2.data)
+                UserService.Register(paramU).then(function(response2){
                   $scope.universidadTomado=false;
                   $scope.registroCorrecto=false;
                   $scope.user.id = "";
@@ -181,6 +179,9 @@ angular.module('AngularScaffold.Controllers')
                   });
                   $state.go("login");
                 }).catch(function(err){
+                  $scope.getUniversidades();
+                  $scope.user.universidad_cb=$scope.universidades[$scope.universidades.length-1];
+                  $scope.universidadDiv=false;
                   $scope.emailTomado=true;
                 })
               }).catch(function(err){
@@ -190,12 +191,10 @@ angular.module('AngularScaffold.Controllers')
               var para={
                 Nombre:$scope.user.universidad_cb.trim()
               }
-              console.log(para)
               UserService.GetUniversidadByName(para).then(function(response3){
                 $scope.universidad=response3.data;
                 $scope.registroCorrecto=false;
                 $scope.universidadTomado=false;
-                console.log(response3.data)
                 var paramU2={
                   control_id:response.data,
                   universidad:$scope.universidad,
