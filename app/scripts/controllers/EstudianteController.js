@@ -52,7 +52,7 @@ angular.module('AngularScaffold.Controllers')
       }else if (nombre==="estudiante_solucion") {
         $scope.template = '/views/estudiante_solucion.html';
       }else if (nombre==="comentarios") {
-		$scope.template = '/views/comentarios.html';
+			$scope.template = '/views/comentarios.html';
 		};
     }
 	$scope.goMainSolucion = function(indice,tarea,usuario){
@@ -353,9 +353,7 @@ angular.module('AngularScaffold.Controllers')
 	    }
 	      EstudianteService.GetAnuncio_id_Estudiante(parametros).then(function(response){
 	        $scope.todoLosAnuncios= response.data
-
 	       });
-	       console.log($scope.todoLosAnuncios);
     }
 
 
