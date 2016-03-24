@@ -337,6 +337,10 @@ angular.module('AngularScaffold.Controllers')
         $scope.showReply = function(){
           return $scope.reply
         }
+
+        $scope.cerrarReply=function(){
+          $scope.tree=$scope.deactivatePreviousReplies($scope.tree)
+        }
         $scope.arrayWithUser = []
         $scope.getCourseComments = function(){
           UserService.getCourseComments({Id_curso: $scope.$sessionStorage.CurrentCurso}).then(function(response){
