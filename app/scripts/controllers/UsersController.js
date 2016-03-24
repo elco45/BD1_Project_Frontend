@@ -18,6 +18,9 @@ angular.module('AngularScaffold.Controllers')
       $scope.universidad={};
       $scope.activateReply = false;
     	$scope.tree = [];
+      $scope.emailTomado=false;
+      $scope.universidadTomado=false;
+
       $scope.getUniversidades = function(){
         UserService.GetUniversidades().then(function(response){
           $scope.universidades=response.data;
@@ -148,39 +151,51 @@ angular.module('AngularScaffold.Controllers')
               nombre:$scope.user.universidad_txt,
               user:$scope.user
             }
-
+            console.log(paramU)
             if ($scope.user.universidad_txt!=undefined) {
+              console.log("entro")
               UserService.CreateUniversity(paramU).then(function(response1){
-
+                console.log(response1.data)
+                UserService.Register(paramU).then(function(response2){//<-------NO ENTRA!!!
+                  console.log(response2.data)
+                  $scope.universidadTomado=false;
+                  $scope.registroCorrecto=false;
+                  $scope.user.id = "";
+                  $scope.user.nombre = "";
+                  $scope.user.apellido = "";
+                  $scope.user.email="";
+                  $scope.user.password="";
+                  $scope.user.especialidad = "";
+                  $scope.user.unversidad_txt = "";
+                  $scope.estudianteDivs=false;
+                  $scope.docenteDivs=false;
+                  $scope.registroCorrecto=false;
+                  $scope.signUpCorrecto=true;
+                  BootstrapDialog.alert({
+                    title: 'EXITO',
+                    message: 'Se ha registrado exitosamente',
+                    type: BootstrapDialog.TYPE_SUCCESS, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+                    closable: true, // <-- Default value is false
+                    buttonLabel: 'Cerrar', // <-- Default value is 'OK',
+                  });
+                  $state.go("login");
+                }).catch(function(err){
+                  $scope.emailTomado=true;
+                })
               }).catch(function(err){
-                $scope.registroCorrecto=true;
-
+                $scope.universidadTomado=true;
               });
-
-              UserService.Register(paramU).then(function(response2){
-                $scope.registroCorrecto=false;
-                $scope.user.id = "";
-                $scope.user.nombre = "";
-                $scope.user.apellido = "";
-                $scope.user.email="";
-                $scope.user.password="";
-                $scope.user.especialidad = "";
-                $scope.user.unversidad_txt = "";
-                $scope.estudianteDivs=false;
-                $scope.docenteDivs=false;
-                $scope.registroCorrecto=false;
-                $scope.signUpCorrecto=true;
-              }).catch(function(err){
-                $scope.registroCorrecto=true;
-
-              });
-
-              $state.go("login")
+              
             }else{
-              $scope.universidad.Nombre=$scope.user.universidad_cb;
-              UserService.GetUniversidadByName($scope.universidad).then(function(response3){
+              var para={
+                Nombre:$scope.user.universidad_cb.trim()
+              }
+              console.log(para)
+              UserService.GetUniversidadByName(para).then(function(response3){
                 $scope.universidad=response3.data;
                 $scope.registroCorrecto=false;
+                $scope.universidadTomado=false;
+                console.log(response3.data)
                 var paramU2={
                   control_id:response.data,
                   universidad:$scope.universidad,
@@ -199,31 +214,38 @@ angular.module('AngularScaffold.Controllers')
                   $scope.docenteDivs=false;
                   $scope.registroCorrecto=false;
                   $scope.signUpCorrecto=true;
+                  BootstrapDialog.alert({
+                    title: 'EXITO',
+                    message: 'Se ha registrado exitosamente',
+                    type: BootstrapDialog.TYPE_SUCCESS, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+                    closable: true, // <-- Default value is false
+                    buttonLabel: 'Cerrar', // <-- Default value is 'OK',
+                  });
+                  $state.go("login");
                 }).catch(function(err){
-                  $scope.registroCorrecto=true;
-
+                  $scope.emailTomado=true;
                 });
               }).catch(function(err){
-                $scope.registroCorrecto=true;
-
+                console.log("error agarrando universidad");
               });
             }
-
-            $state.go("login")
           }).catch(function(err){
             $scope.registroCorrecto=true;
             alert('Error agregando usuario')
           });
         }
       }
+
       $scope.cancel_registration = function(){
         $state.go('login');
       }
 
       $scope.verifyOtros=function(mySelect){
         if (mySelect==="Otro") {
+          $scope.user.universidad_txt=undefined;
           $scope.universidadDiv=true;
         }else{
+          $scope.user.universidad_txt=undefined;
           $scope.universidadDiv=false;
           $scope.user.universidad_cb=mySelect;
         }
@@ -237,7 +259,13 @@ angular.module('AngularScaffold.Controllers')
         return $scope.signUpCorrecto;
       }
 
+      $scope.verifyEmail=function(){
+        return $scope.emailTomado;
+      }
 
+      $scope.verifyUniversidad=function(){
+        return $scope.universidadTomado;
+      }
 
       //Inicio comentarios
         $scope.addFirstComment = function() {
@@ -282,7 +310,7 @@ angular.module('AngularScaffold.Controllers')
                 scope: $scope.$sessionStorage
              }
               UserService.AddComment(params).then(function(response2){
-                  alert("Comentario agregado exitosamente")
+                  //alert("Comentario agregado exitosamente")
               });
             })
         };
