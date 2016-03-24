@@ -16,8 +16,8 @@ angular.module('AngularScaffold.Controllers')
       $scope.mySelect;
       $scope.universidades=[];
       $scope.universidad={};
-
-    	$scope.tree = [{id:-1, text: "",showReply: false, nodes: []}];
+      $scope.activateReply = false;
+    	$scope.tree = [];
       $scope.getUniversidades = function(){
         UserService.GetUniversidades().then(function(response){
           $scope.universidades=response.data;
@@ -243,7 +243,7 @@ angular.module('AngularScaffold.Controllers')
         $scope.addFirstComment = function() {
             var post = 1;
             var txt =	document.getElementById("first_txtcomment").value;
-            $scope.tree[0].nodes.push({id:-55,text: txt,nodes: []});
+            $scope.tree.push({id:-55,text: txt,nodes: []});
             UserService.GetControl().then(function(response1){
                 var params = {
                    Id_comentario: response1.data.Id_comentario,
@@ -253,8 +253,9 @@ angular.module('AngularScaffold.Controllers')
                 }
                 UserService.AddFirstParentComment(params).then(function(response2){
                     for (var i = 0; i < $scope.tree[0].nodes.length; i++) {
-                      if($scope.tree[0].nodes[i].id === -55){
-                          $scope.tree[0].nodes[i].id = response2.data.id
+                      if($scope.tree[i].id === -55){
+                          $scope.tree[i].id = response2.data.id
+                          $scope.tree[i].user = $scope.$sessionStorage.currentUser.email
                           break;
                       }
                     }
@@ -270,7 +271,7 @@ angular.module('AngularScaffold.Controllers')
 
             UserService.GetControl().then(function(response1){
 
-              data.nodes.push({id: response1.data.Id_comentario,text: txt,nodes: []});
+              data.nodes.push({id: response1.data.Id_comentario,user: $scope.$sessionStorage.currentUser.email,text: txt,nodes: []});
               /*
              $scope.tree = $scope.agregarId(response1.data.Id_comentario, $scope.tree)*/
              var params = {
@@ -303,31 +304,49 @@ angular.module('AngularScaffold.Controllers')
           return $scope.tree.indexOf(data)
         }
         $scope.enableReply = function(data){
-           data.showReply = true;
+          $scope.tree= $scope.deactivatePreviousReplies($scope.tree[0].nodes)// para desactivar un reply anterior no hay otra opcion que iterar atraves de todo el arbol.
+          data.showReply = true;
         }
         $scope.showReply = function(){
           return $scope.reply
         }
+        $scope.arrayWithUser = []
         $scope.getCourseComments = function(){
           UserService.getCourseComments({Id_curso: $scope.$sessionStorage.CurrentCurso}).then(function(response){
               var commentArray = response.data;
               var cont = 0;
+              var contuser=0;
               for (var i = 0; i < commentArray.length; i++) {
-                if(commentArray[i].Id_comentario_padre === -1){
-                    $scope.tree[0].nodes.push({id:commentArray[i].Id_comentario,text: commentArray[i].descripción,nodes: []})	//SE AÑADEN LOS NODOS PADRES
-                    $scope.tree[0].nodes[cont].nodes=$scope.fillChildrenNodes(commentArray,commentArray[i].Id_comentario)
-                    cont = cont +1;
-                }
+                var userId = 0
+                if(commentArray[i].Id_docente)
+                  userId = commentArray[i].Id_docente
+                else
+                  userId = commentArray[i].Id_estudiante
+
+                  UserService.getPoster({id:userId}).then(function(response2){
+                    commentArray[contuser].user = response2.data.email
+
+                    contuser = contuser +1;
+                    if(contuser ===commentArray.length){
+                      for (var i = 0; i < commentArray.length; i++) {
+                        if(commentArray[i].Id_comentario_padre === -1){
+                            $scope.tree.push({id:commentArray[i].Id_comentario,user: commentArray[i].user, text: commentArray[i].descripción,nodes: []})	//SE AÑADEN LOS NODOS PADRES                            
+                            $scope.tree[cont].nodes=$scope.fillChildrenNodes(commentArray,commentArray[i].Id_comentario)
+                            cont = cont +1;
+                        }
+                      }
+                    }
+                  })
               }
+
           })
         }
-
         $scope.fillChildrenNodes = function(array, parentId){
             var newArray = [];
             var cont = 0;
             for (var i = 0; i < array.length; i++) {
               if(array[i].Id_comentario_padre === parentId){
-                  newArray.push({id:array[i].Id_comentario,text: array[i].descripción,nodes: []})
+                  newArray.push({id:array[i].Id_comentario,user: array[i].user,text: array[i].descripción,nodes: []})
                   var children = $scope.fillChildrenNodes(array, array[i].Id_comentario)
                   if(children.length > 0 ){
                     newArray[cont].nodes=children
@@ -336,6 +355,19 @@ angular.module('AngularScaffold.Controllers')
               }
             }
             return newArray;
+        }
+        $scope.deactivatePreviousReplies = function(array){
+          var newArray = []
+          var cont = 0
+          for (var i = 0; i < array.length; i++) {
+            array[i].showReply = false;
+            newArray.push(array[i])
+            if(array[i].nodes.length > 0 ){
+              newArray[cont].nodes = $scope.deactivatePreviousReplies(array[i].nodes)
+              cont = cont+1;
+            }
+          }
+          return newArray
         }
     //fin comentarios
 

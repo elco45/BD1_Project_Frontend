@@ -36,6 +36,9 @@ angular.module('AngularScaffold.Services').factory('UserService', ['$http',
 					},
 					getCourseComments:function(payload){
 						return $http.post(baseUrl + "v1/getCourseComments", payload);
+					},
+					getPoster:function(payload){
+						return $http.post(baseUrl + "v1/getPoster", payload);
 					}
 	    };
 }]);

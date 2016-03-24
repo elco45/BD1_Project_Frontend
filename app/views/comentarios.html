@@ -1,12 +1,26 @@
 <div ng-controller="UsersController" ng-init="getCourseComments()">
 	<div>
 <!-- prueba de comentarios-->
+
+
+
+<div class="dropdown">
+  <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Tutorials
+  <span class="caret"></span></button>
+  <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+    <li role="presentation"><a role="menuitem" href="#">HTML</a></li>
+    <li role="presentation"><a role="menuitem" href="#">CSS</a></li>
+    <li role="presentation"><a role="menuitem" href="#">JavaScript</a></li>
+    <li role="presentation" class="divider"></li>
+    <li role="presentation"><a role="menuitem" href="#">About Us</a></li>
+  </ul>
+</div>
 <!--<button  ng-cloak  ng-click="delete(data)" ng-show="data.nodes.length > 0 && isFirst(data)">Delete nodes</button>*/-->
     <script type="text/ng-template"  id="tree_item_renderer.html">
     	{{data.name}}
       <div class="panel panel-primary">
         <div class="panel-heading">
-          <h3 class="panel-title">~~~~~~~:</h3>
+          <h3 class="panel-title">{{data.user}}:</h3>
         </div>
       	<div class="row panel-body">
       		<h5 class="col-xs-12">{{data.text}}</h5>
@@ -47,7 +61,7 @@
         </div>
       </div>
     </div>
-  	
+
     <ul>
     	<div ng-repeat="data in tree" ng-include="'tree_item_renderer.html'">
     	</div>
