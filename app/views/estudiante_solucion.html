@@ -1,17 +1,17 @@
-<div ng-controller="EstudianteController" ng-init= "tieneSolucion(tarea._id,usuario.IdUser)">
+<div ng-controller="EstudianteController" ng-init= "tieneSolucion()">
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <h3  class="Centrar panel-title">Tarea {{indice + 1}}</h3>
+            <h3  class="Centrar panel-title">{{datoTarea.titulo}}</h3>
         </div>
         <div class="panel-body">
           <div class ="row Centrar">
             	<label class="col-md-4">Fecha Entrega: </label>
-            	<label class="col-md-4">{{tarea.fecha_entrega}}</label>
+            	<label class="col-md-4">{{datoTarea.fecha_entrega}}</label>
           </div>
         	<div class ="row Centrar">
             	<form >
                 	<label class="col-md-4">Instrucciones: </label>
-                    <a class="col-md-4" ng-click="decode(tarea.archivo,tarea.nombre)"> {{tarea.nombre}}</a>
+                    <a class="col-md-4" ng-click="decode(tarea.archivo,tarea.nombre)"> {{datoTarea.nombre}}</a>
                 </form>
           </div>
           <div class ="row Centrar">

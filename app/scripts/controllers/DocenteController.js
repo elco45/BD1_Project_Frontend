@@ -33,16 +33,18 @@ if($state.params.content){
   }
 
   $scope.goMainNota= function(indice,tarea,usuario){
+      $scope.$sessionStorage.IdTarea = tarea;
     	$state.go('nota', {content:
 	      {
 	      	indice: indice,
-	      	tarea:tarea,
+	      	tarea:$scope.$sessionStorage.IdTarea,
 	      	usuario:usuario
 	      }
    		});
   }//goMainNota
 
-  $scope.llenarNota = function(tarea){
+  $scope.llenarNota = function(){
+    var tarea = $scope.$sessionStorage.IdTarea;
     for(var i=0;i<tarea.solucion.length;i++){
       var param = {
         hw: tarea.solucion[i]
@@ -72,7 +74,9 @@ if($state.params.content){
 
       DocenteService.CambiarNota(param).then(function(response){
         document.getElementById($index).innerHTML='<b>Nota Guardada!!!</b>';
-        setTimeout(function() {document.getElementById($index).innerHTML='';},5000);
+        setTimeout(function() {
+          document.getElementById($index).innerHTML='';
+        },5000);
       })//fin CambiarNota
   }
 
@@ -82,18 +86,23 @@ if($state.params.content){
       $scope.$sessionStorage.CurrentCurso="0";
     }else if (nombre==="docente_confirmacion"){
       $scope.template = '/views/docente_confirmacion.html';
+      $scope.$sessionStorage.IdTarea = null;
     }else if (nombre==="docente_participantes") {
       $scope.template = '/views/docente_participantes.html';
+      $scope.$sessionStorage.IdTarea = null;
     }else if (nombre==="docente_tareas") {
       $scope.template = '/views/docente_tareas.html';
+      $scope.$sessionStorage.IdTarea = null;
     }else if (nombre==="docente_anuncios") {
       $scope.template = '/views/docente_anuncios.html';
+      $scope.$sessionStorage.IdTarea = null;
     }else if (nombre==="docente_notas") {
       $scope.template = '/views/docente_notas.html';
     }else if(nombre === "docente_main_notas"){
-      $scope.template = '/views/docente_notaIndividual.html'
+      $scope.template = '/views/docente_notaIndividual.html';
     }else if (nombre==="comentarios") {
 			$scope.template = '/views/comentarios.html';
+      $scope.$sessionStorage.IdTarea = null;
 		};
   }
 

@@ -20,16 +20,17 @@ angular.module('AngularScaffold.Controllers')
 
 	$scope.indice = {};
 	$scope.tarea = {};
+	$scope.datoTarea = {};
 	$scope.usuario = {};
 
 
 	$scope.todoLosAnuncios=[];
 
 	if($state.params.content){
-    $scope.indice = $state.params.content.indice;
-    $scope.tarea = $state.params.content.tarea;
-    $scope.usuario = $state.params.content.usuario;
-  }
+	    $scope.indice = $state.params.content.indice;
+	    $scope.tarea = $state.params.content.tarea;
+	    $scope.usuario = $state.params.content.usuario;
+	}
 
 	$scope.goMain=function(){
 	  $state.go('estudiante_main');
@@ -41,51 +42,54 @@ angular.module('AngularScaffold.Controllers')
         $scope.$sessionStorage.CurrentCurso="0";
       }else if (nombre==="estudiante_anuncios") {
         $scope.template = '/views/estudiante_anuncios.html';
+        $scope.$sessionStorage.IdTarea = null;
       }else if (nombre==="estudiante_calificacion"){
         $scope.template = '/views/estudiante_nota.html';
+        $scope.$sessionStorage.IdTarea = null;
       }else if (nombre==="estudiante_participantes") {
         $scope.template = '/views/estudiante_participantes.html';
+        $scope.$sessionStorage.IdTarea = null;
       }else if (nombre==="estudiante_secciones_presenciales") {
         $scope.template = '/views/estudiante_matricula.html';
+        $scope.$sessionStorage.IdTarea = null;
       }else if (nombre==="estudiante_tareas") {
         $scope.template = '/views/estudiante_tareas.html';
       }else if (nombre==="estudiante_solucion") {
         $scope.template = '/views/estudiante_solucion.html';
       }else if (nombre==="comentarios") {
 			$scope.template = '/views/comentarios.html';
+			$scope.$sessionStorage.IdTarea = null;
 		};
     }
-	$scope.goMainSolucion = function(indice,tarea,usuario){
-    	$state.go('solucion', {content:
-	      {
-	      	indice: indice,
-	      	tarea:tarea,
-	      	usuario:usuario
-	      }
-   		});
-	}
+	
 	$scope.llenarNota = function(){
 		var param = {
 			cursoActual: $scope.$sessionStorage.CurrentCurso
 		}
+		var tare;
 		EstudianteService.GetTareaDeCurso(param).then(function(response){
-			for(var i = 0;i < response.data.tareas.length;i++){
+			for (var i = 0; i < response.data.tareas.length; i++) {
 				var param2 = {
-					idTarea: response.data.tareas[i]
+					idTarea: response.data.tareas[i],
+					Id_estudiante: $scope.$sessionStorage.currentUser.IdUser
 				}
-				EstudianteService.GetSoluciones(param2).then(function(response1){
-					for(var i=0;i<response1.data.solucion.length;i++){
-						var param3 = {
-							idSolucion: response1.data.solucion[i],
-							idEstudiante: $scope.$sessionStorage.currentUser
-						}
-						EstudianteService.GetNotaEstudiante(param3).then(function(response2){
-							$scope.llenadoNota.push(response2.data.nota);
-						})//fin GetNotaEstudiante
-					}//fin for 2
-				})//fin GetSoluciones --> agarra va a entrar a cada tarea para agarrar sus soluciones
-			}//fin for 1
-		})//fin GetTareaDeCurso
+				tare=response.data.tareas[i];
+				EstudianteService.GetNotaEstudiante(param2).then(function(response2){
+					var parametro = {
+						idTarea:response2.data.Id_tarea
+					}
+					EstudianteService.GetSoluciones(parametro).then(function(response3){
+						var llenar={
+							titulo:response3.data.titulo,
+							nota:response2.data.nota
+						}	
+						
+						$scope.llenadoNota.push(llenar)
+					})
+					
+				})//fin GetNotaEstudiante
+			}//fin for 2
+		})
 	}//fin llenarNota
 
 	$scope.divSubirSolucion = function(){
@@ -134,13 +138,25 @@ angular.module('AngularScaffold.Controllers')
 	    }
    	}//fin uploadAnswer
 
+   	$scope.goMainSolucion = function(indice,tarea,usuario){
+		$scope.$sessionStorage.IdTarea = tarea
+    	$state.go('solucion', {content:
+	      {
+	      	indice: indice,
+	      	tarea:$scope.$sessionStorage.IdTarea,
+	      	usuario:usuario
+	      }
+   		});
+	}
 
-   	$scope.tieneSolucion = function(idTarea,idEstudiante){
+   	$scope.tieneSolucion = function(){
+   		
 			var param = {
-				id_tarea: idTarea,
-				Id_estudiante: idEstudiante
+				id_tarea: $scope.$sessionStorage.IdTarea._id,
+				Id_estudiante: $scope.$sessionStorage.currentUser.IdUser
 			}
 			EstudianteService.VerificarSiTieneSolucion(param).then(function(response){
+				$scope.datoTarea = $scope.$sessionStorage.IdTarea;
 				$scope.solucionDisponible = response.data;
 			})
 
