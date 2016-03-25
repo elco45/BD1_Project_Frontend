@@ -236,7 +236,7 @@ angular.module('AngularScaffold.Controllers')
       }
 
       $scope.cancel_registration = function(){
-        $state.go('login');
+        $state.go('home');
       }
 
       $scope.verifyOtros=function(mySelect){
@@ -400,6 +400,15 @@ angular.module('AngularScaffold.Controllers')
           }
           return newArray
         }
+
+
+    $scope.iniciar = function(algo){
+      if (algo==="inicia_se") {
+        $state.go('inicio');
+      }else{
+         $state.go('signUp');
+      }
+   }
     //fin comentarios
 
 

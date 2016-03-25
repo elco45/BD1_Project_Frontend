@@ -18,7 +18,8 @@
                   
                     <br>
                     <p>Descripcion</p>
-                    <TEXTAREA cols=70 rows=10 Name="Texto" ng-model="anuncios.des"></TEXTAREA>
+                    <TEXTAREA cols=70 rows=10 Name="Texto" ng-model="anuncios.des" required></TEXTAREA>
+                    <span ng-show="Texto.$error.required">Name is required.</span>
                     <h1></h1>
                     <button class="button-select btn btn-success" ng-click="crear_anuncio()">Guardar anuncio</button>
               </center>

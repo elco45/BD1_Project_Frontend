@@ -304,15 +304,33 @@ if($state.params.content){
     }
 
  $scope.crear_anuncio = function(){
-  $scope.anuncios.idCurso=$scope.$sessionStorage.CurrentCurso;
-      DocenteService.Register_anuncio($scope.anuncios).then(function(response){
-
-      $scope.anuncios.idCurso=" ";
-      $scope.anuncios.titulo=" ";
-      $scope.anuncios.des=" ";
-
+   if ($scope.anuncios.titulo != null && $scope.anuncios.des != null) {
+           $scope.anuncios.idCurso=$scope.$sessionStorage.CurrentCurso;
+           DocenteService.Register_anuncio($scope.anuncios).then(function(response){
+            $scope.anuncios.idCurso=" ";
+            $scope.anuncios.titulo=" ";
+            $scope.anuncios.des=" ";
     });
-    $scope.refrescando_repeat();
+    
+      BootstrapDialog.alert({
+      title: 'Control de anuncios',
+      message: 'Creado Exitosamente.',
+      type: BootstrapDialog.TYPE_DANGER, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+      closable: true, // <-- Default value is false
+      buttonLabel: 'Cerrar', // <-- Default value is 'OK',
+
+      });
+       $scope.refrescando_repeat();
+  }else{
+      BootstrapDialog.alert({
+      title: 'Control de anuncios',
+      message: 'Porfavor no deje campos en blancos.',
+      type: BootstrapDialog.TYPE_DANGER, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+      closable: true, // <-- Default value is false
+      buttonLabel: 'Cerrar', // <-- Default value is 'OK',
+      });
+  }
+   
  }
  $scope.refrescando_repeat=function(){
   var parametros = {
