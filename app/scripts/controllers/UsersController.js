@@ -32,7 +32,7 @@ angular.module('AngularScaffold.Controllers')
       $scope.logout = function(){
         authService.Logout().then(function(response){
           $sessionStorage.$reset();
-          $state.go("login");
+          $state.go("home");
         }).catch(function(err){
           BootstrapDialog.alert({
               title: 'ERROR',
