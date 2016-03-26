@@ -546,3 +546,8 @@ td{
   position: relative;
   float: left;
 }
+#titulos2{
+     font-family: 'Lobster', cursive;
+  font-size: 50px;
+  color:black;
+}

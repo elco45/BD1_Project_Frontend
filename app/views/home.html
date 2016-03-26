@@ -1,16 +1,5 @@
 <div ng-controller="UsersController">
-        <header>
-            <div class="container">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-6 col-md-8 col-lg-8">
-                        <h1 class="texto tamtex1">All Star Escuela</h1>
-                        <h5 class="texto tamtex2">Educacion a Futuro</h5>
-                    </div>
-                   
-                </div>
-            </div>
-        </header>
-        
+       
         <!--Barra de Navegacion-->
         <nav class="navbar navbar-default">
             <div class="navbar-header">
@@ -23,17 +12,29 @@
             </div>
 
             <div class="collapse navbar-collapse navbar-ex1-collapse">
-                  
+                <div class="row">
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-1">
+                        <img style=" height:50px"src="scripts/controllers/Estilo_home/img/Estrella_sinfondo.gif">
+                              
+                    </div>
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-7">
+                        <h3  >All Star Escuela </h3>
+                    </div>
+                    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                        <ul class="nav navbar-nav navbar-right navbar-center">
+                            <li><a href="" ng-click="iniciar('inicia_se')"><h3>Login</h3></a></li>
+                            <li><a href="" ng-click="iniciar('registrar')"><h3>Register</h3></a></li>
+                          
+                        </ul>   
+                    </div>
+                    
+                </div>
+            
 
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="" ng-click="iniciar('inicia_se')">Login</a></li>
-                    <li><a href="" ng-click="iniciar('registrar')">Register</a></li>
-                  
-                </ul>
             </div>
         </nav>
 
-        <div class="container">
+        <div >
             <!--Slider-->
             <section id="miSlide" class="carousel slide" >
                 <ol class="carousel-indicators">
@@ -42,7 +43,7 @@
                     <li data-target="#miSlide" data-slide-to="2"></li>
                 </ol>
 
-                <div class="carousel-inner" style=' height:500px;'>
+                <div class="carousel-inner" style=' height:700px;'>
                     <div class="item active">
                         <img src="scripts/controllers/Estilo_home/img/img1.jpg" class="adaptar">
                     </div>
