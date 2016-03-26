@@ -5,10 +5,10 @@
 	        <span class="glyphicon glyphicon-plus"></span>  Agregar Tarea
 	    </button>
 	</ul>
-	<ul ng-repeat= "n in llenadoTarea track by n._id">
+	<ul ng-repeat= "n in llenadoTarea track by $index">
 		<div class="panel panel-primary">
 	        <div class="panel-heading">
-	            <h3 class="panel-title">Tarea {{n.Id_tarea}} {{$index+1}}</h3>
+	            <h3 class="panel-title">{{n.titulo}}</h3>
 	        </div>
 	        <div class="row panel-body">
             <label class="col-md-2">Instrucciones: </label>
@@ -25,7 +25,7 @@
                     <br></br>
                     <div class="row Centrar">
                         <label class="col-md-4">Titulo</label>
-                        <input class="col-md-6" type="text" ng.model="tarea.titulo" />
+                        <input class="col-md-6" type="text" ng-model="tarea.titulo" />
                     </div>
                     </br>
                     <div class ="row Centrar">

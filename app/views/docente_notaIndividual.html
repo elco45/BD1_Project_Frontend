@@ -4,14 +4,14 @@
         <table class="table table-hover table-striped">
             <thead>
                 <tr>
-                    <th>Nombre</th>
-                    <th>Solución</th>
+                    <th>Nombre Completo</th>
+                    <th>Tarea Subida</th>
                     <th>Nota</th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="n in llenadoNota">
-                    <td>{{n.Nombre}}</td>
+                    <td>{{n.Nombre.nombre}} {{n.Nombre.apellido}} </td>
                     <td><a ng-click="decode(n.Solucion.respuesta,n.Solucion.nombreArchivo)">{{n.Solucion.nombreArchivo}}</a></td>
                     <td class="row">
                         <input class="col-md-3" type="number" min="0" max="100" ng-model="n.Solucion.nota" ng-change="updateNota(n,n.Solucion.nota,$index)" ></input>

@@ -55,7 +55,7 @@ if($state.params.content){
         }
         DocenteService.getEstudianteName(param2).then(function(response1){
           var NotaIndividuales = {
-            Nombre:response1.data.nombre,
+            Nombre:response1.data,
             Solucion: response.data
           }
           $scope.llenadoNota.push(NotaIndividuales);
@@ -135,6 +135,7 @@ if($state.params.content){
           nameArchivo: file.name,
           tarea: $scope.tarea
         }
+        console.log(param.tarea)
         DocenteService.PostTarea(param).then(function(response){
           var param2 = {
             idTarea: response.data._id,

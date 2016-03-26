@@ -1,10 +1,10 @@
 <div ng-controller="EstudianteController" ng-init="llenarTarea()">
 	<h2 id="titulos2"><center>Tareas</center></h2>
-	<ul ng-repeat= "n in llenadoTarea track by n._id">
+	<ul ng-repeat= "n in llenadoTarea track by $index">
 		<li class="animate-repeat">
 			<div class="panel panel-primary">
 		        <div ng-click="goMainSolucion(selected.value=$index,n,$sessionStorage.currentUser)" class="panel-heading">
-		            <h3  class="Centrar panel-title">Tarea {{$index+1}}</h3>
+		            <h3  class="Centrar panel-title">{{n.titulo}}</h3>
 		        </div>
 		    </div>
 	    </li>
