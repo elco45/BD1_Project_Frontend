@@ -47,6 +47,7 @@ angular.module('AngularScaffold.Controllers')
       $scope.login = function(){
         if ($scope.signIn.email != null && $scope.signIn.password != null) {
           authService.Login($scope.signIn).then(function(response){
+            console.log(response.data)
             if (response.data=='error') {
               BootstrapDialog.alert({
                 title: 'ERROR',
@@ -130,7 +131,7 @@ angular.module('AngularScaffold.Controllers')
       }
       $scope.register = function() {
         $scope.registroCorrecto=false;
-        $scope.universidadTomado=false;                  
+        $scope.universidadTomado=false;
         $scope.emailTomado=false;
         if ($scope.user.nombre==undefined) {
           $scope.registroCorrecto=true;
@@ -361,7 +362,7 @@ angular.module('AngularScaffold.Controllers')
                     if(contuser ===commentArray.length){
                       for (var i = 0; i < commentArray.length; i++) {
                         if(commentArray[i].Id_comentario_padre === -1){
-                            $scope.tree.push({id:commentArray[i].Id_comentario,user: commentArray[i].user, text: commentArray[i].descripción,nodes: []})	//SE AÑADEN LOS NODOS PADRES                            
+                            $scope.tree.push({id:commentArray[i].Id_comentario,user: commentArray[i].user, text: commentArray[i].descripción,nodes: []})	//SE AÑADEN LOS NODOS PADRES
                             $scope.tree[cont].nodes=$scope.fillChildrenNodes(commentArray,commentArray[i].Id_comentario)
                             cont = cont +1;
                         }
