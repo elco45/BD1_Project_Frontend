@@ -334,6 +334,7 @@ angular.module('AngularScaffold.Controllers')
 
     $scope.enableReply = function(data){
       	$scope.tree= $scope.deactivatePreviousReplies($scope.tree)// para desactivar un reply anterior no hay otra opcion que iterar atraves de todo el arbol.
+
       	data.showReply = true;
     }
 
@@ -372,7 +373,7 @@ angular.module('AngularScaffold.Controllers')
 	                  	}
 	                }
 	         	})
-	       	}
+	       	}//fin 1st for
       	})
     }
 
@@ -393,13 +394,13 @@ angular.module('AngularScaffold.Controllers')
     }
 
    	$scope.deactivatePreviousReplies = function(array){
-       	var newArray = []
+      var newArray = []
    		var cont = 0
      	for (var i = 0; i < array.length; i++) {
             array[i].showReply = false;
             newArray.push(array[i])
             if(array[i].nodes.length > 0 ){
-              	newArray[cont].nodes = $scope.deactivatePreviousReplies(array[i].nodes)
+              	newArray[i].nodes = $scope.deactivatePreviousReplies(array[i].nodes)
               	cont = cont+1;
             }
        	}
