@@ -72,7 +72,7 @@ angular.module('AngularScaffold.Controllers')
       document.getElementById($index).innerHTML='<b>Nota Guardada!!!</b>';
       setTimeout(function() {
         document.getElementById($index).innerHTML='';
-      },5000);
+      },2500);
     })//fin CambiarNota
   }
 
@@ -306,7 +306,7 @@ angular.module('AngularScaffold.Controllers')
 
  $scope.crear_anuncio = function(){
    if ($scope.anuncios.titulo != null && $scope.anuncios.des != null) {
-    scope.anuncios.idCurso=$scope.$sessionStorage.CurrentCurso;
+    $scope.anuncios.idCurso = $scope.$sessionStorage.CurrentCurso;
     DocenteService.Register_anuncio($scope.anuncios).then(function(response){
       $scope.anuncios.idCurso=" ";
       $scope.anuncios.titulo=" ";
