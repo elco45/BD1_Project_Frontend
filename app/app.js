@@ -12,8 +12,8 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
             templateUrl: '/views/home.html',
             controller: 'UsersController'
         })
-        .state('inicio', {
-            url: '/inicio',
+        .state('login', {
+            url: '/login',
             params: {content:undefined},
             templateUrl: '/views/login.html',
             controller: 'UsersController'

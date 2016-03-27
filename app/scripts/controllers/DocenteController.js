@@ -1,46 +1,45 @@
 angular.module('AngularScaffold.Controllers')
 .controller('DocenteController', ['$scope','$state','DocenteService','$sessionStorage', function ($scope,$state, DocenteService,$sessionStorage) {
+  $scope.curso = {};
+  $scope.displayCursos = [];
+  $scope.AllCourse = [];
+  $scope.$sessionStorage = $sessionStorage;
+  $scope.NameDocente = {};
+  $scope.entroCurso=false;
+  $scope.AllConfirmacion=[];
+  $scope.AllEstudiantes=[];
+  $scope.tarea = {};
+  $scope.llenadoTarea = [];
+  $scope.llenadoNota = [];
+  $scope.indice = {};
+  $scope.tarea = {};
+  $scope.usuario = {};
 
-$scope.curso = {};
-$scope.displayCursos = [];
-$scope.AllCourse = [];
-$scope.$sessionStorage = $sessionStorage;
-$scope.NameDocente = {};
-$scope.entroCurso=false;
-$scope.AllConfirmacion=[];
-$scope.AllEstudiantes=[];
-$scope.tarea = {};
-$scope.llenadoTarea = [];
-$scope.llenadoNota = [];
+  $scope.notaNumero = {};
+  $scope.unico = {}
 
-$scope.indice = {};
-$scope.tarea = {};
-$scope.usuario = {};
+  $scope.texto_boton_anuncio="Crear anuncios"
+  $scope.todoLosAnuncios=[];
 
-$scope.notaNumero = {};
-$scope.unico = {}
-
-$scope.texto_boton_anuncio="Crear anuncios"
- $scope.todoLosAnuncios=[];
-if($state.params.content){
-  $scope.indice = $state.params.content.indice;
-  $scope.tarea = $state.params.content.tarea;
-  $scope.usuario = $state.params.content.usuario;
-}
+  if($state.params.content){
+    $scope.indice = $state.params.content.indice;
+    $scope.tarea = $state.params.content.tarea;
+    $scope.usuario = $state.params.content.usuario;
+  }
 
   $scope.goMain=function(){
     $state.go('docente_main');
   }
 
   $scope.goMainNota= function(indice,tarea,usuario){
-      $scope.$sessionStorage.IdTarea = tarea;
-    	$state.go('nota', {content:
-	      {
-	      	indice: indice,
-	      	tarea:$scope.$sessionStorage.IdTarea,
-	      	usuario:usuario
-	      }
-   		});
+    $scope.$sessionStorage.IdTarea = tarea;
+  	$state.go('nota', {content:
+      {
+      	indice: indice,
+      	tarea:$scope.$sessionStorage.IdTarea,
+      	usuario:usuario
+      }
+ 		});
   }//goMainNota
 
   $scope.llenarNota = function(){
@@ -62,22 +61,19 @@ if($state.params.content){
         })//fin get EstudianteName
       })//fin GetSolucion
     }
-
   }//fin llenarNota
 
   $scope.updateNota = function(TareaPorEvaluar,nuevaNota,$index){
-
-      var param = {
-        cambio: TareaPorEvaluar.Solucion,
-        newNota: nuevaNota
-      }
-
-      DocenteService.CambiarNota(param).then(function(response){
-        document.getElementById($index).innerHTML='<b>Nota Guardada!!!</b>';
-        setTimeout(function() {
-          document.getElementById($index).innerHTML='';
-        },5000);
-      })//fin CambiarNota
+    var param = {
+      cambio: TareaPorEvaluar.Solucion,
+      newNota: nuevaNota
+    }
+    DocenteService.CambiarNota(param).then(function(response){
+      document.getElementById($index).innerHTML='<b>Nota Guardada!!!</b>';
+      setTimeout(function() {
+        document.getElementById($index).innerHTML='';
+      },5000);
+    })//fin CambiarNota
   }
 
 	$scope.cambiar_div = function(nombre){
@@ -114,7 +110,6 @@ if($state.params.content){
         byteString = unescape(file.split(',')[1]);
     }
     var mimeString = file.split(',')[0].split(':')[1].split(';')[0];
-
     var element = document.createElement('a');
     element.setAttribute('href', 'data:' + mimeString + ';base64,' + btoa(byteString));
     element.setAttribute('download', fileName);
@@ -135,14 +130,12 @@ if($state.params.content){
           nameArchivo: file.name,
           tarea: $scope.tarea
         }
-        console.log(param.tarea)
         DocenteService.PostTarea(param).then(function(response){
           var param2 = {
             idTarea: response.data._id,
             cursoActual: $scope.$sessionStorage.CurrentCurso
           }
           DocenteService.TareaEnCurso(param2).then(function(response1){
-
           })
         }).catch(function(err){
           alert('Error agregando tarea')
@@ -212,16 +205,26 @@ if($state.params.content){
   }
 
   $scope.crearCursos = function(){
-    var param = {
-      course: $scope.curso,
-      idTeacher: $scope.$sessionStorage.currentUser.IdUser
+    if ($scope.curso.nombre) {
+      var param = {
+        course: $scope.curso,
+        idTeacher: $scope.$sessionStorage.currentUser.IdUser
+      }
+      DocenteService.CrearCurso(param).then(function(response){
+        $scope.clearCreateCurso();
+        $state.reload();
+      }).catch(function(err){
+        alert('Error agregando curso')
+      });
+    }else{
+      BootstrapDialog.alert({
+        title: 'ERROR',
+        message: 'Falta el titulo del curso',
+        type: BootstrapDialog.TYPE_DANGER, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+        closable: true, // <-- Default value is false
+        buttonLabel: 'Cerrar', // <-- Default value is 'OK',
+      });
     }
-    DocenteService.CrearCurso(param).then(function(response){
-      $scope.clearCreateCurso();
-      $state.reload();
-    }).catch(function(err){
-      alert('Error agregando curso')
-    });
   }
 
   $scope.clearCreateCurso = function(){
@@ -291,82 +294,57 @@ if($state.params.content){
   }
 
 
- $scope.get_Anuncio_by_id = function(){
-     var parametros = {
-        Id_curso: $scope.$sessionStorage.CurrentCurso,
-
-       
+  $scope.get_Anuncio_by_id = function(){
+    var parametros = {
+      Id_curso: $scope.$sessionStorage.CurrentCurso,  
     }
      
-       DocenteService.GetAnuncio_id(parametros).then(function(response){
-        $scope.todoLosAnuncios= response.data
-        
-       });
-    }
+    DocenteService.GetAnuncio_id(parametros).then(function(response){
+      $scope.todoLosAnuncios= response.data
+    });
+  }
 
  $scope.crear_anuncio = function(){
    if ($scope.anuncios.titulo != null && $scope.anuncios.des != null) {
-           $scope.anuncios.idCurso=$scope.$sessionStorage.CurrentCurso;
-           DocenteService.Register_anuncio($scope.anuncios).then(function(response){
-            $scope.anuncios.idCurso=" ";
-            $scope.anuncios.titulo=" ";
-            $scope.anuncios.des=" ";
+    scope.anuncios.idCurso=$scope.$sessionStorage.CurrentCurso;
+    DocenteService.Register_anuncio($scope.anuncios).then(function(response){
+      $scope.anuncios.idCurso=" ";
+      $scope.anuncios.titulo=" ";
+      $scope.anuncios.des=" ";
     });
-    
-      BootstrapDialog.alert({
-      title: 'Control de anuncios',
-      message: 'Creado Exitosamente.',
-      type: BootstrapDialog.TYPE_DANGER, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
-      closable: true, // <-- Default value is false
-      buttonLabel: 'Cerrar', // <-- Default value is 'OK',
-
-      });
-       $scope.refrescando_repeat();
+    $scope.refrescando_repeat();
   }else{
-      BootstrapDialog.alert({
+    BootstrapDialog.alert({
       title: 'Control de anuncios',
       message: 'Porfavor no deje campos en blancos.',
       type: BootstrapDialog.TYPE_DANGER, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
       closable: true, // <-- Default value is false
       buttonLabel: 'Cerrar', // <-- Default value is 'OK',
-      });
+    });
   }
-   
  }
- $scope.refrescando_repeat=function(){
-  var parametros = {
-        Id_curso: $scope.$sessionStorage.CurrentCurso,
-       
-    }
-      
-       DocenteService.GetAnuncio_id(parametros).then(function(response){
-        $scope.todoLosAnuncios= response.data
-        
-       });
-}
 
- $scope.showAnuncio= function(){
+  $scope.refrescando_repeat=function(){
+    var parametros = {
+      Id_curso: $scope.$sessionStorage.CurrentCurso,
+    }
+        
+    DocenteService.GetAnuncio_id(parametros).then(function(response){
+      $scope.todoLosAnuncios= response.data;
+    })
+  }
+
+  $scope.showAnuncio= function(){
     if($scope.banderaAnuncios1===true){
       $scope.banderaAnuncios1=false;
       $scope.texto_boton_anuncio="Crear Anuncios"
-
-
     }else{
       $scope.banderaAnuncios1=true;
       $scope.texto_boton_anuncio="Cancelar Anuncio"
-
     }
   }
-
-
-
-
 
   $('ul li').click( function() {
     $(this).addClass('active').siblings().removeClass('active');
   });
-
-
-
-
 }]);

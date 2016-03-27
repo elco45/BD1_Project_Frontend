@@ -93,46 +93,43 @@ angular.module('AngularScaffold.Controllers')
 	}//fin llenarNota
 
 	$scope.divSubirSolucion = function(){
-	 		$scope.divSubir = !$scope.divSubir;
+	 	$scope.divSubir = !$scope.divSubir;
 	}//divSubirSolucion
 
 	$scope.uploadAnswer = function(indice){
-      var file = document.querySelector('input[type=file]').files[0];
+      	var file = document.querySelector('input[type=file]').files[0];
 	    var reader  = new FileReader();
-
 	    reader.addEventListener("load", function () {
-	      var param = {
-	          archivo: reader.result,
-	          nameArchivo: file.name,
-	          tarea: $scope.tarea,
-	          Id_estudiante: $scope.usuario
+	      	var param = {
+	          	archivo: reader.result,
+	         	nameArchivo: file.name,
+	          	tarea: $scope.tarea,
+	          	Id_estudiante: $scope.usuario
 	        }
-					if($scope.solucionDisponible){//modifica la solucion anterior
-						var parametros = {
-							busqueda:$scope.solucionDisponible._id,
-							newData: param
-						}
-						EstudianteService.ModificaSolucion(parametros).then(function(response){
+			if($scope.solucionDisponible){//modifica la solucion anterior
+				var parametros = {
+					busqueda:$scope.solucionDisponible._id,
+					newData: param
+				}
+				EstudianteService.ModificaSolucion(parametros).then(function(response){
 
 		        }).catch(function(err){
 		          alert('Error agregando tarea')
 		        });//fin EstudianteService.SubirTarea
-					}else{//crea una nueva solucion
-						EstudianteService.SubirTarea(param).then(function(response){
-		          var param2 = {
-		            answer:response.data,
-		            cursoActual: $scope.usuario.CurrentCurso
-		          }
-		          EstudianteService.UpdateTareaSolucion(param2).then(function(response1){
-
-		          })
+			}else{//crea una nueva solucion
+				EstudianteService.SubirTarea(param).then(function(response){
+			       	var param2 = {
+			            answer:response.data,
+			            cursoActual: $scope.usuario.CurrentCurso
+			       	}
+			       	EstudianteService.UpdateTareaSolucion(param2).then(function(response1){
+					
+					})
 		        }).catch(function(err){
 		          alert('Error agregando solucion')
 		        });//fin EstudianteService.SubirTarea
-					}
-
-	    }, false);
-
+			}
+    	}, false);
 	    if (file) {
 	      reader.readAsDataURL(file);
 	    }
@@ -150,19 +147,17 @@ angular.module('AngularScaffold.Controllers')
 	}
 
    	$scope.tieneSolucion = function(){
-   		
-			var param = {
-				id_tarea: $scope.$sessionStorage.IdTarea._id,
-				Id_estudiante: $scope.$sessionStorage.currentUser.IdUser
-			}
-			EstudianteService.VerificarSiTieneSolucion(param).then(function(response){
-				$scope.datoTarea = $scope.$sessionStorage.IdTarea;
-				$scope.solucionDisponible = response.data;
-			})
-
+		var param = {
+			id_tarea: $scope.$sessionStorage.IdTarea._id,
+			Id_estudiante: $scope.$sessionStorage.currentUser.IdUser
+		}
+		EstudianteService.VerificarSiTieneSolucion(param).then(function(response){
+			$scope.datoTarea = $scope.$sessionStorage.IdTarea;
+			$scope.solucionDisponible = response.data;
+		})
    	}
 
-		$scope.decode = function(file,fileName){
+	$scope.decode = function(file,fileName){
 	    var byteString;
 	    if (file.split(',')[0].indexOf('base64') >= 0){
 	        byteString = atob(file.split(',')[1]);
@@ -195,7 +190,6 @@ angular.module('AngularScaffold.Controllers')
 	        });//fin GetTarea
 	      }//fin for
 	    });//fin Visualizar
-
 	}//fin llenarTarea
 
 	$scope.visualizarCursos =  function(){
@@ -208,7 +202,6 @@ angular.module('AngularScaffold.Controllers')
 				$scope.WatchCourse($scope.displayCursos[i]);
 			}
 		})//fin DocenteService.GetCursos
-
 	}//fin $scope
 
 	$scope.repeat = function(){
@@ -268,7 +261,6 @@ angular.module('AngularScaffold.Controllers')
 								course:response.data,
 								docente:response2.data
 							}
-
 							var params ={
 								id: $scope.$sessionStorage.currentUser.IdUser
 							}
@@ -285,10 +277,8 @@ angular.module('AngularScaffold.Controllers')
 									$scope.CursosByU.push(dataCurso);
 								}
 							})
-
 						})
 					})
-
 				}
 			}
 		})
@@ -318,21 +308,21 @@ angular.module('AngularScaffold.Controllers')
 		EstudianteService.EstaEnCurso(param).then(function(response){
 			existe= response.data.esta;
 			if (existe) {
-				 BootstrapDialog.alert({
-	              title: 'ALERTA',
-	              message: 'Su solicitud de matrícula aún no ha sido confirmada',
-	              type: BootstrapDialog.TYPE_WARNING, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
-	              closable: true, // <-- Default value is false
-	              buttonLabel: 'Cerrar', // <-- Default value is 'OK',
+				BootstrapDialog.alert({
+	              	title: 'ALERTA',
+	              	message: 'Su solicitud de matrícula aún no ha sido confirmada',
+	              	type: BootstrapDialog.TYPE_WARNING, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+	              	closable: true, // <-- Default value is false
+	              	buttonLabel: 'Cerrar', // <-- Default value is 'OK',
 	            });
 			}else{
 				EstudianteService.AddConfirmacion(param).then(function(response1){
-					 BootstrapDialog.alert({
-		              title: 'EXITO',
-		              message: 'Su solicitud ha sido enviado exitosamente!',
-		              type: BootstrapDialog.TYPE_SUCCESS, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
-		              closable: true, // <-- Default value is false
-		              buttonLabel: 'Cerrar', // <-- Default value is 'OK',
+					BootstrapDialog.alert({
+		              	title: 'EXITO',
+		              	message: 'Su solicitud ha sido enviado exitosamente!',
+		              	type: BootstrapDialog.TYPE_SUCCESS, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+		              	closable: true, // <-- Default value is false
+		              	buttonLabel: 'Cerrar', // <-- Default value is 'OK',
 		            });
 				})
 			}
@@ -344,27 +334,27 @@ angular.module('AngularScaffold.Controllers')
 	      id:$scope.$sessionStorage.CurrentCurso
 	    }
 	    EstudianteService.VisualizarCourse(param).then(function(response){
-	      var cursoo=response.data;
-	      for (var i = 0; i < cursoo.estudiantes.length; i++) {
-	        var paramEst={
-	          Id_estudiante:cursoo.estudiantes[i]
-	        }
-	        EstudianteService.GetEstudianteById(paramEst).then(function(response1){
-	          $scope.AllEstudiantes.push(response1.data);
-	        })
-	      }
+	      	var cursoo=response.data;
+	      	for (var i = 0; i < cursoo.estudiantes.length; i++) {
+	        	var paramEst={
+	          		Id_estudiante:cursoo.estudiantes[i]
+	        	}
+	        	EstudianteService.GetEstudianteById(paramEst).then(function(response1){
+	          		$scope.AllEstudiantes.push(response1.data);
+	        	})
+	      	}
 	    })
-	  }
+	}
 
 
 
-	 $scope.get_Anuncio_by_id = function(){
-	     var parametros = {
+	$scope.get_Anuncio_by_id = function(){
+	    var parametros = {
 	        Id_curso: $scope.$sessionStorage.CurrentCurso
 	    }
-	      EstudianteService.GetAnuncio_id_Estudiante(parametros).then(function(response){
+	    EstudianteService.GetAnuncio_id_Estudiante(parametros).then(function(response){
 	        $scope.todoLosAnuncios= response.data
-	       });
+	    });
     }
 
 
