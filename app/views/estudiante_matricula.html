@@ -8,10 +8,10 @@
             <table class="table table-hover table-striped" >
                 <thead>
                     <tr>
-                        <th>Nombre</th>
+                        <th>Curso</th>
                         <th>Año</th>
                         <th>Trimestre</th>
-                        <th>Maestro</th>
+                        <th>Docente</th>
                     </tr>
                 </thead>
                 <tbody><!--falta ng-repeat pero no esta BD-->
@@ -19,7 +19,7 @@
                         <td>{{curso.course.nombre}}</td>
                         <td>{{curso.course.year}}</td>
                         <td>{{curso.course.trimestre}}</td>
-                        <td>{{curso.docente.nombre}}</td>
+                        <td>{{curso.docente.nombre}} {{curso.docente.apellido}}</td>
                         <td>
                             <button type="button" class="btn btn-danger" ng-click="matricular(curso.course._id)">
                                 Matricular

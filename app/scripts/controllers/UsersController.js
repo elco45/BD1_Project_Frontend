@@ -406,6 +406,10 @@ angular.module('AngularScaffold.Controllers')
    		return newArray
   	}
 
+  	$scope.goHome=function(){
+  		$state.go('home');
+  	}
+
 
     $scope.iniciar = function(algo){
       	if (algo==="inicia_se") {
