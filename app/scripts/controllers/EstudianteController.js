@@ -112,7 +112,8 @@ angular.module('AngularScaffold.Controllers')
 					newData: param
 				}
 				EstudianteService.ModificaSolucion(parametros).then(function(response){
-
+					$scope.solucionDisponible.nombreArchivo = param.nameArchivo;
+					$scope.solucionDisponible.respuesta = param.archivo;
 		        }).catch(function(err){
 		          alert('Error agregando tarea')
 		        });//fin EstudianteService.SubirTarea
@@ -123,7 +124,8 @@ angular.module('AngularScaffold.Controllers')
 			            cursoActual: $scope.usuario.CurrentCurso
 			       	}
 			       	EstudianteService.UpdateTareaSolucion(param2).then(function(response1){
-					
+						$scope.solucionDisponible.nombreArchivo = param.nameArchivo;
+						$scope.solucionDisponible.respuesta = param.archivo;
 					})
 		        }).catch(function(err){
 		          alert('Error agregando solucion')
@@ -167,9 +169,8 @@ angular.module('AngularScaffold.Controllers')
 	    var mimeString = file.split(',')[0].split(':')[1].split(';')[0];
 
 	    var element = document.createElement('a');
-	    element.setAttribute('href', 'data:' + mimeString + ';base64,' + btoa(byteString));
 	    element.setAttribute('download', fileName);
-	    element.style.display = 'none';
+	    element.setAttribute('href', 'data:' + mimeString + ';base64,' + btoa(byteString));
 	    document.body.appendChild(element);
 	    element.click();
 	    document.body.removeChild(element);

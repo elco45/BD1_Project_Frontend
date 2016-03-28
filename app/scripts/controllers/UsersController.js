@@ -302,6 +302,7 @@ angular.module('AngularScaffold.Controllers')
            }
            UserService.AddFirstParentComment(params).then(function(response2){
              $scope.tree.push({id:response2.data.id,user: $scope.$sessionStorage.currentUser.email,text: txt,nodes: []});
+              $('#first_txtcomment').val("");
            });
        })
    };

@@ -68,11 +68,12 @@ angular.module('AngularScaffold.Controllers')
       cambio: TareaPorEvaluar.Solucion,
       newNota: nuevaNota
     }
+    
     DocenteService.CambiarNota(param).then(function(response){
       document.getElementById($index).innerHTML='<b>Nota Guardada!!!</b>';
       setTimeout(function() {
         document.getElementById($index).innerHTML='';
-      },2500);
+      },1000);
     })//fin CambiarNota
   }
 
@@ -221,7 +222,7 @@ angular.module('AngularScaffold.Controllers')
 	        buttons: [{
 	        	label: "Cerrar",
                 action: function(dialog) {
-                    $state.go("docente_main");
+                    $state.reload();
                     dialog.close();
                 }
             }]
