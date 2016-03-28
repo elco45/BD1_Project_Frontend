@@ -267,7 +267,7 @@ angular.module('AngularScaffold.Controllers')
  	}
 
       //Inicio comentarios
-   	$scope.addFirstComment = function() {
+   /*	$scope.addFirstComment = function() {
         var post = 1;
         var txt =	document.getElementById("first_txtcomment").value;
         $scope.tree.push({id:-55,text: txt,nodes: []});
@@ -288,19 +288,32 @@ angular.module('AngularScaffold.Controllers')
                 }
             });
         })
-    };
+    };*/
+    $scope.addFirstComment = function() {
+       var post = 1;
+       var txt =	document.getElementById("first_txtcomment").value;
+
+       UserService.GetControl().then(function(response1){
+           var params = {
+              Id_comentario: response1.data.Id_comentario,
+              text: txt,
+              nodes: [],
+              scope: $scope.$sessionStorage
+           }
+           UserService.AddFirstParentComment(params).then(function(response2){
+             $scope.tree.push({id:response2.data.id,user: $scope.$sessionStorage.currentUser.email,text: txt,nodes: []});
+           });
+       })
+   };
 
    	$scope.addComment = function(data) {
         var post = data.nodes.length + 1;
         var txt =	document.getElementById("txtcomment").value;
         data.showReply = false;
-         // -55 será el id temporal para identificar el nodo que acaba de ser insertado.
-
         UserService.GetControl().then(function(response1){
 
         	data.nodes.push({id: response1.data.Id_comentario,user: $scope.$sessionStorage.currentUser.email,text: txt,nodes: []});
-          /*
-         $scope.tree = $scope.agregarId(response1.data.Id_comentario, $scope.tree)*/
+
 	       	var params = {
 	            Id_parentComment: data.id,
 	            Id_comentario: response1.data.Id_comentario,
@@ -314,19 +327,6 @@ angular.module('AngularScaffold.Controllers')
         })
     };
 
-    $scope.agregarId = function(id, arreglo){
-      	for (var i = 0; i < arreglo.length; i++) {
-        	if(arreglo[i].id = -55){
-            	arreglo[i].id = id
-            	return arreglo
-          	}
-        	else
-          	if(arreglo[i].nodes.lenght >0 ){
-            	arreglo[i].nodes =  $scope.agregarId(id, arreglo[i].nodes)
-          	}
-      	 }
-      return arreglo
-    }
 
     $scope.isFirst = function(data){
       	return $scope.tree.indexOf(data)
