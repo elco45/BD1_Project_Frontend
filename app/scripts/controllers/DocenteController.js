@@ -137,6 +137,7 @@ angular.module('AngularScaffold.Controllers')
             cursoActual: $scope.$sessionStorage.CurrentCurso
           }
           DocenteService.TareaEnCurso(param2).then(function(response1){
+            $scope.llenadoTarea.push(response.data)
           })
         }).catch(function(err){
           alert('Error agregando tarea')
