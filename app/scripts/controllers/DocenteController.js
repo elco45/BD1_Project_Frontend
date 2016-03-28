@@ -212,7 +212,20 @@ angular.module('AngularScaffold.Controllers')
       }
       DocenteService.CrearCurso(param).then(function(response){
         $scope.clearCreateCurso();
-        $state.reload();
+        
+        BootstrapDialog.show({
+	        title: 'EXITO',
+	        message: 'Curso creado exitosamente',
+	        type: BootstrapDialog.TYPE_SUCCESS, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+	        closable: true, // <-- Default value is false
+	        buttons: [{
+	        	label: "Cerrar",
+                action: function(dialog) {
+                    $state.go("docente_main");
+                    dialog.close();
+                }
+            }]
+	   	});
       }).catch(function(err){
         alert('Error agregando curso')
       });
@@ -298,7 +311,6 @@ angular.module('AngularScaffold.Controllers')
     var parametros = {
       Id_curso: $scope.$sessionStorage.CurrentCurso,  
     }
-     
     DocenteService.GetAnuncio_id(parametros).then(function(response){
       $scope.todoLosAnuncios= response.data
     });
@@ -308,11 +320,16 @@ angular.module('AngularScaffold.Controllers')
    if ($scope.anuncios.titulo != null && $scope.anuncios.des != null) {
     $scope.anuncios.idCurso = $scope.$sessionStorage.CurrentCurso;
     DocenteService.Register_anuncio($scope.anuncios).then(function(response){
-      $scope.anuncios.idCurso=" ";
-      $scope.anuncios.titulo=" ";
-      $scope.anuncios.des=" ";
+    	var param={
+    		Id_curso:$scope.anuncios.idCurso,
+    		descripcion:$scope.anuncios.des,
+    		titulo:$scope.anuncios.titulo
+    	}
+    	$scope.todoLosAnuncios.push(param)
+      	$scope.anuncios.idCurso=" ";
+      	$scope.anuncios.titulo=" ";
+      	$scope.anuncios.des=" ";
     });
-    $scope.refrescando_repeat();
   }else{
     BootstrapDialog.alert({
       title: 'Control de anuncios',

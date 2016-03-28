@@ -18,6 +18,18 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
             templateUrl: '/views/login.html',
             controller: 'UsersController'
         })
+        .state('estudiante_main', {
+            url: '/estudiante_main',
+            params: {content:undefined},
+            templateUrl: '/views/estudiante_main.html',
+            controller: 'EstudianteController'
+        })
+        .state('docente_main', {
+            url: '/docente_main',
+            params: {content:undefined},
+            templateUrl: '/views/docente_main.html',
+            controller: 'DocenteController'
+        })
         .state('estudiante', {
             url: '/estudiante',
             params: {content:undefined},
@@ -36,25 +48,13 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
             templateUrl: '/views/signUp.html',
             controller: 'UsersController'
         })
-        .state('estudiante_main', {
-            url: '/estudiante_main',
-            params: {content:undefined},
-            templateUrl: '/views/estudiante_main.html',
-            controller: 'EstudianteController'
-        })
-        .state('docente_main', {
-            url: '/docente_main',
-            params: {content:undefined},
-            templateUrl: '/views/docente_main.html',
-            controller: 'DocenteController'
-        })
-				.state('solucion', {
+        .state('solucion', {
             url: '/solucion',
             params: {content:undefined},
             templateUrl: '/views/estudiante_solucion_main.html',
             controller: 'EstudianteController'
         })
-				.state('nota', {
+		.state('nota', {
             url: '/nota',
             params: {content:undefined},
             templateUrl: '/views/docente_nota_main.html',
